@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/08/30 15:45:01 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/08/30 16:55:45 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,32 @@
 
 # define HEIGHT 1080
 # define WIDTH 1920
+# define MNMP_BACKGROUND 34
+
+typedef struct s_mnmp
+{
+	int	x;
+	int	y;
+	int	width;
+	int	height;
+	int	color;
+} t_mnmp;
+
+typedef struct s_img
+{
+	void	*image;
+	char	*data_addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}	t_img;
 
 typedef struct s_cub
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
+	t_img	img;
 }	t_cub;
 
+void	minimap(t_cub *cub);
 #endif
