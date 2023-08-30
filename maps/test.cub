@@ -1,0 +1,15 @@
+NO ./textures/NO_jipeg
+SO ./textures/SO_jipeg
+WE ./textures/WE_jipeg
+EA ./textures/EA_jipeg
+
+F 220,100,0
+C 225,30,0
+
+1111111111
+1000000001
+1000000001
+1000000001
+1000000001
+10000000N1
+1111111111
