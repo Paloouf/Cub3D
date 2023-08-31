@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/08/31 15:58:11 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:56:52 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	init_all(t_cub *cub)
 	cub->north = ft_calloc(1, 1);
 	cub->west = ft_calloc(1, 1);
 	cub->south = ft_calloc(1, 1);
+	cub->ceiling = ft_calloc(1, 1);
+	cub->floor = ft_calloc(1, 1);
 	cub->img.image = mlx_new_image(cub->mlx_ptr, WIDTH, HEIGHT);
 	cub->img.data_addr = mlx_get_data_addr(cub->img.image,
 		&cub->img.bpp, &cub->img.line_len, &cub->img.endian);

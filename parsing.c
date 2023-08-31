@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/08/31 15:59:50 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/08/31 18:19:10 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,48 @@
 
 int	parse_info(t_cub *cub, char *line)
 {
-	printf("yo\n");
 	if (line[0] == '\n')
 		return (1);
-	printf("wawa\n");
 	if (!ft_strncmp(line, "NO ", 3))
 	{
-		if (cub->north)
+		if (cub->north[0])
 			return (0);
-		printf("wwwwwwwwwwwwwww\n");
 		cub->north = ft_strdup(line + 3);
 	}
 	if (!ft_strncmp(line, "SO ", 3))
 	{
-		printf("xdddddddddd\n");
-		if (cub->south)
+		if (cub->south[0])
 			return (0);
 		cub->south = ft_strdup(line + 3);
 	}
 	if (!ft_strncmp(line, "WE ", 3))
 	{
-		if (cub->west)
+		if (cub->west[0])
 			return (0);
 		cub->west = ft_strdup(line + 3);
 	}
 	if (!ft_strncmp(line, "EA ", 3))
 	{
-		if (cub->east)
+		if (cub->east[0])
 			return (0);
-		cub->east = ft_strdup(line);
+		cub->east = ft_strdup(line + 3);
 	}
-	printf("%s \n %s \n %s \n %s\n", cub->north, cub->south, cub->east, cub->west);
+	if (!ft_strncmp(line, "F ", 2))
+	{
+		if (cub->floor[0])
+			return (0);
+		cub->floor = ft_strdup(line + 2);
+	}
+	if (!ft_strncmp(line, "C ", 2))
+	{
+		if (cub->ceiling[0])
+			return (0);
+		cub->ceiling = ft_strdup(line + 2);
+	}
 	return (1);
 }
 
-void	parse(char *argv, t_cub *cub)
+int	parse(char *argv, t_cub *cub)
 {	
 	int	i;
 	int	file;
@@ -57,22 +64,20 @@ void	parse(char *argv, t_cub *cub)
 	i = 0;
 	file = open(argv, O_RDONLY);
 	line = get_next_line(file);
-	printf("mdrrrrrrrrr\n");
 	while (line && line[0] != '1' && line[0] != '0' && line[0] != ' ')
 	{
 		if (parse_info(cub, line) == 0)
-			return ;
+			return (0);
 		free(line);
 		line = get_next_line(file);
 	}
-	printf("xddddddd\n");
 	while (line)
 	{
 		free (line);
 		i++;
 		line = get_next_line(file);
 	}
-	cub->map = malloc((sizeof(char *)) * i - 1);
+	cub->map = malloc((sizeof (char *)) * i - 1);
 	cub->hgt = i - 1;
 	close(file);
 	file = open(argv, O_RDONLY);
@@ -82,5 +87,24 @@ void	parse(char *argv, t_cub *cub)
 		free(line);
 		line = get_next_line(file);
 	}
-	//while (line)	
-}	
+	i = 0;
+	while (line)
+	{
+		cub->map[i] = ft_strdup(line);
+		free(line);
+		line = get_next_line(file);
+		i++;
+	}
+	ft_printf("%s", cub->north);
+	ft_printf("%s", cub->south);
+	ft_printf("%s", cub->east);
+	ft_printf("%s", cub->west);
+	ft_printf("%s", cub->ceiling);
+	ft_printf("%s", cub->floor);
+	i = 0;
+	while (i <= cub->hgt)
+	{
+		ft_printf("%s", cub->map[i]);
+		i++;
+	}
+}

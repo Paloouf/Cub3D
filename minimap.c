@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:31:14 by ltressen          #+#    #+#             */
-/*   Updated: 2023/08/31 15:34:57 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:44:24 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ void	render_walls(t_cub *cub, int color)
 void	minimap(t_cub *cub)
 {
 	render_background(cub, rgba_to_int(53, 48, 220, 0.5));
-	render_walls(cub, rgba_to_int(53, 48, 220, 0.9));
+	//render_walls(cub, rgba_to_int(53, 48, 220, 0.9));
 }

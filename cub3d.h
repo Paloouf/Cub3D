@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/08/31 15:43:12 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:46:36 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct s_cub
 	char	*south;
 	char	*west;
 	char	*east;
+	char	*ceiling;
+	char	*floor;
 	char	**map;
 	int	hgt;
 	t_img	img;
@@ -61,7 +63,7 @@ void	render_walls(t_cub *cub, int color);
 void	render_background(t_cub *cub, int color);
 int	rgba_to_int(int r, int g, int b, float a);
 void	pxl_to_img(t_cub *cub, int x, int y, unsigned int color);
-void	parse(char *argv, t_cub *cub);
+int	parse(char *argv, t_cub *cub);
 int	parse_info(t_cub *cub, char *line);
 
 #endif
