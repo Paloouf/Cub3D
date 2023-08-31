@@ -6,7 +6,7 @@
 /*   By: jcasades <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/08/30 17:02:53 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:06:11 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,37 +16,44 @@ int	parse_info(t_cub data, char *line)
 		return (1);
 	if (!ft_strncmp(line, "NO ", 3))
 	{
-		if (data->north)
+		if (*data->north)
 			return (0);
 		data->north = ft_strdup(line + 3);
 	}
 	if (!ft_strncmp(line, "SO ", 3))
 	{
-		if (data->south)
+		if (*data->south)
 			return (0);
 		data->south = ft_strdup(line + 3);
 	}
 	if (!ft_strncmp(line, "WE ", 3))
 	{
-		if (data->west)
+		if (*data->west)
 			return (0);
 		data->west = ft_strdup(line + 3);
 	}
 	if (!ft_strncmp(line, "EA ", 3))
 	{
-		if (data->east)
+		if (*data->east)
 			return (0);
-		data->east = ft_strdup(line);
+		data->east = ft_strdup(line + 3);
+	}
+	if (!ft_strncmp(line, "F ", 2))
+	{
+		if (*data->floor)
+			return (0);
+		data->east = ft_strdup(line + 2);
+	}
+	if (!ft_strncmp(line, "C ", 2))
+	{
+		if (*data->ceiling)
+			return (0);
+		data->east = ft_strdup(line + 2);
 	}
 	return (1);
 }
 
-
-
-
-
-
-void	parse(char *argv, t_cub *data)
+int	parse(char *argv, t_cub *data)
 {	
 	int	i;
 	int	file;
@@ -78,5 +85,12 @@ void	parse(char *argv, t_cub *data)
 		free(line);
 		line = get_next_line(file);
 	}
-	while (line)	
+	i = 0;
+	while (line)
+	{
+		data->map[i] = ft_strdup(line);
+		free(line);
+		line = get_next_line(file);
+		i++;
+	}
 }	
