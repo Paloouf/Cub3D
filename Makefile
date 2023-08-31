@@ -1,7 +1,11 @@
 INC= minilibx-linux/libmlx.a libft/libft.a
 
 NAME = cub3D
-SRC = main.c
+SRC = main.c \
+	minimap.c \
+	events.c \
+	img_utils.c \
+	parsing.c
 
 OBJ = $(SRC:.c=.o)
 CC = gcc
