@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/08/31 16:12:41 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/09/04 15:19:18 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,11 @@ typedef struct s_cub
 	char	*south;
 	char	*west;
 	char	*east;
-	char	*floor;
 	char	*ceiling;
+	char	*floor;
 	char	**map;
 	int	hgt;
+	int	*pos;
 	t_img	img;
 }	t_cub;
 

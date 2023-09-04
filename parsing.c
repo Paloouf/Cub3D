@@ -3,64 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcasades <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/08/31 16:26:30 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/08/31 18:19:10 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	parse_info(t_cub *data, char *line)
+int	parse_info(t_cub *cub, char *line)
 {
 	if (line[0] == '\n')
-	{
-		ft_printf("backslash");	
 		return (1);
-	}
 	if (!ft_strncmp(line, "NO ", 3))
 	{
-		if (*data->north)
+		if (cub->north[0])
 			return (0);
-		data->north = ft_strdup(line + 3);
+		cub->north = ft_strdup(line + 3);
 	}
 	if (!ft_strncmp(line, "SO ", 3))
 	{
-		if (*data->south)
+		if (cub->south[0])
 			return (0);
-		data->south = ft_strdup(line + 3);
+		cub->south = ft_strdup(line + 3);
 	}
 	if (!ft_strncmp(line, "WE ", 3))
 	{
-		if (*data->west)
+		if (cub->west[0])
 			return (0);
-		data->west = ft_strdup(line + 3);
+		cub->west = ft_strdup(line + 3);
 	}
 	if (!ft_strncmp(line, "EA ", 3))
 	{
-		if (*data->east)
+		if (cub->east[0])
 			return (0);
-		data->east = ft_strdup(line + 3);
+		cub->east = ft_strdup(line + 3);
 	}
 	if (!ft_strncmp(line, "F ", 2))
 	{
-		ft_printf("floor");
-		if (*data->floor)
+		if (cub->floor[0])
 			return (0);
-		data->east = ft_strdup(line + 2);
+		cub->floor = ft_strdup(line + 2);
 	}
 	if (!ft_strncmp(line, "C ", 2))
 	{
-		if (*data->ceiling)
+		if (cub->ceiling[0])
 			return (0);
-		data->east = ft_strdup(line + 2);
+		cub->ceiling = ft_strdup(line + 2);
 	}
-	ft_printf("here\n");
 	return (1);
 }
 
-int	parse(char *argv, t_cub *data)
+int	parse(char *argv, t_cub *cub)
 {	
 	int	i;
 	int	file;
@@ -71,20 +66,19 @@ int	parse(char *argv, t_cub *data)
 	line = get_next_line(file);
 	while (line && line[0] != '1' && line[0] != '0' && line[0] != ' ')
 	{
-		if (parse_info(data, line) == 0)
+		if (parse_info(cub, line) == 0)
 			return (0);
 		free(line);
 		line = get_next_line(file);
 	}
-	ft_printf("here");
 	while (line)
 	{
 		free (line);
 		i++;
 		line = get_next_line(file);
 	}
-	data->map = malloc((sizeof (char *)) * i - 1);
-	data->hgt = i - 1;
+	cub->map = malloc((sizeof (char *)) * i - 1);
+	cub->hgt = i - 1;
 	close(file);
 	file = open(argv, O_RDONLY);
 	line = get_next_line(file);
@@ -96,21 +90,21 @@ int	parse(char *argv, t_cub *data)
 	i = 0;
 	while (line)
 	{
-		data->map[i] = ft_strdup(line);
+		cub->map[i] = ft_strdup(line);
 		free(line);
 		line = get_next_line(file);
 		i++;
 	}
-	ft_printf("%s", data->north);
-	ft_printf("%s", data->south);
-	ft_printf("%s", data->east);
-	ft_printf("%s", data->west);
-	ft_printf("%s", data->ceiling);
-	ft_printf("%s", data->floor);
+	ft_printf("%s", cub->north);
+	ft_printf("%s", cub->south);
+	ft_printf("%s", cub->east);
+	ft_printf("%s", cub->west);
+	ft_printf("%s", cub->ceiling);
+	ft_printf("%s", cub->floor);
 	i = 0;
-	while (i <= data->hgt)
+	while (i <= cub->hgt)
 	{
-		ft_printf("%s", data->map[i]);
+		ft_printf("%s", cub->map[i]);
 		i++;
 	}
-}	
+}
