@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/04 15:19:18 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/09/04 16:09:49 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct s_cub
 	char	**map;
 	int	hgt;
 	int	*pos;
+	int	phangle;
+	int	pvangle;
 	t_img	img;
 }	t_cub;
 
@@ -66,5 +68,6 @@ int	rgba_to_int(int r, int g, int b, float a);
 void	pxl_to_img(t_cub *cub, int x, int y, unsigned int color);
 int	parse(char *argv, t_cub *cub);
 int	parse_info(t_cub *cub, char *line);
+int	init_game(t_cub *data);
 
 #endif

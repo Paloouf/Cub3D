@@ -5,7 +5,8 @@ SRC = main.c \
 	minimap.c \
 	events.c \
 	img_utils.c \
-	parsing.c
+	parsing.c \
+	rayc.c
 
 OBJ = $(SRC:.c=.o)
 CC = gcc
