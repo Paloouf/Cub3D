@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/04 17:52:53 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/07 12:04:55 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
-# define HEIGHT 2160
-# define WIDTH 3840
+# define HEIGHT 1080
+# define WIDTH 1920
 
 typedef struct s_mnmp
 {

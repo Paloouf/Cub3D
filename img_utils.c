@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:32:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/08/31 15:33:05 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/07 11:36:04 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ void	pxl_to_img(t_cub *cub, int x, int y, unsigned int color)
 
 int	rgba_to_int(int r, int g, int b, float a)
 {
-	return ((r << 8) + (g << 16) + (b << 24) + (int)(a * 255));
+	return (((int)(a * 255) << 24) | r << 16 | g << 8 | b);
 }

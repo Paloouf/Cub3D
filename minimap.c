@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:31:14 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/04 18:04:36 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/07 12:08:26 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ void	render_player(t_cub *cub, int color, float i, float j)
 		l = j * 4.5;
 		while(l < j * 5.5)
 		{
-			pxl_to_img(cub, l++, k, color);
+			if (k * l > ((i * 5) * ((j * 5))))
+				pxl_to_img(cub, l++, k, color);
+			else
+				l++;
 		}
 		k++;
 	}
@@ -84,7 +87,7 @@ void	render_background(t_cub *cub, int color)
 	}
 	i = HEIGHT / 40;
 	j = WIDTH / 71.1111111111111;
-	render_player(cub, rgba_to_int(220, 9, 9, 0.9), i, j);
+	render_player(cub, rgba_to_int(255, 0, 0, 0.9), i, j);
 	//render_walls(cub, rgba_to_int(53, 48, 220, 0.9), i, j);
 }
 
@@ -92,6 +95,6 @@ void	render_background(t_cub *cub, int color)
 
 void	minimap(t_cub *cub)
 {
-	render_background(cub, rgba_to_int(53, 48, 220, 0.5));
+	render_background(cub, rgba_to_int(0, 0, 200, 0.5));
 	
 }
