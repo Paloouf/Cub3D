@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/07 12:04:55 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:46:19 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,23 @@ typedef struct s_mnmp
 	int	color;
 } t_mnmp;
 
+typedef struct s_cam
+{
+	double	cameraX;
+	double	raydirX;
+	double	raydirY;
+	double	d_distX;
+	double	d_distY;
+	double	s_distX;
+	double	s_distY;
+	int	hit;
+	int	stepX;
+	int	stepY;
+	double	w_dist;
+	int	mapX;
+	int	mapY;
+}	t_cam;
+
 typedef struct s_img
 {
 	void	*image;
@@ -53,10 +70,16 @@ typedef struct s_cub
 	char	*floor;
 	char	**map;
 	int	hgt;
-	int	*pos;
 	int	phangle;
 	int	pvangle;
+	double	dirX;
+	double	dirY;
+	double	planeX;
+	double	planeY;
+	double	posX;
+	double	posY;
 	t_img	img;
+	t_cam   *cam;
 }	t_cub;
 
 void	minimap(t_cub *cub);
@@ -69,4 +92,5 @@ void	pxl_to_img(t_cub *cub, int x, int y, unsigned int color);
 int	parse(char *argv, t_cub *cub);
 int	parse_info(t_cub *cub, char *line);
 int	init_game(t_cub *data);
+void	camera(t_cub *cub, int x);
 #endif
