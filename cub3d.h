@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/11 14:46:19 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/12 12:16:46 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ typedef struct s_cam
 	double	w_dist;
 	int	mapX;
 	int	mapY;
+	int	side;
+	int	line_height;
+	int	draw_start;
+	int	draw_end;
 }	t_cam;
 
 typedef struct s_img
