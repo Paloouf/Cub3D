@@ -12,6 +12,20 @@
 
 #include "cub3d.h"
 
+int	ft_atoi_du_pauvre(char *str, int i)
+{
+	while (i > 1)
+	{
+		str++;
+		if (*str == ',')
+		{
+			i--;
+			str++;
+		}
+	}
+	return (ft_atoi(str));
+}
+
 void	pxl_to_img(t_cub *cub, int x, int y, unsigned int color)
 {
 	char	*pixel;

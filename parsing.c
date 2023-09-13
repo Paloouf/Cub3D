@@ -12,6 +12,20 @@
 
 #include "cub3d.h"
 
+void	ft_floor(t_cub *cub, char *line)
+{
+	cub->fl.r_f = ft_atoi_du_pauvre(line, 1);
+	cub->fl.g_f = ft_atoi_du_pauvre(line, 2);
+	cub->fl.b_f = ft_atoi_du_pauvre(line, 3);
+}
+
+void	ft_ceiling(t_cub *cub, char *line)
+{
+	cub->cl.r_c = ft_atoi_du_pauvre(line, 1);
+	cub->cl.g_c = ft_atoi_du_pauvre(line, 2);
+	cub->cl.b_c = ft_atoi_du_pauvre(line, 3);
+}
+
 int	parse_info(t_cub *cub, char *line)
 {
 	if (line[0] == '\n')
@@ -42,15 +56,11 @@ int	parse_info(t_cub *cub, char *line)
 	}
 	if (!ft_strncmp(line, "F ", 2))
 	{
-		if (cub->floor[0])
-			return (0);
-		cub->floor = ft_strdup(line + 2);
+		ft_floor(cub, line + 2);
 	}
 	if (!ft_strncmp(line, "C ", 2))
 	{
-		if (cub->ceiling[0])
-			return (0);
-		cub->ceiling = ft_strdup(line + 2);
+		ft_ceiling(cub, line + 2);
 	}
 	return (1);
 }
@@ -93,18 +103,6 @@ int	parse(char *argv, t_cub *cub)
 		cub->map[i] = ft_strdup(line);
 		free(line);
 		line = get_next_line(file);
-		i++;
-	}
-	ft_printf("%s", cub->north);
-	ft_printf("%s", cub->south);
-	ft_printf("%s", cub->east);
-	ft_printf("%s", cub->west);
-	ft_printf("%s", cub->ceiling);
-	ft_printf("%s", cub->floor);
-	i = 0;
-	while (i <= cub->hgt)
-	{
-		ft_printf("%s", cub->map[i]);
 		i++;
 	}
 }

@@ -32,6 +32,35 @@ typedef struct s_mnmp
 	int	color;
 } t_mnmp;
 
+typedef struct s_key
+{
+	char	forward;
+	char	back;
+	char	r_left;
+	char	r_right;
+	char	s_left;
+	char	s_right;
+	char	crouch;
+	char	jump;	
+	char	shoot;
+	char	aim;
+	char	fov;
+}	t_key;
+
+typedef struct s_floor
+{
+	int	r_f;
+	int	g_f;
+	int	b_f;
+}	t_floor;
+
+typedef struct s_ceil
+{
+	int	r_c;
+	int	g_c;
+	int	b_c;
+}	t_ceil;
+
 typedef struct s_cam
 {
 	double	cameraX;
@@ -48,7 +77,7 @@ typedef struct s_cam
 	int	mapX;
 	int	mapY;
 	int	side;
-	int	line_height;
+	double	line_height;
 	int	draw_start;
 	int	draw_end;
 }	t_cam;
@@ -70,8 +99,6 @@ typedef struct s_cub
 	char	*south;
 	char	*west;
 	char	*east;
-	char	*ceiling;
-	char	*floor;
 	char	**map;
 	int	hgt;
 	int	phangle;
@@ -83,6 +110,9 @@ typedef struct s_cub
 	double	posX;
 	double	posY;
 	t_img	img;
+	t_floor	fl;
+	t_ceil	cl;
+	t_key	key;
 	t_cam   *cam;
 }	t_cub;
 
@@ -97,4 +127,7 @@ int	parse(char *argv, t_cub *cub);
 int	parse_info(t_cub *cub, char *line);
 int	init_game(t_cub *data);
 void	camera(t_cub *cub, int x);
+int	ft_atoi_du_pauvre(char *str, int i);
+int	key_release(int key, t_cub *cub);
+
 #endif

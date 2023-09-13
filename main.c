@@ -20,8 +20,6 @@ void	init_all(t_cub *cub)
 	cub->north = ft_calloc(1, 1);
 	cub->west = ft_calloc(1, 1);
 	cub->south = ft_calloc(1, 1);
-	cub->ceiling = ft_calloc(1, 1);
-	cub->floor = ft_calloc(1, 1);
 	cub->img.image = mlx_new_image(cub->mlx_ptr, WIDTH, HEIGHT);
 	cub->img.data_addr = mlx_get_data_addr(cub->img.image,
 		&cub->img.bpp, &cub->img.line_len, &cub->img.endian);
@@ -31,6 +29,17 @@ void	init_all(t_cub *cub)
 	cub->planeY = 0;
 }
 
+int	the_game(t_cub *cub)
+{
+	int	x;
+
+	x = 0;
+	
+	while (x < WIDTH)
+		camera(cub, x++);
+	mlx_put_image_to_window(cub->mlx_ptr, cub->win_ptr,
+	cub->img.image, 0, 0);
+}
 int	main(int ac, char **av)
 {
 	t_cub	cub;
@@ -41,18 +50,17 @@ int	main(int ac, char **av)
 		init_all(&cub);
 		parse(av[1], &cub);
 		init_game(&cub);
-		// img = mlx_xpm_file_to_image(cub.mlx_ptr, path, &img_w, &img_h);
+		//img = mlx_xpm_file_to_image(cub.mlx_ptr, path, &img_w, &img_h);
 		//minimap(&cub);
 		cub.cam = malloc(sizeof(t_cam) * WIDTH);
-		mlx_put_image_to_window(cub.mlx_ptr, cub.win_ptr,
-		cub.img.image, 0, 0);
+		
 
 	//	mlx_destroy_display(cub.mlx_ptr);
 		//free(cub.mlx_ptr);
-		x = 0;
-		while (x < WIDTH)
-			camera(&cub, x++);
+
 		mlx_key_hook(cub.win_ptr, key_events, &cub);
+		mlx_hook(cub.win_ptr, 3, 1L << 1, key_release, &cub);
+		mlx_loop_hook(cub.mlx_ptr, the_game, &cub);
 		mlx_hook(cub.win_ptr, 17, 0L, close_cross, &cub);
 		mlx_loop(cub.mlx_ptr);
 	}

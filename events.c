@@ -33,6 +33,15 @@ int	key_events(int key, t_cub *cub)
 	return (0);
 }
 
+int	key_release(int key, t_cub *cub)
+{
+	if (key == XK_w)
+	{
+		cub->key.forward = 0;
+	}
+	return (0);
+}
+
 int	close_cross(t_cub *cub)
 {
 	free_all(cub);
