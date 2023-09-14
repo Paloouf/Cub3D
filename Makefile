@@ -6,7 +6,9 @@ SRC = main.c \
 	events.c \
 	img_utils.c \
 	parsing.c \
-	rayc.c
+	rayc.c \
+	color.c \
+	move.c
 
 OBJ = $(SRC:.c=.o)
 CC = gcc
