@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/08/31 17:56:52 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/04 16:11:37 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int ac, char **av)
 	{	
 		init_all(&cub);
 		parse(av[1], &cub);
-		
+		init_game(&cub);
 		// img = mlx_xpm_file_to_image(cub.mlx_ptr, path, &img_w, &img_h);
 		minimap(&cub);
 		mlx_put_image_to_window(cub.mlx_ptr, cub.win_ptr,
