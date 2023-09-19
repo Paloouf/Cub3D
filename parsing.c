@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/08/31 18:19:10 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:07:19 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ void	ft_ceiling(t_cub *cub, char *line)
 	cub->cl.b_c = ft_atoi_du_pauvre(line, 3);
 }
 
+void	fill_tex(t_cub *cub)
+{
+	cub->tex[0].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->north, &cub->tex[0].img_w, &cub->tex[0].img_h);
+	cub->tex[1].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->east, &cub->tex[1].img_w, &cub->tex[1].img_h);
+	cub->tex[2].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->south, &cub->tex[2].img_w, &cub->tex[2].img_h);
+	cub->tex[3].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->west, &cub->tex[3].img_w, &cub->tex[3].img_h);
+	
+}
+
 int	parse_info(t_cub *cub, char *line)
 {
 	if (line[0] == '\n')
@@ -35,24 +44,28 @@ int	parse_info(t_cub *cub, char *line)
 		if (cub->north[0])
 			return (0);
 		cub->north = ft_strdup(line + 3);
+		cub->north[ft_strlen(cub->north) - 1] = '\0';
 	}
 	if (!ft_strncmp(line, "SO ", 3))
 	{
 		if (cub->south[0])
 			return (0);
 		cub->south = ft_strdup(line + 3);
+		cub->south[ft_strlen(cub->south) - 1] = '\0';
 	}
 	if (!ft_strncmp(line, "WE ", 3))
 	{
 		if (cub->west[0])
 			return (0);
 		cub->west = ft_strdup(line + 3);
+		cub->west[ft_strlen(cub->west) - 1] = '\0';
 	}
 	if (!ft_strncmp(line, "EA ", 3))
 	{
 		if (cub->east[0])
 			return (0);
 		cub->east = ft_strdup(line + 3);
+		cub->east[ft_strlen(cub->east) - 1] = '\0';
 	}
 	if (!ft_strncmp(line, "F ", 2))
 	{
@@ -88,6 +101,8 @@ int	parse(char *argv, t_cub *cub)
 		line = get_next_line(file);
 	}
 	cub->map = malloc((sizeof (char *)) * i - 1);
+	cub->tex = malloc((sizeof(t_tex) * 4));
+	fill_tex(cub);
 	cub->hgt = i - 1;
 	close(file);
 	file = open(argv, O_RDONLY);

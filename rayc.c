@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:18:26 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/12 14:28:04 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:31:50 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,23 +117,37 @@ void	camera(t_cub *cub, int x)
 	cub->cam[x].line_height = (int)(HEIGHT / cub->cam[x].w_dist);
 	cub->cam[x].draw_start = ((-1 * cub->cam[x].line_height) / 2) + (HEIGHT / 2);
 	//draw start et draw end
-	if (cub->cam[x].draw_start < 0)
-		cub->cam[x].draw_start = 0;
+//	if (cub->cam[x].draw_start < 0)
+//		cub->cam[x].draw_start = 0;
 	cub->cam[x].draw_end = (cub->cam[x].line_height / 2) + (HEIGHT / 2);
-	if (cub->cam[x].draw_end >= HEIGHT)
-		cub->cam[x].draw_end = HEIGHT - 1;
-	//i = 0;
-	if (x < 20 || x > 1910)
-		ft_printf("side : %d\n", cub->cam[x].side);
-	//if (cub->cam[x].w_dist != 360)
-	//	ft_printf("wall_dist:%d\n", cub->cam[x].w_dist);
+//	if (cub->cam[x].draw_end >= HEIGHT)
+//		cub->cam[x].draw_end = HEIGHT - 1;
+	cub->cam[x].draw_start = cub->cam[x].draw_start + cub->jump - cub->crouch;
+	cub->cam[x].draw_end = cub->cam[x].draw_end + cub->jump - cub->crouch;
+	cub->tex[0].addr = (int *)mlx_get_data_addr(cub->tex[0].img, &cub->tex[0].bpp, &cub->tex[0].line_len, &cub->tex[0].endian);
+	cub->tex[1].addr = (int *)mlx_get_data_addr(cub->tex[1].img, &cub->tex[1].bpp, &cub->tex[1].line_len, &cub->tex[1].endian);
+	cub->tex[2].addr = (int *)mlx_get_data_addr(cub->tex[2].img, &cub->tex[2].bpp, &cub->tex[2].line_len, &cub->tex[2].endian);
+	cub->tex[3].addr = (int *)mlx_get_data_addr(cub->tex[3].img, &cub->tex[3].bpp, &cub->tex[3].line_len, &cub->tex[3].endian);
+	cub->cam[x].tex_num = cub->map[cub->cam[x].mapY][cub->cam[x].mapX] - 1;
+	if (cub->cam[x].side == 0)
+		cub->cam[x].w_X = cub->posY + cub->cam[x].w_dist * cub->cam[x].raydirY;
+	else
+		cub->cam[x].w_X = cub->posX + cub->cam[x].w_dist * cub->cam[x].raydirX;
+	cub->cam[x].w_X -= HEIGHT - cub->cam[x].draw_end;
+	cub->cam[x].tex_X = (int)cub->cam[x].w_X * (double)cub->tex[cub->cam[x].tex_num].line_len;
+	if (cub->cam[x].side == 0 && cub->cam[x].raydirX > 0)
+		cub->cam[x].tex_X = cub->tex[cub->cam[x].tex_num].line_len - cub->cam[x].tex_X - 1;
+	if (cub->cam[x].side == 1 && cub->cam[x].raydirY < 0)
+		cub->cam[x].tex_X = cub->tex[cub->cam[x].tex_num].line_len - cub->cam[x].tex_X - 1;
+	//faut trouver la height de la texture et stocker quelque part
+	//cub->cam[x].step = 1.0 * 
 	i = 0;
 	while (i < HEIGHT)
 	{
 		if (i < cub->cam[x].draw_start)
-			pxl_to_img(cub, x, i, rgba_to_int(cub->cl.r_c, cub->cl.g_c, cub->cl.b_c, 1));
+			pxl_to_img(cub, x, i, ft_color_c(cub, i));
 		else if (i > cub->cam[x].draw_end)
-			pxl_to_img(cub, x, i, rgba_to_int(cub->fl.r_f, cub->fl.g_f, cub->fl.b_f, 1));
+			pxl_to_img(cub, x, i, ft_color_f(cub, i, x));
 		else
 			pxl_to_img(cub, x, i, (rgba_to_int((255/ (2 + (cub->cam[x].side == 1))), 0, 0, 0.9)));
 		i++;

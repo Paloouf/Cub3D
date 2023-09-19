@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/12 12:16:46 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:42:08 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@ typedef struct s_mnmp
 
 typedef struct s_key
 {
-	char	forward;
-	char	back;
-	char	r_left;
-	char	r_right;
-	char	s_left;
-	char	s_right;
-	char	crouch;
-	char	jump;	
-	char	shoot;
-	char	aim;
-	char	fov;
+	int	forward;
+	int	back;
+	int	r_left;
+	int	r_right;
+	int	s_left;
+	int	s_right;
+	int	crouch;
+	int	jump;	
+	int	shoot;
+	int	aim;
+	int	fov;
 }	t_key;
 
 typedef struct s_floor
@@ -71,9 +71,13 @@ typedef struct s_cam
 	double	s_distX;
 	double	s_distY;
 	int	hit;
+	double	step;
 	int	stepX;
 	int	stepY;
 	double	w_dist;
+	double	w_X;
+	int	tex_num;
+	int	tex_X;
 	int	mapX;
 	int	mapY;
 	int	side;
@@ -91,6 +95,17 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
+typedef struct s_tex
+{
+	int	img_w;
+	int	img_h;
+	void	*img;
+	void	*addr;
+	int	bpp;
+	int	line_len;
+	int	endian;
+}	t_tex;
+
 typedef struct s_cub
 {
 	void	*mlx_ptr;
@@ -103,6 +118,9 @@ typedef struct s_cub
 	int	hgt;
 	int	phangle;
 	int	pvangle;
+	int	crouch;
+	int	jump;
+	int	fjump;
 	double	dirX;
 	double	dirY;
 	double	planeX;
@@ -114,6 +132,7 @@ typedef struct s_cub
 	t_ceil	cl;
 	t_key	key;
 	t_cam   *cam;
+	t_tex	*tex;
 }	t_cub;
 
 void	minimap(t_cub *cub);
@@ -129,5 +148,9 @@ int	init_game(t_cub *data);
 void	camera(t_cub *cub, int x);
 int	ft_atoi_du_pauvre(char *str, int i);
 int	key_release(int key, t_cub *cub);
-
+int	ft_color_f(t_cub *cub, int i, int x);
+int	ft_color_c(t_cub *cub, int i);
+int	mouse_events(int key, t_cub *cub);
+void	move (t_cub *cub);
+void	jump(t_cub *cub);	
 #endif
