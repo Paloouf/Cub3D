@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:18:26 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/14 15:52:49 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:36:06 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,22 +113,16 @@ void	camera(t_cub *cub, int x)
 		cub->cam[x].w_dist = cub->cam[x].s_distX - cub->cam[x].d_distX;
 	else
 		cub->cam[x].w_dist = cub->cam[x].s_distY - cub->cam[x].d_distY;
-	//line height
 	cub->cam[x].line_height = (int)(HEIGHT / cub->cam[x].w_dist);
 	cub->cam[x].draw_start = ((-1 * cub->cam[x].line_height) / 2) + (HEIGHT / 2);
-	//draw start et draw end
-//	if (cub->cam[x].draw_start < 0)
-//		cub->cam[x].draw_start = 0;
 	cub->cam[x].draw_end = (cub->cam[x].line_height / 2) + (HEIGHT / 2);
-//	if (cub->cam[x].draw_end >= HEIGHT)
-//		cub->cam[x].draw_end = HEIGHT - 1;
 	cub->cam[x].draw_start = cub->cam[x].draw_start + cub->jump - cub->crouch;
 	cub->cam[x].draw_end = cub->cam[x].draw_end + cub->jump - cub->crouch;
 	i = 0;
 	while (i < HEIGHT)
 	{
 		if (i < cub->cam[x].draw_start)
-			pxl_to_img(cub, x, i, ft_color_c(cub, i));
+			pxl_to_img(cub, x, i, ft_color_c(cub, i, x));
 		else if (i > cub->cam[x].draw_end)
 			pxl_to_img(cub, x, i, ft_color_f(cub, i, x));
 		else

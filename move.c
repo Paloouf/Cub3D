@@ -6,7 +6,7 @@
 /*   By: jcasades <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 13:37:51 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/14 16:10:36 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:34:24 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	jump(t_cub *cub)
 	}
 	if (cub->fjump == 2)
 	{
-		cub->jump -= 20;
+		cub->jump -= 80;
 		if (cub->jump == 0)
 			cub->fjump = 0;
 	}
@@ -55,20 +55,12 @@ void	move (t_cub *cub)
 		cub->phangle -= 10;
 		if (cub->phangle <= 0)
 			cub->phangle += 360;
-		cub->dirX = -1 * -sin(((double)cub->phangle * M_PI) / 180);
-	      	cub->dirY = -1 * cos(((double)cub->phangle * M_PI) / 180);
-		cub->planeX = 1 * cos(((double)cub->phangle * M_PI) / 180);
-		cub->planeY = 1 * sin(((double)cub->phangle * M_PI) / 180);
 	}
 	if (cub->key.r_right == 1)
 	{
 		cub->phangle += 10;
 		if (cub->phangle >= 360)
 			cub->phangle -= 360;
-		cub->dirX = -1 * (-sin(((double)cub->phangle * M_PI) / (double)180));
-	      	cub->dirY = -1 * (cos(((double)cub->phangle * M_PI) / (double)180));
-		cub->planeX = 1 * (cos(((double)cub->phangle * M_PI) / (double)180));
-		cub->planeY = 1 * (sin(((double)cub->phangle * M_PI) / (double)180));
 	}
 	if (cub->key.crouch == 1 && cub->jump == 0)
 		cub->crouch = 120;
