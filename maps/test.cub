@@ -3,8 +3,8 @@ SO ./textures/eagle.xpm
 WE ./textures/greystone.xpm
 EA ./textures/red.xpm
 
-F 120,120,120
 C 120,120,220
+F 120,120,120
 
 1111111111111111111
 1000001000000000001
