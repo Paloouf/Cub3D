@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/19 17:07:19 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/21 11:49:35 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	ft_ceiling(t_cub *cub, char *line)
 void	fill_tex(t_cub *cub)
 {
 	cub->tex[0].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->north, &cub->tex[0].img_w, &cub->tex[0].img_h);
-	cub->tex[1].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->east, &cub->tex[1].img_w, &cub->tex[1].img_h);
-	cub->tex[2].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->south, &cub->tex[2].img_w, &cub->tex[2].img_h);
-	cub->tex[3].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->west, &cub->tex[3].img_w, &cub->tex[3].img_h);
+	cub->tex[1].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->south, &cub->tex[1].img_w, &cub->tex[1].img_h);
+	cub->tex[2].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->west, &cub->tex[2].img_w, &cub->tex[2].img_h);
+	cub->tex[3].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->east, &cub->tex[3].img_w, &cub->tex[3].img_h);
 	
 }
 

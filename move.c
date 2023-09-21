@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 13:37:51 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/19 11:23:58 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/21 12:34:15 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ void	move (t_cub *cub)
 		cub->posX += cub->dirX / 10;
 		cub->posY += cub->dirY / 10;
 	}
-	if (cub->key.back == 1 && cub->map[(int)(cub->posY + (cub->dirY / 10))][(int)cub->posX] != '1' && cub->map[(int)cub->posY][(int)(cub->posX + (cub->dirX / 10))] != '1')
+	if (cub->key.back == 1 && cub->map[(int)(cub->posY - (cub->dirY / 10))][(int)cub->posX] != '1' && cub->map[(int)cub->posY][(int)(cub->posX - (cub->dirX / 10))] != '1')
 	{
 		cub->posX -= cub->dirX / 10;
 		cub->posY -= cub->dirY / 10;
 	}
-	if (cub->key.s_right == 1 && cub->map[(int)(cub->posY + (cub->dirY / 10))][(int)cub->posX] != '1' && cub->map[(int)cub->posY][(int)(cub->posX + (cub->dirX / 10))] != '1')
+	if (cub->key.s_right == 1 && cub->map[(int)(cub->posY + (cub->dirX / 10))][(int)cub->posX] != '1' && cub->map[(int)cub->posY][(int)(cub->posX - (cub->dirY / 10))] != '1')
 	{
 		cub->posX -= cub->dirY / 10;
 		cub->posY += cub->dirX / 10;
 	}
-	if (cub->key.s_left == 1 && cub->map[(int)(cub->posY + (cub->dirY / 10))][(int)cub->posX] != '1' && cub->map[(int)cub->posY][(int)(cub->posX + (cub->dirX / 10))] != '1')
+	if (cub->key.s_left == 1 && cub->map[(int)(cub->posY - (cub->dirX / 10))][(int)cub->posX] != '1' && cub->map[(int)cub->posY][(int)(cub->posX + (cub->dirY / 10))] != '1')
 	{
 		cub->posX += cub->dirY / 10;
 		cub->posY -= cub->dirX / 10;

@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/19 17:42:08 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/21 12:26:58 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,11 @@ typedef struct s_cam
 	int	stepY;
 	double	w_dist;
 	double	w_X;
+	int	w_num;
 	int	tex_num;
 	int	tex_X;
+	int	tex_Y;
+	double	tex_pos;
 	int	mapX;
 	int	mapY;
 	int	side;
@@ -100,7 +103,7 @@ typedef struct s_tex
 	int	img_w;
 	int	img_h;
 	void	*img;
-	void	*addr;
+	int	*addr;
 	int	bpp;
 	int	line_len;
 	int	endian;

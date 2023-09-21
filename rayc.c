@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:18:26 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/19 18:31:50 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/21 12:27:08 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,19 +128,25 @@ void	camera(t_cub *cub, int x)
 	cub->tex[1].addr = (int *)mlx_get_data_addr(cub->tex[1].img, &cub->tex[1].bpp, &cub->tex[1].line_len, &cub->tex[1].endian);
 	cub->tex[2].addr = (int *)mlx_get_data_addr(cub->tex[2].img, &cub->tex[2].bpp, &cub->tex[2].line_len, &cub->tex[2].endian);
 	cub->tex[3].addr = (int *)mlx_get_data_addr(cub->tex[3].img, &cub->tex[3].bpp, &cub->tex[3].line_len, &cub->tex[3].endian);
-	cub->cam[x].tex_num = cub->map[cub->cam[x].mapY][cub->cam[x].mapX] - 1;
+	cub->cam[x].w_num = cub->map[cub->cam[x].mapY][cub->cam[x].mapX] - 48;
 	if (cub->cam[x].side == 0)
+	{
+		cub->cam[x].tex_num = 2 + (cub->dirX > 0);
 		cub->cam[x].w_X = cub->posY + cub->cam[x].w_dist * cub->cam[x].raydirY;
+	}
 	else
+	{
+		cub->cam[x].tex_num = 0 + (cub->dirY > 0);
 		cub->cam[x].w_X = cub->posX + cub->cam[x].w_dist * cub->cam[x].raydirX;
-	cub->cam[x].w_X -= HEIGHT - cub->cam[x].draw_end;
-	cub->cam[x].tex_X = (int)cub->cam[x].w_X * (double)cub->tex[cub->cam[x].tex_num].line_len;
+	}
+	cub->cam[x].w_X -= floor(cub->cam[x].w_X);
+	cub->cam[x].tex_X = (int)(cub->cam[x].w_X * (double)cub->tex[cub->cam[x].tex_num].img_w);
 	if (cub->cam[x].side == 0 && cub->cam[x].raydirX > 0)
-		cub->cam[x].tex_X = cub->tex[cub->cam[x].tex_num].line_len - cub->cam[x].tex_X - 1;
+		cub->cam[x].tex_X = cub->tex[cub->cam[x].tex_num].img_w - cub->cam[x].tex_X - 1;
 	if (cub->cam[x].side == 1 && cub->cam[x].raydirY < 0)
-		cub->cam[x].tex_X = cub->tex[cub->cam[x].tex_num].line_len - cub->cam[x].tex_X - 1;
-	//faut trouver la height de la texture et stocker quelque part
-	//cub->cam[x].step = 1.0 * 
+		cub->cam[x].tex_X = cub->tex[cub->cam[x].tex_num].img_w - cub->cam[x].tex_X - 1;
+	cub->cam[x].step = 1.0 * cub->tex[cub->cam[x].tex_num].img_h / cub->cam[x].line_height;
+	cub->cam[x].tex_pos = (cub->cam[x].draw_start - (HEIGHT / 2) + (cub->cam[x].line_height / 2) * cub->cam[x].step);
 	i = 0;
 	while (i < HEIGHT)
 	{
@@ -149,7 +155,13 @@ void	camera(t_cub *cub, int x)
 		else if (i > cub->cam[x].draw_end)
 			pxl_to_img(cub, x, i, ft_color_f(cub, i, x));
 		else
-			pxl_to_img(cub, x, i, (rgba_to_int((255/ (2 + (cub->cam[x].side == 1))), 0, 0, 0.9)));
+		{
+			cub->cam[x].tex_Y = (int)cub->cam[x].tex_pos & (cub->tex[cub->cam[x].tex_num].img_h - 1);
+			cub->cam[x].tex_pos += cub->cam[x].step;
+			//data.addr[y * recup->data.line_length / 4 + x] = texture[0].addr[texy * texture[0].line_length / 4 + texx];
+			pxl_to_img(cub, x, i, (unsigned int)cub->tex[cub->cam[x].tex_num].addr[cub->cam[x].tex_Y * cub->tex[cub->cam[x].tex_num].line_len / 4 + cub->cam[x].tex_X]);
+			//pxl_to_img(cub, x, i, (rgba_to_int((255/ (2 + (cub->cam[x].side == 1))), 0, 0, 0.9)));
+		}
 		i++;
 	}
 }
