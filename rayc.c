@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:18:26 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/21 12:27:08 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/21 13:36:53 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,12 +131,12 @@ void	camera(t_cub *cub, int x)
 	cub->cam[x].w_num = cub->map[cub->cam[x].mapY][cub->cam[x].mapX] - 48;
 	if (cub->cam[x].side == 0)
 	{
-		cub->cam[x].tex_num = 2 + (cub->dirX > 0);
+		cub->cam[x].tex_num = 2;// + (cub->dirX > 0);
 		cub->cam[x].w_X = cub->posY + cub->cam[x].w_dist * cub->cam[x].raydirY;
 	}
 	else
 	{
-		cub->cam[x].tex_num = 0 + (cub->dirY > 0);
+		cub->cam[x].tex_num = 0;// + (cub->dirY > 0);
 		cub->cam[x].w_X = cub->posX + cub->cam[x].w_dist * cub->cam[x].raydirX;
 	}
 	cub->cam[x].w_X -= floor(cub->cam[x].w_X);
@@ -151,7 +151,7 @@ void	camera(t_cub *cub, int x)
 	while (i < HEIGHT)
 	{
 		if (i < cub->cam[x].draw_start)
-			pxl_to_img(cub, x, i, ft_color_c(cub, i));
+			pxl_to_img(cub, x, i, ft_color_c(cub, i, x));
 		else if (i > cub->cam[x].draw_end)
 			pxl_to_img(cub, x, i, ft_color_f(cub, i, x));
 		else

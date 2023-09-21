@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/21 12:26:58 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/21 12:38:45 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ void	camera(t_cub *cub, int x);
 int	ft_atoi_du_pauvre(char *str, int i);
 int	key_release(int key, t_cub *cub);
 int	ft_color_f(t_cub *cub, int i, int x);
-int	ft_color_c(t_cub *cub, int i);
+int	ft_color_c(t_cub *cub, int i, int x);
 int	mouse_events(int key, t_cub *cub);
 void	move (t_cub *cub);
 void	jump(t_cub *cub);	

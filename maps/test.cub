@@ -1,7 +1,7 @@
 NO ./textures/wall.xpm
-SO ./textures/wall.xpm
-WE ./textures/wall.xpm
-EA ./textures/wall.xpm
+SO ./textures/eagle.xpm
+WE ./textures/greystone.xpm
+EA ./textures/red.xpm
 
 F 120,120,120
 C 120,120,220
