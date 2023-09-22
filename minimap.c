@@ -6,95 +6,72 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:31:14 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/07 12:08:26 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:59:40 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	draw_square(t_cub *cub, int color, float i, float j)
+void	draw_player(t_cub *cub)
 {
-	int	k;
-	int	l;
-
-	k = i;
-	while (k < i * 2)
-	{
-		l = j;
-		while (l < (j * 2))
-			pxl_to_img(cub, l++, k, color);
-		++k;
-	}
-}
-
-void	render_walls(t_cub *cub, int color, float i, float j)
-{
-	int 	y;
 	int	x;
+	int	y;
+	int	pyt;
+	int	lx;
+	int	ly;
 
 	y = 0;
-	x = 0;
-	while (cub->map[y])
+	while ((HEIGHT * 3) / 10 + y != (HEIGHT * 4) / 10)
 	{
-		while (cub->map[y][x])
+		while ((HEIGHT * 3) / 10 + x != (HEIGHT * 4) / 10)
 		{
-			if (cub->map[y][x] == '1')
-			{
-				draw_square(cub, color, i, j);
-				i += i;
-			}
-			j += j;
-			x++;
+
+			if (pyt < HEIGHT / 20)
 		}
-		y++;
 	}
 }
-void	render_player(t_cub *cub, int color, float i, float j)
-{
-	int	k;
-	int	l;
 
-	k = i * 4.5;
+void	draw_map(t_cub *cub, int i, int j)
+{
+	int	x;
+	int	y;
 	
-	while (k < i * 5.5)
-	{
-		l = j * 4.5;
-		while(l < j * 5.5)
+	y = 0;
+	if ((int)cub->posX + i < ft_strlen((cub->map[(int)(cub->posY + j) - 1])))
+	{	
+		if (cub->map[(int)(cub->posY + j) - 1][(int)(cub->posX + i) - 1] == '1')
 		{
-			if (k * l > ((i * 5) * ((j * 5))))
-				pxl_to_img(cub, l++, k, color);
-			else
-				l++;
+			while((HEIGHT * (3 + i)) / 10 + y != (HEIGHT * (4 + i)) / 10)
+			{
+				x = 0;
+				while((HEIGHT * (3 + j)) / 10 + x != (HEIGHT * (4 + j)) / 10)
+				{
+					pxl_to_img(cub,(((HEIGHT * (3 + j)) / 10 + x)), ((HEIGHT * (3 + i) / 10) + y), rgba_to_int(0, 0, 160, 2));
+					x++;
+				}
+				y++;
+			}
 		}
-		k++;
 	}
 }
-
-void	render_background(t_cub *cub, int color)
-{
-	float	i; //unite de hauteur
-	float	j; //unite de longueur
-
-	i = HEIGHT / 40;
-	while (i < (HEIGHT / 40) * 9)
-	{
-		j = WIDTH / 71.1111111111111;
-		while (j < (WIDTH / 71.1111111111111) * 9)
-		{
-			pxl_to_img(cub, j++, i, color);
-		}
-		++i;
-	}
-	i = HEIGHT / 40;
-	j = WIDTH / 71.1111111111111;
-	render_player(cub, rgba_to_int(255, 0, 0, 0.9), i, j);
-	//render_walls(cub, rgba_to_int(53, 48, 220, 0.9), i, j);
-}
-
-
 
 void	minimap(t_cub *cub)
 {
-	render_background(cub, rgba_to_int(0, 0, 200, 0.5));
-	
-}
+	int	i;
+	int	j;
+
+	i = -2;
+
+	while (i < 3)
+	{
+		j = -2;
+		while (j < 3)
+		{	
+			ft_printf("%d\n", j);
+			draw_map(cub, i, j);
+			j++;
+		}
+ 		i++;
+	}
+	draw_player(cub);
+}	

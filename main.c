@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/18 13:59:08 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/09/19 12:10:52 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,6 @@ int	the_game(t_cub *cub)
 	x = 0;
 	
 	move(cub);
-	cub->dirX = -1 * (-sin(((double)cub->phangle * M_PI) / (double)180));
-      	cub->dirY = -1 * (cos(((double)cub->phangle * M_PI) / (double)180));
-	cub->planeX = 1 * (cos(((double)cub->phangle * M_PI) / (double)180));
-	cub->planeY = 1 * (sin(((double)cub->phangle * M_PI) / (double)180));
 	jump(cub);
 	while (x < WIDTH)
 		camera(cub, x++);
@@ -64,13 +60,17 @@ int	main(int ac, char **av)
 {
 	t_cub	cub;
 	int	x;
+
 	
 	if (ac == 2)
 	{	
 		init_all(&cub);
 		parse(av[1], &cub);
 		init_game(&cub);
-		//img = mlx_xpm_file_to_image(cub.mlx_ptr, path, &img_w, &img_h);
+		  //img = mlx_xpm_file_to_image(cub.mlx_ptr, cub.north, &img_w, &img_h);
+		// mlx_put_image_to_window(cub.mlx_ptr, cub.win_ptr, img, 0, 0);
+
+
 		//minimap(&cub);
 		cub.cam = malloc(sizeof(t_cam) * WIDTH);
 		

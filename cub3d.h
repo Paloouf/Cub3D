@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/18 16:35:01 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/09/21 12:38:45 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,16 @@ typedef struct s_cam
 	double	s_distX;
 	double	s_distY;
 	int	hit;
+	double	step;
 	int	stepX;
 	int	stepY;
 	double	w_dist;
+	double	w_X;
+	int	w_num;
+	int	tex_num;
+	int	tex_X;
+	int	tex_Y;
+	double	tex_pos;
 	int	mapX;
 	int	mapY;
 	int	side;
@@ -90,6 +97,17 @@ typedef struct s_img
 	int		line_len;
 	int		endian;
 }	t_img;
+
+typedef struct s_tex
+{
+	int	img_w;
+	int	img_h;
+	void	*img;
+	int	*addr;
+	int	bpp;
+	int	line_len;
+	int	endian;
+}	t_tex;
 
 typedef struct s_cub
 {
@@ -117,6 +135,7 @@ typedef struct s_cub
 	t_ceil	cl;
 	t_key	key;
 	t_cam   *cam;
+	t_tex	*tex;
 }	t_cub;
 
 void	minimap(t_cub *cub);
