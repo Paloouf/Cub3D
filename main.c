@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/19 12:10:52 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:27:58 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ int	the_game(t_cub *cub)
 	
 	move(cub);
 	jump(cub);
+	if (cub->img.image)
+		mlx_destroy_image(cub->mlx_ptr, cub->img.image);
+	cub->img.image = mlx_new_image(cub->mlx_ptr, WIDTH, HEIGHT);
 	while (x < WIDTH)
 		camera(cub, x++);
 	mlx_put_image_to_window(cub->mlx_ptr, cub->win_ptr,
@@ -75,7 +78,7 @@ int	main(int ac, char **av)
 		cub.cam = malloc(sizeof(t_cam) * WIDTH);
 		
 
-	//	mlx_destroy_display(cub.mlx_ptr);
+		//mlx_destroy_display(cub.mlx_ptr);
 		//free(cub.mlx_ptr);
 
 	//	mlx_mouse_hook(cub.win_ptr, mouse_events, &cub);
@@ -84,6 +87,7 @@ int	main(int ac, char **av)
 		mlx_loop_hook(cub.mlx_ptr, the_game, &cub);
 		mlx_hook(cub.win_ptr, 17, 0L, close_cross, &cub);
 		mlx_loop(cub.mlx_ptr);
+		//mlx_destroy_display(cub.mlx_ptr);
 	}
 	return (1);
 }

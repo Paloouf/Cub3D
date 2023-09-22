@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/21 12:38:45 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/22 13:13:50 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_tex
 	int	img_h;
 	void	*img;
 	int	*addr;
+	int	color;
 	int	bpp;
 	int	line_len;
 	int	endian;
