@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:30:08 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/22 13:51:07 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:27:28 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,34 @@ void	free_all(t_cub *cub)
 
 int	mouse_events(int key, t_cub *cub)
 {
-	if (key)
+	static int	value = 0;
+	int	res;
+
+	printf("%d\n", cub);
+	printf("eeee\n");
+	res = cub->phangle;
+	printf("fffff\n");
+	if (value == 0)
 	{
-		printf("mouse key: %d\n", key);
+		
+		value = key;
+		//printf("%d\n", cub->phangle);
 	}
+	else
+	{
+		printf("guh\n");
+		res += value - key;
+		if (res <= 0)
+			res += 360;
+		if (res > 360)
+			res -= 360;
+		cub->dirX = -1 * -sin(((double)res * M_PI) / 180);
+	      	cub->dirY = -1 * cos(((double)res * M_PI) / 180);
+		cub->planeX = 1 * cos(((double)res * M_PI) / 180);
+		cub->planeY = 1 * sin(((double)res * M_PI) / 180);
+		value = key;
+	}
+	printf("ici lol\n");
 }
 
 int	key_events(int key, t_cub *cub)

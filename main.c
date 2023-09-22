@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/22 13:49:29 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:26:47 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	the_game(t_cub *cub)
 	cub->img.image = mlx_new_image(cub->mlx_ptr, WIDTH, HEIGHT);
 	while (x < WIDTH)
 		camera(cub, x++);
+	minimap(cub);
 	mlx_put_image_to_window(cub->mlx_ptr, cub->win_ptr,
 	cub->img.image, 0, 0);
 }
@@ -81,12 +82,16 @@ int	main(int ac, char **av)
 		//mlx_destroy_display(cub.mlx_ptr);
 		//free(cub.mlx_ptr);
 
-	//	mlx_mouse_hook(cub.win_ptr, mouse_events, &cub);
+		//mlx_mouse_hook(cub.win_ptr, mouse_events, &cub);
 		mlx_hook(cub.win_ptr, 2, 1L << 0, key_events, &cub);
 		mlx_hook(cub.win_ptr, 3, 1L << 1, key_release, &cub);
-		mlx_hook(cub.win_ptr, MotionNotify, PointerMotionMask, mouse_events, &cub);
+		//printf("%p\n", &cub);
 		mlx_loop_hook(cub.mlx_ptr, the_game, &cub);
+		//printf("%p\n", &cub);
+		//mlx_hook(cub.win_ptr, MotionNotify, PointerMotionMask, mouse_events, &cub);
+		//printf("%p\n", &cub);
 		mlx_hook(cub.win_ptr, 17, 0L, close_cross, &cub);
+		//printf("%p\n", &cub);
 		mlx_loop(cub.mlx_ptr);
 		//mlx_destroy_display(cub.mlx_ptr);
 	}

@@ -6,95 +6,94 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:31:14 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/07 12:08:26 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:04:31 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	draw_square(t_cub *cub, int color, float i, float j)
+void	draw_square(t_cub *cub)
 {
-	int	k;
-	int	l;
+	int	i;
+	int	j;
 
-	k = i;
-	while (k < i * 2)
+	i = 0;
+	while (HEIGHT / 30 + i < ((HEIGHT * 6) / 30))
 	{
-		l = j;
-		while (l < (j * 2))
-			pxl_to_img(cub, l++, k, color);
-		++k;
+		j = 0;
+		while (HEIGHT / 30 + j < ((HEIGHT * 6) / 30))
+		{
+			pxl_to_img(cub, (HEIGHT / 30 + j), (HEIGHT / 30 + i), rgba_to_int(200, 200, 200, 1));
+			j++;
+		}
+		i++;
 	}
 }
 
-void	render_walls(t_cub *cub, int color, float i, float j)
+int	draw_player(t_cub *cub)
 {
-	int 	y;
-	int	x;
+	int	i;
+	int	j;
 
-	y = 0;
-	x = 0;
-	while (cub->map[y])
+	j = 0;
+	if (cub->phangle > 315 || cub->phangle < 45)
 	{
-		while (cub->map[y][x])
+		while (j < (HEIGHT)/ 30)
 		{
-			if (cub->map[y][x] == '1')
+			i = 0;
+			while (i < (HEIGHT)/ 30)
 			{
-				draw_square(cub, color, i, j);
-				i += i;
+				if (i == ((HEIGHT)/ 30) - j || i == ((HEIGHT)/ 30) + j)
+					pxl_to_img(cub,((HEIGHT * 3 / 30) + i), ((HEIGHT * 3) / 30) + j, rgba_to_int(160, 0, 0, 1));
+				i++;
 			}
-			j += j;
-			x++;
+			j++;
 		}
-		y++;
+		return (1);
 	}
 }
-void	render_player(t_cub *cub, int color, float i, float j)
-{
-	int	k;
-	int	l;
 
-	k = i * 4.5;
+void	draw_map(t_cub *cub, int i, int j)
+{
+	int	x;
+	int	y;
 	
-	while (k < i * 5.5)
-	{
-		l = j * 4.5;
-		while(l < j * 5.5)
+	y = 0;
+	if (j + cub->posY >= 1 && (int)cub->posX + i < ft_strlen((cub->map[(int)(cub->posY + j) - 1])))
+	{	
+		if (cub->map[(int)(cub->posY + j) - 1][(int)(cub->posX + i) - 1] == '1')
 		{
-			if (k * l > ((i * 5) * ((j * 5))))
-				pxl_to_img(cub, l++, k, color);
-			else
-				l++;
+			while((HEIGHT * (3 + j)) / 30 + y != (HEIGHT * (4 + j)) / 30)
+			{
+				x = 0;
+				while((HEIGHT * (3 + i)) / 30 + x != (HEIGHT * (4 + i)) / 30)
+				{
+					pxl_to_img(cub,(HEIGHT * (3 + i) / 30) + y, (HEIGHT * (3 + j)) / 30 + x, rgba_to_int(0, 0, 160, 1));
+					x++;
+				}
+				y++;
+			}
 		}
-		k++;
 	}
 }
-
-void	render_background(t_cub *cub, int color)
-{
-	float	i; //unite de hauteur
-	float	j; //unite de longueur
-
-	i = HEIGHT / 40;
-	while (i < (HEIGHT / 40) * 9)
-	{
-		j = WIDTH / 71.1111111111111;
-		while (j < (WIDTH / 71.1111111111111) * 9)
-		{
-			pxl_to_img(cub, j++, i, color);
-		}
-		++i;
-	}
-	i = HEIGHT / 40;
-	j = WIDTH / 71.1111111111111;
-	render_player(cub, rgba_to_int(255, 0, 0, 0.9), i, j);
-	//render_walls(cub, rgba_to_int(53, 48, 220, 0.9), i, j);
-}
-
-
 
 void	minimap(t_cub *cub)
 {
-	render_background(cub, rgba_to_int(0, 0, 200, 0.5));
-	
-}
+	int	i;
+	int	j;
+
+	i = -2;
+	draw_square(cub);
+	while (i < 3)
+	{
+		j = -2;
+		while (j < 3)
+		{	
+			//ft_printf("%d\n", j);
+			draw_map(cub, i, j);
+			j++;
+		}
+ 		i++;
+	}
+	draw_player(cub);
+}	
