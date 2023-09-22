@@ -6,28 +6,50 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:31:14 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/21 14:59:40 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/09/22 13:50:19 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	draw_player(t_cub *cub)
+void	draw_square(t_cub *cub)
 {
-	int	x;
-	int	y;
-	int	pyt;
-	int	lx;
-	int	ly;
+	int	i;
+	int	j;
 
-	y = 0;
-	while ((HEIGHT * 3) / 10 + y != (HEIGHT * 4) / 10)
+	i = 0;
+	while (HEIGHT / 30 + i < ((HEIGHT * 6) / 30))
 	{
-		while ((HEIGHT * 3) / 10 + x != (HEIGHT * 4) / 10)
+		j = 0;
+		while (HEIGHT / 30 + j < ((HEIGHT * 6) / 30))
 		{
-
-			if (pyt < HEIGHT / 20)
+			pxl_to_img(cub, (HEIGHT / 30 + j), (HEIGHT / 30 + i), rgba_to_int(200, 200, 200, 1));
+			j++;
 		}
+		i++;
+	}
+}
+
+int	draw_player(t_cub *cub)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	if (cub->phangle > 315 || cub->phangle < 45)
+	{
+		while (j < (HEIGHT)/ 30)
+		{
+			i = 0;
+			while (i < (HEIGHT)/ 30)
+			{
+				if (i == ((HEIGHT)/ 30) - j || i == ((HEIGHT)/ 30) + j)
+					pxl_to_img(cub,((HEIGHT * 3 / 30) + i), ((HEIGHT * 3) / 30) + j, rgba_to_int(160, 0, 0, 1));
+				i++;
+			}
+			j++;
+		}
+		return (1);
 	}
 }
 
@@ -37,16 +59,16 @@ void	draw_map(t_cub *cub, int i, int j)
 	int	y;
 	
 	y = 0;
-	if ((int)cub->posX + i < ft_strlen((cub->map[(int)(cub->posY + j) - 1])))
+	if (j + cub->posY >= 1 && (int)cub->posX + i < ft_strlen((cub->map[(int)(cub->posY + j) - 1])))
 	{	
 		if (cub->map[(int)(cub->posY + j) - 1][(int)(cub->posX + i) - 1] == '1')
 		{
-			while((HEIGHT * (3 + i)) / 10 + y != (HEIGHT * (4 + i)) / 10)
+			while((HEIGHT * (3 + j)) / 30 + y != (HEIGHT * (4 + j)) / 30)
 			{
 				x = 0;
-				while((HEIGHT * (3 + j)) / 10 + x != (HEIGHT * (4 + j)) / 10)
+				while((HEIGHT * (3 + i)) / 30 + x != (HEIGHT * (4 + i)) / 30)
 				{
-					pxl_to_img(cub,(((HEIGHT * (3 + j)) / 10 + x)), ((HEIGHT * (3 + i) / 10) + y), rgba_to_int(0, 0, 160, 2));
+					pxl_to_img(cub,(HEIGHT * (3 + i) / 30) + y, (HEIGHT * (3 + j)) / 30 + x, rgba_to_int(0, 0, 160, 1));
 					x++;
 				}
 				y++;
@@ -61,7 +83,7 @@ void	minimap(t_cub *cub)
 	int	j;
 
 	i = -2;
-
+	draw_square(cub);
 	while (i < 3)
 	{
 		j = -2;
