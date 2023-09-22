@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:30:08 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/22 13:14:47 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/22 13:51:07 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,6 @@ int	mouse_events(int key, t_cub *cub)
 	if (key)
 	{
 		printf("mouse key: %d\n", key);
-		if (key == 1)
-			cub->key.shoot = 1;
-		if (key == 3)
-			cub->key.aim = 1;
 	}
 }
 
@@ -63,15 +59,19 @@ int	key_events(int key, t_cub *cub)
 	}
 	if (key == XK_w)
 		cub->key.forward = 1;
-	if (key == XK_a)
+	if (key == XK_q)
 		cub->key.r_left = 1;
+	if (key == XK_Left)
+		cub->key.r_left = 1;
+	if (key == XK_Right)
+		cub->key.r_right = 1;
 	if (key == XK_s)
 		cub->key.back = 1;
-	if (key == XK_d)
-		cub->key.r_right = 1;
-	if (key == XK_q)
-		cub->key.s_left = 1;
 	if (key == XK_e)
+		cub->key.r_right = 1;
+	if (key == XK_a)
+		cub->key.s_left = 1;
+	if (key == XK_d)
 		cub->key.s_right = 1;
 	if (key == XK_c)
 		cub->key.crouch = 1;
@@ -86,15 +86,19 @@ int	key_release(int key, t_cub *cub)
 {
 	if (key == XK_w)
 		cub->key.forward = 0;
-	if (key == XK_a)
+	if (key == XK_q)
 		cub->key.r_left = 0;
+	if (key == XK_Left)
+		cub->key.r_left = 0;
+	if (key == XK_Right)
+		cub->key.r_right = 0;
 	if (key == XK_s)
 		cub->key.back = 0;
-	if (key == XK_d)
-		cub->key.r_right = 0;
-	if (key == XK_q)
-		cub->key.s_left = 0;
 	if (key == XK_e)
+		cub->key.r_right = 0;
+	if (key == XK_a)
+		cub->key.s_left = 0;
+	if (key == XK_d)
 		cub->key.s_right = 0;
 	if (key == XK_c)
 		cub->key.crouch = 0;

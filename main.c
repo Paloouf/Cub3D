@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/22 12:27:58 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/22 13:49:29 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	main(int ac, char **av)
 	//	mlx_mouse_hook(cub.win_ptr, mouse_events, &cub);
 		mlx_hook(cub.win_ptr, 2, 1L << 0, key_events, &cub);
 		mlx_hook(cub.win_ptr, 3, 1L << 1, key_release, &cub);
+		mlx_hook(cub.win_ptr, MotionNotify, PointerMotionMask, mouse_events, &cub);
 		mlx_loop_hook(cub.mlx_ptr, the_game, &cub);
 		mlx_hook(cub.win_ptr, 17, 0L, close_cross, &cub);
 		mlx_loop(cub.mlx_ptr);
