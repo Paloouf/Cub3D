@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:31:14 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/22 17:16:30 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/09/25 18:19:28 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	draw_square(t_cub *cub)
 		while (HEIGHT / 30 + j < ((HEIGHT * 6) / 30))
 		{
 			if ((i + j) % 2 == 0)
-				pxl_to_img(cub, (HEIGHT / 30 + j), (HEIGHT / 30 + i), rgba_to_int(200, 200, 200, 1));
+				pxl_to_img(cub, ((2 * HEIGHT) / 30 + j), ((2 * HEIGHT) / 30 + i), rgba_to_int(200, 200, 200, 1));
 			j++;
 		}
 		i++;
@@ -35,7 +35,8 @@ int	draw_player(t_cub *cub)
 {
 	int	i;
 	int	j;
-
+	
+	i = 0;
 	j = 0;
 	if (cub->phangle > 315 || cub->phangle < 45)
 	{
@@ -45,13 +46,55 @@ int	draw_player(t_cub *cub)
 			while (i < (HEIGHT)/ 30)
 			{
 				if (!(i <= ((HEIGHT)/ 60) - j || i >= ((HEIGHT)/ 60) + j))
-					pxl_to_img(cub,((HEIGHT * 3 / 30) + i), ((HEIGHT * 3) / 30) + j, rgba_to_int(160, 0, 0, 1));
+					pxl_to_img(cub,((HEIGHT * 5 / 30) + i), ((HEIGHT * 5) / 30) + j, rgba_to_int(160, 0, 0, 1));
 				i++;
 			}
 			j++;
 		}
 		return (1);
 	}
+	if (cub->phangle > 225)
+	{
+		while (i < (HEIGHT)/ 30)
+		{
+			j = 0;
+			while (j < (HEIGHT)/ 30)
+			{
+				if (!(i <= ((HEIGHT)/ 60) - j || i >= ((HEIGHT)/ 60) + j))
+					pxl_to_img(cub,((HEIGHT * 5 / 30) + j), ((HEIGHT * 5) / 30) + i, rgba_to_int(160, 0, 0, 1));
+				j++;
+			}
+			i++;
+		}
+		return (1);
+	}
+	if (cub->phangle > 135)
+	{
+		while (j < (HEIGHT)/ 30)
+		{
+			i = 0;
+			while (i < (HEIGHT)/ 30)
+			{
+				if (!(i <= ((HEIGHT)/ 60) - j || i >= ((HEIGHT)/ 60) + j))
+					pxl_to_img(cub,((HEIGHT * 5 / 30) + i), ((HEIGHT * 5) / 30) + ((HEIGHT / 30) - j), rgba_to_int(160, 0, 0, 1));
+				i++;
+			}
+			j++;
+		}
+		return (1);
+	}
+	while (i < (HEIGHT)/ 30)
+	{
+		j = 0;
+		while (j < (HEIGHT)/ 30)
+		{
+			if (!(i <= ((HEIGHT)/ 60) - j || i >= ((HEIGHT)/ 60) + j))
+				pxl_to_img(cub,((HEIGHT * 5 / 30) + ((HEIGHT / 30) - j)), ((HEIGHT * 5) / 30) + ((HEIGHT / 30) - i), rgba_to_int(160, 0, 0, 1));
+			j++;
+		}
+		i++;
+	}
+	return (1);
 }
 
 void	draw_map(t_cub *cub, int i, int j)
@@ -70,7 +113,7 @@ void	draw_map(t_cub *cub, int i, int j)
 				while((HEIGHT * (3 + i)) / 30 + x != (HEIGHT * (4 + i)) / 30)
 				{
 					if ((x + y) % 2 == 0)
-						pxl_to_img(cub,(HEIGHT * (3 + i) / 30) + y, (HEIGHT * (3 + j)) / 30 + x, rgba_to_int(0, 0, 160, 1));
+						pxl_to_img(cub,(HEIGHT * (4 + i) / 30) + y, (HEIGHT * (4 + j)) / 30 + x, rgba_to_int(0, 0, 160, 1));
 					x++;
 				}
 				y++;

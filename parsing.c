@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/21 11:49:35 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:59:54 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	parse_info(t_cub *cub, char *line)
 	{
 		if (cub->north[0])
 			return (0);
+		free(cub->north);
 		cub->north = ft_strdup(line + 3);
 		cub->north[ft_strlen(cub->north) - 1] = '\0';
 	}
@@ -50,6 +51,7 @@ int	parse_info(t_cub *cub, char *line)
 	{
 		if (cub->south[0])
 			return (0);
+		free(cub->south);
 		cub->south = ft_strdup(line + 3);
 		cub->south[ft_strlen(cub->south) - 1] = '\0';
 	}
@@ -57,6 +59,7 @@ int	parse_info(t_cub *cub, char *line)
 	{
 		if (cub->west[0])
 			return (0);
+		free(cub->west);
 		cub->west = ft_strdup(line + 3);
 		cub->west[ft_strlen(cub->west) - 1] = '\0';
 	}
@@ -64,6 +67,7 @@ int	parse_info(t_cub *cub, char *line)
 	{
 		if (cub->east[0])
 			return (0);
+		free(cub->east);
 		cub->east = ft_strdup(line + 3);
 		cub->east[ft_strlen(cub->east) - 1] = '\0';
 	}
@@ -100,8 +104,8 @@ int	parse(char *argv, t_cub *cub)
 		i++;
 		line = get_next_line(file);
 	}
-	cub->map = malloc((sizeof (char *)) * i - 1);
-	cub->tex = malloc((sizeof(t_tex) * 4));
+	cub->map = ft_calloc(i + 1, sizeof(char *));
+	cub->tex = malloc(sizeof(t_tex) * 4);
 	fill_tex(cub);
 	cub->hgt = i - 1;
 	close(file);

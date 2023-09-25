@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:18:26 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/22 11:37:02 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/09/22 13:13:42 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void	camera(t_cub *cub, int x)
 	if (cub->cam[x].side == 1 && cub->cam[x].raydirY < 0)
 		cub->cam[x].tex_X = cub->tex[cub->cam[x].tex_num].img_w - cub->cam[x].tex_X - 1;
 	cub->cam[x].step = 1.0 * cub->tex[cub->cam[x].tex_num].img_h / cub->cam[x].line_height;
-	cub->cam[x].tex_pos = (cub->cam[x].draw_start - HEIGHT / 2 + cub->cam[x].line_height / 2) * cub->cam[x].step;
+	cub->cam[x].tex_pos = (cub->cam[x].draw_start - (HEIGHT / 2) + (cub->cam[x].line_height / 2)) * cub->cam[x].step;
 	i = 0;
 	while (i < HEIGHT)
 	{
