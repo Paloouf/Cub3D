@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:30:08 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/25 12:30:49 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:25:13 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,33 +45,26 @@ void	free_all(t_cub *cub)
 int	mouse_events(int x, int y, t_cub *cub)
 {	
 	static int	value = 0;
-	int	res;
-	if (value == 0)
-	{
-		
-		value = x;
 
-	}
+	if (value == 0)
+		value = x;
 	else
 	{
-		res += value - x;
-		if (res <= 0)
-			res += 360;
-		if (res > 360)
-			res -= 360;
-		cub->dirX = -1 * -sin(((double)res * M_PI) / 180);
-	      	cub->dirY = -1 * cos(((double)res * M_PI) / 180);
-		cub->planeX = 1 * cos(((double)res * M_PI) / 180);
-		cub->planeY = 1 * sin(((double)res * M_PI) / 180);
-		value = x;
+	 	cub->phangle -= value - x;
+	 	if (cub->phangle <= 0)
+	 		cub->phangle += 360;
+	 	if (cub->phangle > 360)
+	 		cub->phangle -= 360;
+	 	cub->dirX = -1 * -sin(((double)cub->phangle * M_PI) / 180);
+	       	cub->dirY = -1 * cos(((double)cub->phangle * M_PI) / 180);
+	 	cub->planeX = 1 * cos(((double)cub->phangle * M_PI) / 180);
+	 	cub->planeY = 1 * sin(((double)cub->phangle * M_PI) / 180);
+	 	value = x;
 	}
-	// printf("ici lol\n");
 }
 
 int	key_events(int key, t_cub *cub)
 {
-	printf("%p\n", cub);
-		printf("mlx_ptr: %p, win_ptr:%p\n", cub->mlx_ptr, cub->win_ptr);
 	if (key == XK_Escape)
 	{
 		free_all(cub);
@@ -93,10 +86,6 @@ int	key_events(int key, t_cub *cub)
 		cub->key.s_left = 1;
 	if (key == XK_d)
 		cub->key.s_right = 1;
-	if (key == XK_c)
-		cub->key.crouch = 1;
-	if (key == 32)
-		cub->key.jump = 1;
 	if (key == XK_f)
 		cub->key.fov = 1;
 	return (0);
@@ -120,10 +109,6 @@ int	key_release(int key, t_cub *cub)
 		cub->key.s_left = 0;
 	if (key == XK_d)
 		cub->key.s_right = 0;
-	if (key == XK_c)
-		cub->key.crouch = 0;
-	if (key == XK_space)
-		cub->key.jump = 0;
 	if (key == XK_f)
 		cub->key.fov = 0;
 	return (0);
