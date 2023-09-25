@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/22 15:26:47 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/25 12:27:09 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,19 @@ int	main(int ac, char **av)
 		//free(cub.mlx_ptr);
 
 		//mlx_mouse_hook(cub.win_ptr, mouse_events, &cub);
+		printf("%p\n", &cub);
+		printf("mlx_ptr: %p, win_ptr:%p\n", cub.mlx_ptr, cub.win_ptr);
+		
 		mlx_hook(cub.win_ptr, 2, 1L << 0, key_events, &cub);
 		mlx_hook(cub.win_ptr, 3, 1L << 1, key_release, &cub);
-		//printf("%p\n", &cub);
+		
 		mlx_loop_hook(cub.mlx_ptr, the_game, &cub);
-		//printf("%p\n", &cub);
-		//mlx_hook(cub.win_ptr, MotionNotify, PointerMotionMask, mouse_events, &cub);
-		//printf("%p\n", &cub);
-		mlx_hook(cub.win_ptr, 17, 0L, close_cross, &cub);
-		//printf("%p\n", &cub);
+		mlx_hook(cub.win_ptr, MotionNotify, PointerMotionMask, mouse_events, &cub);
+		//mlx_mouse_move(cub.mlx_ptr, cub.win_ptr, 10, 10);
+		//mlx_mouse_hook(cub.win_ptr, mouse_events, &cub);
+		//mlx_mouse_move(cub.mlx_ptr, cub.win_ptr, WIDTH / 2, HEIGHT / 2);
+		//mlx_hook(cub.win_ptr, 17, 0L, close_cross, &cub);
 		mlx_loop(cub.mlx_ptr);
-		//mlx_destroy_display(cub.mlx_ptr);
 	}
 	return (1);
 }

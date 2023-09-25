@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:30:08 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/22 15:27:28 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/25 12:30:49 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,19 @@ void	free_all(t_cub *cub)
 	free(cub->south);
 }
 
-int	mouse_events(int key, t_cub *cub)
-{
+int	mouse_events(int x, int y, t_cub *cub)
+{	
 	static int	value = 0;
 	int	res;
-
-	printf("%d\n", cub);
-	printf("eeee\n");
-	res = cub->phangle;
-	printf("fffff\n");
 	if (value == 0)
 	{
 		
-		value = key;
-		//printf("%d\n", cub->phangle);
+		value = x;
+
 	}
 	else
 	{
-		printf("guh\n");
-		res += value - key;
+		res += value - x;
 		if (res <= 0)
 			res += 360;
 		if (res > 360)
@@ -69,13 +63,15 @@ int	mouse_events(int key, t_cub *cub)
 	      	cub->dirY = -1 * cos(((double)res * M_PI) / 180);
 		cub->planeX = 1 * cos(((double)res * M_PI) / 180);
 		cub->planeY = 1 * sin(((double)res * M_PI) / 180);
-		value = key;
+		value = x;
 	}
-	printf("ici lol\n");
+	// printf("ici lol\n");
 }
 
 int	key_events(int key, t_cub *cub)
 {
+	printf("%p\n", cub);
+		printf("mlx_ptr: %p, win_ptr:%p\n", cub->mlx_ptr, cub->win_ptr);
 	if (key == XK_Escape)
 	{
 		free_all(cub);
