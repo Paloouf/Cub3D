@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/19 12:10:52 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:49:20 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	the_game(t_cub *cub)
 	jump(cub);
 	while (x < WIDTH)
 		camera(cub, x++);
+	minimap(cub);
 	mlx_put_image_to_window(cub->mlx_ptr, cub->win_ptr,
 	cub->img.image, 0, 0);
 }
@@ -71,7 +72,6 @@ int	main(int ac, char **av)
 		// mlx_put_image_to_window(cub.mlx_ptr, cub.win_ptr, img, 0, 0);
 
 
-		//minimap(&cub);
 		cub.cam = malloc(sizeof(t_cam) * WIDTH);
 		
 
