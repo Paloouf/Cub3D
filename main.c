@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/25 12:27:09 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/26 08:46:06 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	main(int ac, char **av)
 		//mlx_mouse_move(cub.mlx_ptr, cub.win_ptr, 10, 10);
 		//mlx_mouse_hook(cub.win_ptr, mouse_events, &cub);
 		//mlx_mouse_move(cub.mlx_ptr, cub.win_ptr, WIDTH / 2, HEIGHT / 2);
-		//mlx_hook(cub.win_ptr, 17, 0L, close_cross, &cub);
+		mlx_hook(cub.win_ptr, 17, 0L, close_cross, &cub);
 		mlx_loop(cub.mlx_ptr);
 	}
 	return (1);
