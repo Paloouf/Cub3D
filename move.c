@@ -6,27 +6,12 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 13:37:51 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/21 13:51:27 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/26 11:43:05 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	jump(t_cub *cub)
-{
-	if (cub->fjump == 1)
-	{
-		cub->jump += 80;
-		if (cub->jump == 400)
-			cub->fjump = 2;
-	}
-	if (cub->fjump == 2)
-	{
-		cub->jump -= 20;
-		if (cub->jump == 0)
-			cub->fjump = 0;
-	}
-}
 
 void	move (t_cub *cub)
 {
@@ -70,10 +55,4 @@ void	move (t_cub *cub)
 		cub->planeX = 1 * (cos(((double)cub->phangle * M_PI) / (double)180));
 		cub->planeY = 1 * (sin(((double)cub->phangle * M_PI) / (double)180));
 	}
-	if (cub->key.crouch == 1 && cub->jump == 0)
-		cub->crouch = 120;
-	else
-		cub->crouch = 0;
-	if (cub->key.jump == 1 && cub->crouch == 0 && cub->fjump == 0)
-		cub->fjump = 1;
 }

@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:30:08 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/25 14:25:13 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/28 11:29:33 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@ void	free_all(t_cub *cub)
 	while (cub->map[++i])
 		free(cub->map[i]);
 	i = 0;
-	while (i < 4)
+	while (i < 6)
 	{
 		mlx_destroy_image(cub->mlx_ptr, cub->tex[i].img);
 		i++;
 	}
 	free(cub->tex);
+	free(cub->spr_order);
+	free(cub->spr);
 	free(cub->map);
 	free(cub->cam);
 	if (cub->mlx_ptr)
@@ -46,6 +48,9 @@ int	mouse_events(int x, int y, t_cub *cub)
 {	
 	static int	value = 0;
 
+	mlx_mouse_hide(cub->mlx_ptr, cub->win_ptr);
+	if (x > 1910 || x < 10 || y > 1070 || y < 10)
+		mlx_mouse_move(cub->mlx_ptr, cub->win_ptr, WIDTH/2, HEIGHT/2);
 	if (value == 0)
 		value = x;
 	else
