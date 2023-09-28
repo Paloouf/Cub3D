@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/28 11:43:39 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:15:09 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
-# define HEIGHT 1080
+# define HEIGHT 720
 # define WIDTH 1920
 # define SPRITENUM 2
 

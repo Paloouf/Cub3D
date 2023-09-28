@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:18:26 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/28 14:20:32 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:15:00 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,9 +193,13 @@ void	check_sprite(t_cub *cub)
 {
 	int	i;
 	static	int j = 0;
+	double	move_x;
+	double	move_y;
 	
 	i = 0;
 	j++;
+	move_x = 0;
+	move_y = 0;
 	if (j == 6)
 		j = 0;
 	while (i < cub->tono)
@@ -203,11 +207,26 @@ void	check_sprite(t_cub *cub)
 		cub->spr[i].dist = (((cub->posX - cub->spr[i].x) * (cub->posX - cub->spr[i].x)) + ((cub->posY - cub->spr[i].y) * (cub->posY - cub->spr[i].y)));
 		if (cub->spr[i].dist < 3)
 			cub->spr[i].transf = 1;
+		//if (cub->spr[i].dist < 1)
+//			game_over(cub);
 		if (cub->spr[i].transf == 1)
-		{
-			// cub->spr[i].x += ;
-			// cub->spr[i].y += ;
+		{	
 			cub->spr[i].tex = 4 + j;
+			move_x = (cub->spr[i].x - cub->posX) / 10;
+			if (move_x < -0.05)
+				move_x = -0.05;
+			if (move_x > 0.05)
+				move_x = 0.05;
+			move_y = (cub->spr[i].y - cub->posY) / 10;
+			if (move_y < -0.05)
+				move_y = -0.05;
+			if (move_y > 0.05)
+				move_y = 0.05;
+			if (cub->map[(int)(cub->spr[i].y + (move_y * 2))][(int)(cub->spr[i].x + (move_x * 2))] != '1')
+			{
+				cub->spr[i].x -= move_x;
+				cub->spr[i].y -= move_y;
+			}
 		}
 		i++;
 	}
