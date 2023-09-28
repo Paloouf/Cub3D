@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:31:14 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/26 09:07:24 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/09/25 18:19:28 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	draw_square(t_cub *cub)
 	int	j;
 
 	i = 0;
-	while (HEIGHT / 30 + i < ((HEIGHT * 8) / 30))
+	while (HEIGHT / 30 + i < ((HEIGHT * 6) / 30))
 	{
 		j = 0;
-		while (HEIGHT / 30 + j < ((HEIGHT * 8) / 30))
+		while (HEIGHT / 30 + j < ((HEIGHT * 6) / 30))
 		{
 			if ((i + j) % 2 == 0)
 				pxl_to_img(cub, ((2 * HEIGHT) / 30 + j), ((2 * HEIGHT) / 30 + i), rgba_to_int(200, 200, 200, 1));
@@ -103,7 +103,7 @@ void	draw_map(t_cub *cub, int i, int j)
 	int	y;
 	
 	y = 0;
-	if (j + cub->posY <= cub->hgt && j + cub->posY >= 1 && (int)cub->posX + i < ft_strlen((cub->map[(int)(cub->posY + j) - 1])))
+	if (j + cub->posY >= 1 && (int)cub->posX + i < ft_strlen((cub->map[(int)(cub->posY + j) - 1])))
 	{	
 		if (cub->map[(int)(cub->posY + j) - 1][(int)(cub->posX + i) - 1] == '1')
 		{
@@ -129,10 +129,10 @@ void	minimap(t_cub *cub)
 
 	i = -2;
 	draw_square(cub);
-	while (i < 5)
+	while (i < 3)
 	{
 		j = -2;
-		while (j < 5)
+		while (j < 3)
 		{	
 			draw_map(cub, i, j);
 			j++;

@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/22 12:59:54 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/28 11:55:43 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,13 @@ void	fill_tex(t_cub *cub)
 	cub->tex[1].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->south, &cub->tex[1].img_w, &cub->tex[1].img_h);
 	cub->tex[2].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->west, &cub->tex[2].img_w, &cub->tex[2].img_h);
 	cub->tex[3].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->east, &cub->tex[3].img_w, &cub->tex[3].img_h);
-	
+	cub->tex[4].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/toro1.xpm", &cub->tex[4].img_w, &cub->tex[4].img_h);
+	cub->tex[5].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/toro2.xpm", &cub->tex[5].img_w, &cub->tex[5].img_h);
+	cub->tex[6].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/toro3.xpm", &cub->tex[6].img_w, &cub->tex[6].img_h);
+	cub->tex[7].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/toro4.xpm", &cub->tex[7].img_w, &cub->tex[7].img_h);
+	cub->tex[8].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/toro5.xpm", &cub->tex[8].img_w, &cub->tex[8].img_h);
+	cub->tex[9].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/toro6.xpm", &cub->tex[9].img_w, &cub->tex[9].img_h);
+	cub->tex[10].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/tonneau.xpm", &cub->tex[10].img_w, &cub->tex[10].img_h);
 }
 
 int	parse_info(t_cub *cub, char *line)
@@ -81,14 +87,51 @@ int	parse_info(t_cub *cub, char *line)
 	}
 	return (1);
 }
+int	check_barrel(char *line)
+{
+	int	i;
+	int	barrel;
+
+	barrel = 0;
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == 'B')
+			barrel++;
+		i++;
+	}
+	return (barrel);
+}
+void	add_barrel(t_cub *cub, int i, char *line)
+{
+	static	int tono = 0;
+	int	j;
+
+	j = 0;
+	while (line[j])
+	{
+		if (line[j] == 'B')
+		{
+			cub->spr[tono].x = j + 0.3;
+			cub->spr[tono].y = i + 0.3;
+			cub->spr[tono].tex = 10;
+			cub->spr[tono].transf = 0;
+			tono++;
+		}
+		j++;
+	}
+	return ;
+}
 
 int	parse(char *argv, t_cub *cub)
 {	
 	int	i;
 	int	file;
 	char	*line;
+	int	barrel;
 	
 	i = 0;
+	barrel = 0;
 	file = open(argv, O_RDONLY);
 	line = get_next_line(file);
 	while (line && line[0] != '1' && line[0] != '0' && line[0] != ' ')
@@ -100,12 +143,16 @@ int	parse(char *argv, t_cub *cub)
 	}
 	while (line)
 	{
+		barrel += check_barrel(line);
 		free (line);
 		i++;
 		line = get_next_line(file);
 	}
+	cub->tono = barrel;
+	cub->spr_order = malloc(sizeof(int *) * cub->tono);
 	cub->map = ft_calloc(i + 1, sizeof(char *));
-	cub->tex = malloc(sizeof(t_tex) * 4);
+	cub->tex = malloc(sizeof(t_tex) * 11);
+	cub->spr = malloc(sizeof(t_spr) * barrel);
 	fill_tex(cub);
 	cub->hgt = i - 1;
 	close(file);
@@ -119,6 +166,7 @@ int	parse(char *argv, t_cub *cub)
 	i = 0;
 	while (line)
 	{
+		add_barrel(cub, i, line);
 		cub->map[i] = ft_strdup(line);
 		free(line);
 		line = get_next_line(file);
