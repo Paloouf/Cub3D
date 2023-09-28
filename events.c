@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:30:08 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/28 11:29:33 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:25:22 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_all(t_cub *cub)
 	while (cub->map[++i])
 		free(cub->map[i]);
 	i = 0;
-	while (i < 6)
+	while (i < 12)
 	{
 		mlx_destroy_image(cub->mlx_ptr, cub->tex[i].img);
 		i++;
