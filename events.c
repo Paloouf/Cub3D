@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:30:08 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/28 15:31:44 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/29 12:33:37 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_all(t_cub *cub)
 	while (cub->map[++i])
 		free(cub->map[i]);
 	i = 0;
-	while (i < 12)
+	while (i < 13)
 	{
 		mlx_destroy_image(cub->mlx_ptr, cub->tex[i].img);
 		i++;
@@ -89,6 +89,9 @@ int	key_events(int key, t_cub *cub)
 		free_all(cub);
 		exit(0);
 	}
+	printf("lol\n");
+	if (key == 65293)	
+		cub->valid= 1;
 	if (key == XK_w)
 		cub->key.forward = 1;
 	if (key == XK_q)

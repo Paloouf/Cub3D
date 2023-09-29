@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/28 14:04:36 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/29 12:25:17 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	fill_tex(t_cub *cub)
 	cub->tex[9].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/toro6.xpm", &cub->tex[9].img_w, &cub->tex[9].img_h);
 	cub->tex[10].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/tonneau.xpm", &cub->tex[10].img_w, &cub->tex[10].img_h);
 	cub->tex[11].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/spruce_trapdoor.xpm", &cub->tex[11].img_w, &cub->tex[11].img_h);
+	cub->tex[12].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/gameover.xpm", &cub->tex[12].img_w, &cub->tex[12].img_h);
 }
 
 int	parse_info(t_cub *cub, char *line)
@@ -152,7 +153,7 @@ int	parse(char *argv, t_cub *cub)
 	cub->tono = barrel;
 	cub->spr_order = malloc(sizeof(int *) * cub->tono);
 	cub->map = ft_calloc(i + 1, sizeof(char *));
-	cub->tex = malloc(sizeof(t_tex) * 12);
+	cub->tex = malloc(sizeof(t_tex) * 13);
 	cub->spr = malloc(sizeof(t_spr) * barrel);
 	fill_tex(cub);
 	cub->hgt = i - 1;

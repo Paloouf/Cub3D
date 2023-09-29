@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:18:26 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/28 15:15:00 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/29 12:36:27 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,19 @@ void	camera(t_cub *cub, int x)
 	}
 }
 
+void	game_over(t_cub *cub)
+{
+	
+	cub->valid = 0;
+	cub->tex[12].addr = (int *)mlx_get_data_addr(cub->tex[12].img, &cub->tex[12].bpp, &cub->tex[12].line_len, &cub->tex[12].endian);
+	while(cub->valid == 0)
+	{
+		mlx_key_hook(cub->win_ptr, key_events, cub);
+		mlx_put_image_to_window(cub->mlx_ptr, cub->win_ptr, cub->tex[12].img, WIDTH / 2, HEIGHT /2);
+	}
+	key_events(XK_Escape, cub);
+}
+
 void	check_sprite(t_cub *cub)
 {
 	int	i;
@@ -207,8 +220,8 @@ void	check_sprite(t_cub *cub)
 		cub->spr[i].dist = (((cub->posX - cub->spr[i].x) * (cub->posX - cub->spr[i].x)) + ((cub->posY - cub->spr[i].y) * (cub->posY - cub->spr[i].y)));
 		if (cub->spr[i].dist < 3)
 			cub->spr[i].transf = 1;
-		//if (cub->spr[i].dist < 1)
-//			game_over(cub);
+		if (cub->spr[i].dist < 0.5)
+			game_over(cub);
 		if (cub->spr[i].transf == 1)
 		{	
 			cub->spr[i].tex = 4 + j;
@@ -222,12 +235,16 @@ void	check_sprite(t_cub *cub)
 				move_y = -0.05;
 			if (move_y > 0.05)
 				move_y = 0.05;
-			if (cub->map[(int)(cub->spr[i].y + (move_y * 2))][(int)(cub->spr[i].x + (move_x * 2))] != '1')
+			if (cub->map[(int)(cub->spr[i].y - (move_y * 2))][(int)(cub->spr[i].x - (move_x * 2))] != '1')
 			{
 				cub->spr[i].x -= move_x;
 				cub->spr[i].y -= move_y;
 			}
-		}
+			else if (cub->map[(int)(cub->spr[i].y - (move_y * 2))][(int)(cub->spr[i].x )] != '1')
+				cub->spr[i].y -= move_y;
+			else if (cub->map[(int)(cub->spr[i].y)][(int)(cub->spr[i].x - (move_x * 2))] != '1')
+				cub->spr[i].x -= move_x;
+		}	
 		i++;
 	}
 }

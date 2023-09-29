@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/28 15:15:09 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/29 12:17:59 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ typedef struct s_cub
 	double	posY;
 	int	tono;
 	int	*spr_order;
+	int	valid;
 	t_img	img;
 	t_floor	fl;
 	t_ceil	cl;
