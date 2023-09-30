@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/22 13:13:50 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/09/29 12:17:59 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
-# define HEIGHT 1080
+# define HEIGHT 720
 # define WIDTH 1920
+# define SPRITENUM 2
 
 typedef struct s_mnmp
 {
@@ -60,6 +61,29 @@ typedef struct s_ceil
 	int	g_c;
 	int	b_c;
 }	t_ceil;
+
+typedef struct s_spr
+{
+	double x;
+	double y;
+	double	spriteX;
+	double	spriteY;
+	double	dist;
+	double	invert;
+	double	transX;
+	double	transY;
+	int	spr_screenX;
+	int	spr_hgt;
+	int	spr_wth;
+	int	draw_startY;
+	int	draw_endY;
+	int	draw_startX;
+	int	draw_endX;
+	int	tex_X;
+	int	tex_Y;
+	int	transf;
+	int tex;
+}	t_spr;
 
 typedef struct s_cam
 {
@@ -122,21 +146,22 @@ typedef struct s_cub
 	int	hgt;
 	int	phangle;
 	int	pvangle;
-	int	crouch;
-	int	jump;
-	int	fjump;
 	double	dirX;
 	double	dirY;
 	double	planeX;
 	double	planeY;
 	double	posX;
 	double	posY;
+	int	tono;
+	int	*spr_order;
+	int	valid;
 	t_img	img;
 	t_floor	fl;
 	t_ceil	cl;
 	t_key	key;
 	t_cam   *cam;
 	t_tex	*tex;
+	t_spr	*spr;
 }	t_cub;
 
 void	minimap(t_cub *cub);
@@ -154,7 +179,10 @@ int	ft_atoi_du_pauvre(char *str, int i);
 int	key_release(int key, t_cub *cub);
 int	ft_color_f(t_cub *cub, int i, int x);
 int	ft_color_c(t_cub *cub, int i, int x);
-int	mouse_events(int key, t_cub *cub);
+int	mouse_events(int x, int y, t_cub *cub);
 void	move (t_cub *cub);
-void	jump(t_cub *cub);	
+void	sprite(t_cub *cub);
+void	jump(t_cub *cub);
+void	check_sprite(t_cub *cub);
+
 #endif
