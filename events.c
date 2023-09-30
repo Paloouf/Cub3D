@@ -48,16 +48,8 @@ int	mouse_events(int x, int y, t_cub *cub)
 {	
 	static int	value = 0;
 
-<<<<<<< HEAD
-//	printf("%d\n", cub);
-	printf("eeee\n");
-	res = cub->phangle;
-	printf("fffff\n");
-	if (value == 0)
-=======
 	mlx_mouse_hide(cub->mlx_ptr, cub->win_ptr);
 	if (x > WIDTH - 10)
->>>>>>> ab45dcd2efbfc797c1b0641cbb6058fc5df65244
 	{
 		mlx_mouse_move(cub->mlx_ptr, cub->win_ptr, 10, y);
 		x = 10;
