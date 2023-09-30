@@ -47,7 +47,7 @@ int	mouse_events(int key, t_cub *cub)
 	static int	value = 0;
 	int	res;
 
-	printf("%d\n", cub);
+//	printf("%d\n", cub);
 	printf("eeee\n");
 	res = cub->phangle;
 	printf("fffff\n");

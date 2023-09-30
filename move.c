@@ -28,7 +28,7 @@ void	jump(t_cub *cub)
 	}
 }
 
-void	move (t_cub *cub)
+void	move(t_cub *cub)
 {
 	if (cub->key.forward == 1 && cub->map[(int)(cub->posY + (cub->dirY / 5))][(int)cub->posX] != '1' && cub->map[(int)cub->posY][(int)(cub->posX + (cub->dirX / 5))] != '1')
 	{
