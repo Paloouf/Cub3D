@@ -89,7 +89,8 @@ int	parse_info(t_cub *cub, char *line)
 	}
 	return (1);
 }
-int	check_barrel(char *line)
+
+int	check_barrel(char *line, char c)
 {
 	int	i;
 	int	barrel;
@@ -98,7 +99,7 @@ int	check_barrel(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == 'B')
+		if (line[i] == c)
 			barrel++;
 		i++;
 	}
@@ -107,6 +108,7 @@ int	check_barrel(char *line)
 void	add_barrel(t_cub *cub, int i, char *line)
 {
 	static	int tono = 0;
+	static	int	door = 0;
 	int	j;
 
 	j = 0;
@@ -120,6 +122,13 @@ void	add_barrel(t_cub *cub, int i, char *line)
 			cub->spr[tono].transf = 0;
 			tono++;
 		}
+		if (line[j] == '2')
+		{
+			cub->door[door].x = j + 0.5;
+			cub->door[door].y = i + 0.5;
+			cub->door[door].tex = 11;
+			door++;
+		}
 		j++;
 	}
 	return ;
@@ -131,9 +140,11 @@ int	parse(char *argv, t_cub *cub)
 	int	file;
 	char	*line;
 	int	barrel;
+	int	door;
 	
 	i = 0;
 	barrel = 0;
+	door = 0;
 	file = open(argv, O_RDONLY);
 	line = get_next_line(file);
 	while (line && line[0] != '1' && line[0] != '0' && line[0] != ' ')
@@ -145,12 +156,16 @@ int	parse(char *argv, t_cub *cub)
 	}
 	while (line)
 	{
-		barrel += check_barrel(line);
+		barrel += check_barrel(line, 'B');
+		door += check_barrel(line, '2');
 		free (line);
 		i++;
 		line = get_next_line(file);
 	}
 	cub->tono = barrel;
+	cub->door_num = door;
+	cub->door = malloc(sizeof(t_door) * door);
+	cub->door_order = malloc(sizeof(int *) * cub->door_num);
 	cub->spr_order = malloc(sizeof(int *) * cub->tono);
 	cub->map = ft_calloc(i + 1, sizeof(char *));
 	cub->tex = malloc(sizeof(t_tex) * 13);

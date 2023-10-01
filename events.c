@@ -89,7 +89,6 @@ int	key_events(int key, t_cub *cub)
 		free_all(cub);
 		exit(0);
 	}
-	printf("lol\n");
 	if (key == 65293)	
 		cub->valid= 1;
 	if (key == XK_w)

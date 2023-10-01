@@ -62,6 +62,29 @@ typedef struct s_ceil
 	int	b_c;
 }	t_ceil;
 
+typedef struct s_door
+{
+	double x;
+	double y;
+	double	spriteX;
+	double	spriteY;
+	double	dist;
+	double	invert;
+	double	transX;
+	double	transY;
+	int	spr_screenX;
+	int	spr_hgt;
+	int	spr_wth;
+	int	draw_startY;
+	int	draw_endY;
+	int	draw_startX;
+	int	draw_endX;
+	int	tex_X;
+	int	tex_Y;
+	int	transf;
+	int tex;
+}	t_door;
+
 typedef struct s_spr
 {
 	double x;
@@ -153,12 +176,15 @@ typedef struct s_cub
 	double	posX;
 	double	posY;
 	int	tono;
+	int	door_num;
 	int	*spr_order;
+	int	*door_order;
 	int	valid;
 	t_img	img;
 	t_floor	fl;
 	t_ceil	cl;
 	t_key	key;
+	t_door	*door;
 	t_cam   *cam;
 	t_tex	*tex;
 	t_spr	*spr;
@@ -184,5 +210,5 @@ void	move (t_cub *cub);
 void	sprite(t_cub *cub);
 void	jump(t_cub *cub);
 void	check_sprite(t_cub *cub);
-
+void	ft_door(t_cub *cub);
 #endif

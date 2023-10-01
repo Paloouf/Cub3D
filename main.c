@@ -52,6 +52,7 @@ int	the_game(t_cub *cub)
 	cub->img.image = mlx_new_image(cub->mlx_ptr, WIDTH, HEIGHT);
 	while (x < WIDTH)
 		camera(cub, x++);
+	ft_door(cub);
 	check_sprite(cub);
 	sprite(cub);
 	minimap(cub);
