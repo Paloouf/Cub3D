@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:18:26 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/29 12:36:27 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:22:42 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,15 +276,43 @@ void	camera(t_cub *cub, int x)
 
 void	game_over(t_cub *cub)
 {
-	
+	int	x;
+	int	y;
+	int	color;
+
+	x = 0;
+	y = 0;
 	cub->valid = 0;
 	cub->tex[12].addr = (int *)mlx_get_data_addr(cub->tex[12].img, &cub->tex[12].bpp, &cub->tex[12].line_len, &cub->tex[12].endian);
-	while(cub->valid == 0)
+	cub->tex[13].addr = (int *)mlx_get_data_addr(cub->tex[13].img, &cub->tex[13].bpp, &cub->tex[13].line_len, &cub->tex[13].endian);
+	cub->tex[14].addr = (int *)mlx_get_data_addr(cub->tex[14].img, &cub->tex[14].bpp, &cub->tex[14].line_len, &cub->tex[14].endian);
+	while (y < (HEIGHT * 8 / 10))
 	{
-		mlx_key_hook(cub->win_ptr, key_events, cub);
-		mlx_put_image_to_window(cub->mlx_ptr, cub->win_ptr, cub->tex[12].img, WIDTH / 2, HEIGHT /2);
+		x = 0;
+		while (x < WIDTH)
+		{
+			color = cub->tex[12].addr[((((int)(x * ((double)cub->tex[12].img_w / WIDTH)))) + (((int)(y * ((double)cub->tex[12].img_h / (HEIGHT * 8 / 10)))) * cub->tex[12].img_w))];
+			pxl_to_img(cub, x, y, color);
+			x++;
+		}
+		y++;
 	}
-	key_events(XK_Escape, cub);
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			if (x > (WIDTH * 2 / 10) && (x < (WIDTH * 4 / 10)))
+				color = color = cub->tex[13].addr[((((int)((x - (WIDTH * 2 / 10)) * ((double)cub->tex[13].img_w / (WIDTH * 2 / 10))))) + (((int)((y - (HEIGHT * 2 / 10)) * ((double)cub->tex[13].img_h / (HEIGHT * 2 / 10)))) * cub->tex[13].img_w))];
+			else
+				color = rgba_to_int(255, 255, 255, 1);
+			if (x - (WIDTH * 2 / 10) < 10)
+				printf("x : %d ximg : %d\n, y :%d yimg : %d\n", x,  x - (WIDTH * 2 / 10), y, y - (HEIGHT * 2 / 10));
+			pxl_to_img(cub, x, y, color);
+			x++;
+		}
+		y++;
+	}
 }
 
 void	check_sprite(t_cub *cub)
@@ -306,7 +334,7 @@ void	check_sprite(t_cub *cub)
 		if (cub->spr[i].dist < 3)
 			cub->spr[i].transf = 1;
 		if (cub->spr[i].dist < 0.5)
-			game_over(cub);
+			cub->gameover = 1;
 		if (cub->spr[i].transf == 1)
 		{	
 			cub->spr[i].tex = 4 + j;

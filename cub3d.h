@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/29 12:17:59 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/02 10:49:48 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
-# define HEIGHT 720
+# define HEIGHT 1080
 # define WIDTH 1920
 # define SPRITENUM 2
 
@@ -180,6 +180,7 @@ typedef struct s_cub
 	int	*spr_order;
 	int	*door_order;
 	int	valid;
+	int	gameover;
 	t_img	img;
 	t_floor	fl;
 	t_ceil	cl;
@@ -211,4 +212,5 @@ void	sprite(t_cub *cub);
 void	jump(t_cub *cub);
 void	check_sprite(t_cub *cub);
 void	ft_door(t_cub *cub);
+void	game_over(t_cub *cub);
 #endif
