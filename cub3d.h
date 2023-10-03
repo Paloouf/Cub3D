@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/02 10:49:48 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/03 13:52:46 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,8 @@ typedef struct s_cub
 	int	*door_order;
 	int	valid;
 	int	gameover;
+	int	game;
+	int	menu;
 	t_img	img;
 	t_floor	fl;
 	t_ceil	cl;
@@ -213,4 +215,5 @@ void	jump(t_cub *cub);
 void	check_sprite(t_cub *cub);
 void	ft_door(t_cub *cub);
 void	game_over(t_cub *cub);
+void	menu(t_cub *cub);
 #endif

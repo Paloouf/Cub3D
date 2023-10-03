@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/02 15:05:38 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:01:13 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ void	fill_tex(t_cub *cub)
 	cub->tex[12].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/gameover.xpm", &cub->tex[12].img_w, &cub->tex[12].img_h);
 	cub->tex[13].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/retry.xpm", &cub->tex[13].img_w, &cub->tex[13].img_h);
 	cub->tex[14].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/cross.xpm", &cub->tex[14].img_w, &cub->tex[14].img_h);
+	cub->tex[15].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/1.xpm", &cub->tex[15].img_w, &cub->tex[15].img_h);
+	cub->tex[16].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/2.xpm", &cub->tex[16].img_w, &cub->tex[16].img_h);
+	cub->tex[17].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/3.xpm", &cub->tex[17].img_w, &cub->tex[17].img_h);
 }
 
 int	parse_info(t_cub *cub, char *line)
@@ -170,7 +173,7 @@ int	parse(char *argv, t_cub *cub)
 	cub->door_order = malloc(sizeof(int *) * cub->door_num);
 	cub->spr_order = malloc(sizeof(int *) * cub->tono);
 	cub->map = ft_calloc(i + 1, sizeof(char *));
-	cub->tex = malloc(sizeof(t_tex) * 15);
+	cub->tex = malloc(sizeof(t_tex) * 18);
 	cub->spr = malloc(sizeof(t_spr) * barrel);
 	fill_tex(cub);
 	cub->hgt = i - 1;

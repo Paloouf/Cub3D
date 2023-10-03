@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/02 11:51:01 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/03 13:32:23 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ void	init_all(t_cub *cub)
 	cub->key.shoot = 0;
 	cub->key.aim = 0;
 	cub->key.fov = 0;
+	cub->game = 0;
+	cub->gameover = 0;
+	cub->menu = 1;
 }
 
 int	the_game(t_cub *cub)
@@ -50,7 +53,9 @@ int	the_game(t_cub *cub)
 	if (cub->img.image)
 		mlx_destroy_image(cub->mlx_ptr, cub->img.image);
 	cub->img.image = mlx_new_image(cub->mlx_ptr, WIDTH, HEIGHT);
-	if (cub->gameover == 0)
+	if (cub->menu == 1)
+		menu(cub);
+	if (cub->game == 1)
 	{
 		while (x < WIDTH)
 			camera(cub, x++);
@@ -59,7 +64,7 @@ int	the_game(t_cub *cub)
 		sprite(cub);
 		minimap(cub);
 	}
-	else
+	if (cub->gameover == 1)
 		game_over(cub);
 	mlx_put_image_to_window(cub->mlx_ptr, cub->win_ptr,
 	cub->img.image, 0, 0);
