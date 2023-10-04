@@ -14,8 +14,7 @@
 
 void	init_all(t_cub *cub)
 {
-	cub->mlx_ptr = mlx_init();
-	cub->win_ptr = mlx_new_window(cub->mlx_ptr, WIDTH, HEIGHT, "CubEZ v0.0");
+	
 	cub->east = ft_calloc(1, 1);
 	cub->north = ft_calloc(1, 1);
 	cub->west = ft_calloc(1, 1);
@@ -59,7 +58,6 @@ int	the_game(t_cub *cub)
 	{
 		while (x < WIDTH)
 			camera(cub, x++);
-		ft_door(cub);
 		check_sprite(cub);
 		sprite(cub);
 		minimap(cub);
@@ -77,6 +75,8 @@ int	main(int ac, char **av)
 	
 	if (ac == 2)
 	{	
+		cub.mlx_ptr = mlx_init();
+		cub.win_ptr = mlx_new_window(cub.mlx_ptr, WIDTH, HEIGHT, "CubEZ v0.0");
 		init_all(&cub);
 		parse(av[1], &cub);
 		init_game(&cub);
@@ -84,6 +84,7 @@ int	main(int ac, char **av)
 		mlx_hook(cub.win_ptr, 2, 1L << 0, key_events, &cub);
 		mlx_hook(cub.win_ptr, 3, 1L << 1, key_release, &cub);
 		mlx_loop_hook(cub.mlx_ptr, the_game, &cub);
+		mlx_mouse_hook(cub.win_ptr, mouse_keys, &cub);
 		mlx_hook(cub.win_ptr, MotionNotify, PointerMotionMask, mouse_events, &cub);
 		mlx_hook(cub.win_ptr, 17, 0L, close_cross, &cub);
 		mlx_loop(cub.mlx_ptr);

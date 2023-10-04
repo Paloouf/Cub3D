@@ -22,7 +22,7 @@ void	free_all(t_cub *cub)
 	while (cub->map[++i])
 		free(cub->map[i]);
 	i = 0;
-	while (i < 13)
+	while (i < 18)
 	{
 		mlx_destroy_image(cub->mlx_ptr, cub->tex[i].img);
 		i++;
@@ -44,42 +44,83 @@ void	free_all(t_cub *cub)
 	free(cub->south);
 }
 
+int	mouse_keys(int key, int x, int y, t_cub *cub)
+{
+	if (cub->menu == 1)
+	{
+		if (key == 1 && (x > (WIDTH * 2 / 10) && (x < (WIDTH * 3 / 10))) && (y > HEIGHT * 8 / 10))
+		{
+			cub->speed = 0.03;
+			cub->menu = 0;
+			cub->game = 1;
+		}
+		if (key == 1 && (x > (WIDTH * 4 / 10) && (x < (WIDTH * 5 / 10))) && (y > HEIGHT * 8 / 10))
+		{
+			cub->speed = 0.04;
+			cub->menu = 0;
+			cub->game = 1;
+		}
+		if (key == 1 && (x > (WIDTH * 6 / 10) && (x < (WIDTH * 7 / 10))) && (y > HEIGHT * 8 / 10))
+		{
+			cub->speed = 0.05;
+			cub->menu = 0;
+			cub->game = 1;
+		}
+	}
+	if (cub->gameover == 1)
+	{
+		if (key == 1 && (x > (WIDTH * 2 / 10) && (x < (WIDTH * 4 / 10))) && (y > HEIGHT * 8 / 10))
+		{
+			cub->menu = 1;
+			cub->gameover = 0;
+			init_all(cub);
+			init_game(cub);
+		}
+		if (key == 1 && (x > (WIDTH * 6 / 10) && (x < (WIDTH * 8 / 10))) && (y > HEIGHT * 8 / 10))
+			key_events(XK_Escape, cub);
+	}
+}
 int	mouse_events(int x, int y, t_cub *cub)
 {	
 	static int	value = 0;
 
-	mlx_mouse_hide(cub->mlx_ptr, cub->win_ptr);
-	if (x > WIDTH - 10)
+	if (cub->game == 1)
 	{
-		mlx_mouse_move(cub->mlx_ptr, cub->win_ptr, 10, y);
-		x = 10;
-		value = 0;
+		mlx_mouse_hide(cub->mlx_ptr, cub->win_ptr);
+		if (x > WIDTH - 10)
+		{
+			mlx_mouse_move(cub->mlx_ptr, cub->win_ptr, 10, y);
+			x = 10;
+			value = 0;
+		}
+		if (x < 10)
+		{
+			mlx_mouse_move(cub->mlx_ptr, cub->win_ptr, WIDTH - 10, y);
+			value = WIDTH;
+			x = WIDTH - 10;
+		}
+		if (y > HEIGHT - 10)
+			mlx_mouse_move(cub->mlx_ptr, cub->win_ptr, x, 10);
+		if (y < 10)
+			mlx_mouse_move(cub->mlx_ptr, cub->win_ptr, x, HEIGHT - 10);
+		if (value == 0)
+			value = x;
+		else
+		{
+			cub->phangle -= (value - x) / 3;
+			if (cub->phangle <= 0)
+				cub->phangle += 360;
+			if (cub->phangle > 360)
+				cub->phangle -= 360;
+			cub->dirX = -1 * -sin(((double)cub->phangle * M_PI) / 180);
+			cub->dirY = -1 * cos(((double)cub->phangle * M_PI) / 180);
+			cub->planeX = 1 * cos(((double)cub->phangle * M_PI) / 180);
+			cub->planeY = 1 * sin(((double)cub->phangle * M_PI) / 180); 
+			value = x;
+		}
 	}
-	if (x < 10)
-	{
-		mlx_mouse_move(cub->mlx_ptr, cub->win_ptr, WIDTH - 10, y);
-		value = WIDTH;
-		x = WIDTH - 10;
-	}
-	if (y > HEIGHT - 10)
-		mlx_mouse_move(cub->mlx_ptr, cub->win_ptr, x, 10);
-	if (y < 10)
-		mlx_mouse_move(cub->mlx_ptr, cub->win_ptr, x, HEIGHT - 10);
-	if (value == 0)
-		value = x;
 	else
-	{
-	 	cub->phangle -= value - x;
-	 	if (cub->phangle <= 0)
-	 		cub->phangle += 360;
-	 	if (cub->phangle > 360)
-	 		cub->phangle -= 360;
-	 	cub->dirX = -1 * -sin(((double)cub->phangle * M_PI) / 180);
-	       	cub->dirY = -1 * cos(((double)cub->phangle * M_PI) / 180);
-	 	cub->planeX = 1 * cos(((double)cub->phangle * M_PI) / 180);
-	 	cub->planeY = 1 * sin(((double)cub->phangle * M_PI) / 180);
-	 	value = x;
-	}
+		mlx_mouse_show(cub->mlx_ptr, cub->win_ptr);
 }
 
 int	key_events(int key, t_cub *cub)

@@ -39,7 +39,7 @@ void	fill_tex(t_cub *cub)
 	cub->tex[8].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/toro5.xpm", &cub->tex[8].img_w, &cub->tex[8].img_h);
 	cub->tex[9].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/toro6.xpm", &cub->tex[9].img_w, &cub->tex[9].img_h);
 	cub->tex[10].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/tonneau.xpm", &cub->tex[10].img_w, &cub->tex[10].img_h);
-	cub->tex[11].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/spruce_trapdoor.xpm", &cub->tex[11].img_w, &cub->tex[11].img_h);
+	cub->tex[11].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/jungle_door_top.xpm", &cub->tex[11].img_w, &cub->tex[11].img_h);
 	cub->tex[12].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/gameover.xpm", &cub->tex[12].img_w, &cub->tex[12].img_h);
 	cub->tex[13].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/retry.xpm", &cub->tex[13].img_w, &cub->tex[13].img_h);
 	cub->tex[14].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/cross.xpm", &cub->tex[14].img_w, &cub->tex[14].img_h);
@@ -113,26 +113,27 @@ int	check_barrel(char *line, char c)
 void	add_barrel(t_cub *cub, int i, char *line)
 {
 	static	int tono = 0;
-	static	int	door = 0;
 	int	j;
 
 	j = 0;
 	while (line[j])
 	{
-		if (line[j] == 'B')
+		if (line[j] == 'C')
 		{
+			cub->spr[tono].type = 'C';
 			cub->spr[tono].x = j + 0.3;
 			cub->spr[tono].y = i + 0.3;
 			cub->spr[tono].tex = 10;
 			cub->spr[tono].transf = 0;
 			tono++;
 		}
-		if (line[j] == '2')
+		if (line[j] == 'V' || line[j] == 'H')
 		{
-			cub->door[door].x = j + 0.5;
-			cub->door[door].y = i + 0.5;
-			cub->door[door].tex = 11;
-			door++;
+			cub->spr[tono].type = line[j];
+			cub->spr[tono].x = j + 0.5;
+			cub->spr[tono].y = i + 0.5;
+			cub->spr[tono].tex = 11;
+			tono++;
 		}
 		j++;
 	}
@@ -161,16 +162,13 @@ int	parse(char *argv, t_cub *cub)
 	}
 	while (line)
 	{
-		barrel += check_barrel(line, 'B');
-		door += check_barrel(line, '2');
+		barrel += check_barrel(line, 'C');
+		barrel += check_barrel(line, 'V');
 		free (line);
 		i++;
 		line = get_next_line(file);
 	}
 	cub->tono = barrel;
-	cub->door_num = door;
-	cub->door = malloc(sizeof(t_door) * door);
-	cub->door_order = malloc(sizeof(int *) * cub->door_num);
 	cub->spr_order = malloc(sizeof(int *) * cub->tono);
 	cub->map = ft_calloc(i + 1, sizeof(char *));
 	cub->tex = malloc(sizeof(t_tex) * 18);
