@@ -413,51 +413,45 @@ void	sprite(t_cub *cub)
 		}
 		if (cub->spr[cub->spr_order[i]].type == 'V' || cub->spr[cub->spr_order[i]].type == 'H')
 		{
-			cub->spr[cub->spr_order[i]].spr_hgt = (int)(HEIGHT / cub->spr[cub->spr_order[i]].dist);
-			cub->spr[cub->spr_order[i]].draw_startX = WIDTH /2;//((-1 * cub->spr[cub->spr_order[i]].spr_hgt) / 2) + (HEIGHT / 2);
-		//draw start et draw end
-		if (cub->spr[cub->spr_order[i]].draw_startX < 0)
-			cub->spr[cub->spr_order[i]].draw_startX = 0;
-		cub->spr[cub->spr_order[i]].draw_end = (cub->spr[cub->spr_order[i]].line_height / 2) + (HEIGHT / 2);
-		if (cub->spr[cub->spr_order[i]].draw_end >= HEIGHT)
-			cub->spr[cub->spr_order[i]].draw_end = HEIGHT - 1;
-		if (cub->spr[cub->spr_order[i]].side == 0)
-		{
-			cub->spr[cub->spr_order[i]].tex_num = 2 + (cub->spr[cub->spr_order[i]].mapX > cub->posX);
-			cub->spr[cub->spr_order[i]].w_X = cub->posY + cub->spr[cub->spr_order[i]].w_dist * cub->spr[cub->spr_order[i]].raydirY;
-			//if (cub->spr[cub->spr_order[i]].w_num == 2)
-			//	cub->spr[cub->spr_order[i]].tex_num = 11;
-		}
-		else
-		{
-			cub->spr[cub->spr_order[i]].tex_num = 0 + (cub->spr[cub->spr_order[i]].mapY > cub->posY);
-			cub->spr[cub->spr_order[i]].w_X = cub->posX + cub->spr[cub->spr_order[i]].w_dist * cub->spr[cub->spr_order[i]].raydirX;
-			//if (cub->spr[cub->spr_order[i]].w_num == 2)
-			//	cub->spr[cub->spr_order[i]].tex_num = 11;
-		}
-		cub->spr[cub->spr_order[i]].w_X -= floor(cub->spr[cub->spr_order[i]].w_X);
-		cub->spr[cub->spr_order[i]].tex_X = cub->spr[cub->spr_order[i]].w_X * (double)cub->tex[cub->spr[cub->spr_order[i]].tex_num].img_w;
-		if (cub->spr[cub->spr_order[i]].side == 0 && cub->spr[cub->spr_order[i]].raydirX > 0)
-			cub->spr[cub->spr_order[i]].tex_X = cub->tex[cub->spr[cub->spr_order[i]].tex_num].img_w - cub->spr[cub->spr_order[i]].tex_X - 1;
-		if (cub->spr[cub->spr_order[i]].side == 1 && cub->spr[cub->spr_order[i]].raydirY < 0)
-			cub->spr[cub->spr_order[i]].tex_X = cub->tex[cub->spr[cub->spr_order[i]].tex_num].img_w - cub->spr[cub->spr_order[i]].tex_X - 1;
-		cub->spr[cub->spr_order[i]].step = 1.0 * cub->tex[cub->spr[cub->spr_order[i]].tex_num].img_h / cub->spr[cub->spr_order[i]].line_height;
-		cub->spr[cub->spr_order[i]].tex_pos = (cub->spr[cub->spr_order[i]].draw_start - (HEIGHT / 2) + (cub->spr[cub->spr_order[i]].line_height / 2)) * cub->spr[cub->spr_order[i]].step;
-		i = 0;
-		while (i < HEIGHT)
-		{
-			if (i < cub->spr[cub->spr_order[i]].draw_start)
-				pxl_to_img(cub, x, i, ft_color_c(cub, i, x));
-			else if (i > cub->spr[cub->spr_order[i]].draw_end)
-				pxl_to_img(cub, x, i, ft_color_f(cub, i, x));
-			else
+			cub->spr[cub->spr_order[i]].spriteX = cub->spr[cub->spr_order[i]].x - cub->posX;
+			cub->spr[cub->spr_order[i]].spriteY = cub->spr[cub->spr_order[i]].y - cub->posY;
+			cub->spr[cub->spr_order[i]].invert = 1.0 / (1 * -1 - 1 * 1);
+			cub->spr[cub->spr_order[i]].transX = cub->spr[cub->spr_order[i]].invert * (cub->dirY * cub->spr[cub->spr_order[i]].spriteX - cub->dirX * cub->spr[cub->spr_order[i]].spriteY);
+			cub->spr[cub->spr_order[i]].transY = cub->spr[cub->spr_order[i]].invert * ((cub->planeY*-1) * cub->spr[cub->spr_order[i]].spriteX + cub->planeX * cub->spr[cub->spr_order[i]].spriteY);
+			cub->spr[cub->spr_order[i]].spr_screenX = (int)((WIDTH/2) * (1 + cub->spr[cub->spr_order[i]].transX / cub->spr[cub->spr_order[i]].transY));
+			cub->spr[cub->spr_order[i]].spr_hgt = abs((int)(HEIGHT/cub->spr[cub->spr_order[i]].transY));
+			cub->spr[cub->spr_order[i]].draw_startY = -cub->spr[cub->spr_order[i]].spr_hgt / 2 + HEIGHT / 2;
+			if (cub->spr[cub->spr_order[i]].draw_startY < 0)
+				cub->spr[cub->spr_order[i]].draw_startY = 0;
+			cub->spr[cub->spr_order[i]].draw_endY = cub->spr[cub->spr_order[i]].spr_hgt / 2 + HEIGHT / 2;
+			if (cub->spr[cub->spr_order[i]].draw_endY >= HEIGHT)
+				cub->spr[cub->spr_order[i]].draw_endY = HEIGHT - 1;
+			cub->spr[cub->spr_order[i]].spr_wth = abs((int)(HEIGHT/cub->spr[cub->spr_order[i]].transY));
+			cub->spr[cub->spr_order[i]].draw_startX = -cub->spr[cub->spr_order[i]].spr_wth / 2 + cub->spr[cub->spr_order[i]].spr_screenX;
+			if (cub->spr[cub->spr_order[i]].draw_startX < 0)
+				cub->spr[cub->spr_order[i]].draw_startX = 0;
+			cub->spr[cub->spr_order[i]].draw_endX = cub->spr[cub->spr_order[i]].spr_wth / 2 + cub->spr[cub->spr_order[i]].spr_screenX;
+			if (cub->spr[cub->spr_order[i]].draw_endX >= WIDTH)
+				cub->spr[cub->spr_order[i]].draw_endX = WIDTH - 1;
+			j = cub->spr[cub->spr_order[i]].draw_startX;
+			while (j < cub->spr[cub->spr_order[i]].draw_endX)
 			{
-				cub->spr[cub->spr_order[i]].tex_Y = (int)cub->spr[cub->spr_order[i]].tex_pos & (cub->tex[cub->spr[cub->spr_order[i]].tex_num].img_h - 1);
-				cub->spr[cub->spr_order[i]].tex_pos += cub->spr[cub->spr_order[i]].step;
-				pxl_to_img(cub, x, i, cub->tex[cub->spr[cub->spr_order[i]].tex_num].addr[((cub->spr[cub->spr_order[i]].tex_Y * cub->tex[cub->spr[cub->spr_order[i]].tex_num].img_h)) + cub->spr[cub->spr_order[i]].tex_X]);
+				cub->spr[cub->spr_order[i]].tex_X = (int)(256 * (j - (-cub->spr[cub->spr_order[i]].spr_wth / 2 + cub->spr[cub->spr_order[i]].spr_screenX)) * cub->tex[cub->spr[cub->spr_order[i]].tex].img_w / cub->spr[cub->spr_order[i]].spr_wth) / 256;
+				if (cub->spr[cub->spr_order[i]].transY > 0 && j > 0 && j < WIDTH && cub->spr[cub->spr_order[i]].transY < cub->cam[j].w_dist)
+				{
+					k = cub->spr[cub->spr_order[i]].draw_startY;
+					
+					while (k < cub->spr[cub->spr_order[i]].draw_endY)
+					{
+						cub->spr[cub->spr_order[i]].tex_Y = ((((k * 256 - HEIGHT * 128) + cub->spr[cub->spr_order[i]].spr_hgt * 128) * cub->tex[cub->spr[cub->spr_order[i]].tex].img_h) / cub->spr[cub->spr_order[i]].spr_hgt) /256;
+						color = cub->tex[cub->spr[cub->spr_order[i]].tex].addr[((cub->spr[cub->spr_order[i]].tex_Y * cub->tex[cub->spr[cub->spr_order[i]].tex].img_h)) + cub->spr[cub->spr_order[i]].tex_X];
+						if ((color & 0x00FFFFFF) != 0)
+							pxl_to_img(cub, j, k, color);
+						k++;
+					}
+				}
+				j++;
 			}
-			i++;
-		}
 		}
 		i++;
 	}
