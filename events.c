@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:30:08 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/29 12:33:37 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:52:20 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,8 @@ int	key_events(int key, t_cub *cub)
 		cub->key.s_right = 1;
 	if (key == XK_f)
 		cub->key.fov = 1;
+	if (key == XK_f)
+		cub->key.open = 1;	
 	return (0);
 }
 
@@ -173,6 +175,8 @@ int	key_release(int key, t_cub *cub)
 		cub->key.s_right = 0;
 	if (key == XK_f)
 		cub->key.fov = 0;
+	if (key == XK_f)
+		cub->key.open = 0;
 	return (0);
 }
 

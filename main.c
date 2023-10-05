@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/03 13:32:23 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:48:07 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	init_all(t_cub *cub)
 	cub->key.shoot = 0;
 	cub->key.aim = 0;
 	cub->key.fov = 0;
+	cub->key.open = 0;
 	cub->game = 0;
 	cub->gameover = 0;
 	cub->menu = 1;

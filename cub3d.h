@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/03 13:52:46 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:48:07 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_key
 	int	shoot;
 	int	aim;
 	int	fov;
+	int	open;
 }	t_key;
 
 typedef struct s_floor
@@ -101,7 +102,7 @@ typedef struct s_cam
 	int	stepY;
 	double	w_dist;
 	double	w_X;
-	int	w_num;
+	char	w_num;
 	int	tex_num;
 	int	tex_X;
 	int	tex_Y;
