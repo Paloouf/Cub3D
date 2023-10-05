@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:30:08 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/05 14:52:20 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:47:15 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,36 @@ void	free_all(t_cub *cub)
 	free(cub->west);
 	free(cub->south);
 }
+void	parse_reset(t_cub *cub)
+{
+	int	i;
+	int	j;
+	int	count_spr;
+
+	j = 0;
+	count_spr = 0;
+	while (cub->map[j])
+	{
+		i = 0;
+		while (cub->map[j][i])
+		{
+			if (cub->map[j][i] == 'd')
+				cub->map[j][i] = 'D';
+			if (cub->map[j][i] == 'C')
+			{
+				cub->spr[count_spr].x = i + 0.3;
+				cub->spr[count_spr].y = j + 0.3;
+				cub->spr[count_spr].tex = 10;
+				cub->spr[count_spr].transf = 0;
+				count_spr++;
+			}
+			if (cub->map[j][i] == 'B' || cub->map[j][i] == 'V')
+				count_spr++;
+			i++;
+		}
+		j++;
+	}
+}
 
 int	mouse_keys(int key, int x, int y, t_cub *cub)
 {
@@ -74,6 +104,7 @@ int	mouse_keys(int key, int x, int y, t_cub *cub)
 			cub->menu = 1;
 			cub->gameover = 0;
 			init_all(cub);
+			parse_reset(cub);
 			init_game(cub);
 		}
 		if (key == 1 && (x > (WIDTH * 6 / 10) && (x < (WIDTH * 8 / 10))) && (y > HEIGHT * 8 / 10))

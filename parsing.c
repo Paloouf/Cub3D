@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/05 12:55:28 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:16:23 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,12 +127,12 @@ void	add_barrel(t_cub *cub, int i, char *line)
 			cub->spr[tono].transf = 0;
 			tono++;
 		}
-		if (line[j] == 'V' || line[j] == 'H')
+		if (line[j] == 'B' || line[j] == 'V')
 		{
 			cub->spr[tono].type = line[j];
 			cub->spr[tono].x = j + 0.5;
 			cub->spr[tono].y = i + 0.5;
-			cub->spr[tono].tex = 11;
+			cub->spr[tono].tex = 10;
 			tono++;
 		}
 		j++;
@@ -163,8 +163,8 @@ int	parse(char *argv, t_cub *cub)
 	while (line)
 	{
 		barrel += check_barrel(line, 'C');
+		barrel += check_barrel(line, 'B');
 		barrel += check_barrel(line, 'V');
-		barrel += check_barrel(line, 'H');
 		free (line);
 		i++;
 		line = get_next_line(file);

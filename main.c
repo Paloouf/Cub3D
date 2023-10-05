@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/05 14:48:07 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:29:11 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	main(int ac, char **av)
 	
 	if (ac == 2)
 	{	
+		cub.path = ft_strdup(av[1]);
 		cub.mlx_ptr = mlx_init();
 		cub.win_ptr = mlx_new_window(cub.mlx_ptr, WIDTH, HEIGHT, "CubEZ v0.0");
 		init_all(&cub);
