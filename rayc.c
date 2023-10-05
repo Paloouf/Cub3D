@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:18:26 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/03 14:08:51 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/05 12:15:51 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,24 @@ void	camera(t_cub *cub, int x)
 		{
 			cub->cam[x].s_distX += cub->cam[x].d_distX;
 			cub->cam[x].mapX += cub->cam[x].stepX;
+			if (cub->map[cub->cam[x].mapY][cub->cam[x].mapX + (cub->cam[x].stepX / 2)] == 'D')
+			{
+				cub->cam[x].mapX += cub->cam[x].stepX;
+				cub->cam[x].side = 2;
+				break;
+			}
 			cub->cam[x].side = 0;
 		}
 		else
 		{
 			cub->cam[x].s_distY += cub->cam[x].d_distY;
 			cub->cam[x].mapY += cub->cam[x].stepY;
+			if (cub->map[cub->cam[x].mapY + (cub->cam[x].stepY / 2)][cub->cam[x].mapX] == 'D')
+			{
+				cub->cam[x].mapY += cub->cam[x].stepY;
+				cub->cam[x].side = 3;
+				break;
+			}
 			cub->cam[x].side = 1;
 		}
 
@@ -130,8 +142,12 @@ void	camera(t_cub *cub, int x)
 	cub->cam[x].w_num = cub->map[cub->cam[x].mapY][cub->cam[x].mapX] - 48;
 	if (cub->cam[x].side == 0)
 		cub->cam[x].w_dist = cub->cam[x].s_distX - cub->cam[x].d_distX;
-	else
+	else if (cub->cam[x].side == 1)
 		cub->cam[x].w_dist = cub->cam[x].s_distY - cub->cam[x].d_distY;
+	else if (cub->cam[x].side == 2)
+		cub->cam[x].w_dist = cub->cam[x].s_distX - (cub->cam[x].d_distX /2);
+	else
+		cub->cam[x].w_dist = cub->cam[x].s_distY - (cub->cam[x].d_distY/2);
 	//line height
 	cub->cam[x].line_height = (int)(HEIGHT / cub->cam[x].w_dist);
 	cub->cam[x].draw_start = ((-1 * cub->cam[x].line_height) / 2) + (HEIGHT / 2);
@@ -153,19 +169,19 @@ void	camera(t_cub *cub, int x)
 	cub->tex[9].addr = (int *)mlx_get_data_addr(cub->tex[9].img, &cub->tex[9].bpp, &cub->tex[9].line_len, &cub->tex[9].endian);
 	cub->tex[10].addr = (int *)mlx_get_data_addr(cub->tex[10].img, &cub->tex[10].bpp, &cub->tex[10].line_len, &cub->tex[10].endian);
 	cub->tex[11].addr = (int *)mlx_get_data_addr(cub->tex[11].img, &cub->tex[11].bpp, &cub->tex[11].line_len, &cub->tex[11].endian);
-	if (cub->cam[x].side == 0)
+	if (cub->cam[x].side == 0 || cub->cam[x].side == 2)
 	{
 		cub->cam[x].tex_num = 2 + (cub->cam[x].mapX > cub->posX);
 		cub->cam[x].w_X = cub->posY + cub->cam[x].w_dist * cub->cam[x].raydirY;
-		//if (cub->cam[x].w_num == 2)
-		//	cub->cam[x].tex_num = 11;
+		if (cub->cam[x].side == 2)
+			cub->cam[x].tex_num = 11;
 	}
 	else
 	{
 		cub->cam[x].tex_num = 0 + (cub->cam[x].mapY > cub->posY);
 		cub->cam[x].w_X = cub->posX + cub->cam[x].w_dist * cub->cam[x].raydirX;
-		//if (cub->cam[x].w_num == 2)
-		//	cub->cam[x].tex_num = 11;
+		if (cub->cam[x].side == 3)
+			cub->cam[x].tex_num = 11;
 	}
 	cub->cam[x].w_X -= floor(cub->cam[x].w_X);
 	cub->cam[x].tex_X = cub->cam[x].w_X * (double)cub->tex[cub->cam[x].tex_num].img_w;
@@ -415,7 +431,7 @@ void	sprite(t_cub *cub)
 		{
 			cub->spr[cub->spr_order[i]].spriteX = cub->spr[cub->spr_order[i]].x - cub->posX;
 			cub->spr[cub->spr_order[i]].spriteY = cub->spr[cub->spr_order[i]].y - cub->posY;
-			cub->spr[cub->spr_order[i]].invert = 1.0 / (1 * -1 - 1 * 1);
+			cub->spr[cub->spr_order[i]].invert = 1.0 / (cub->planeX * cub->dirY - cub->dirX * cub->planeY);
 			cub->spr[cub->spr_order[i]].transX = cub->spr[cub->spr_order[i]].invert * (cub->dirY * cub->spr[cub->spr_order[i]].spriteX - cub->dirX * cub->spr[cub->spr_order[i]].spriteY);
 			cub->spr[cub->spr_order[i]].transY = cub->spr[cub->spr_order[i]].invert * ((cub->planeY*-1) * cub->spr[cub->spr_order[i]].spriteX + cub->planeX * cub->spr[cub->spr_order[i]].spriteY);
 			cub->spr[cub->spr_order[i]].spr_screenX = (int)((WIDTH/2) * (1 + cub->spr[cub->spr_order[i]].transX / cub->spr[cub->spr_order[i]].transY));

@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/03 14:01:13 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/05 12:06:53 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	fill_tex(t_cub *cub)
 	cub->tex[8].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/toro5.xpm", &cub->tex[8].img_w, &cub->tex[8].img_h);
 	cub->tex[9].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/toro6.xpm", &cub->tex[9].img_w, &cub->tex[9].img_h);
 	cub->tex[10].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/tonneau.xpm", &cub->tex[10].img_w, &cub->tex[10].img_h);
-	cub->tex[11].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/jungle_door_top.xpm", &cub->tex[11].img_w, &cub->tex[11].img_h);
+	cub->tex[11].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/spruce_trapdoor.xpm", &cub->tex[11].img_w, &cub->tex[11].img_h);
 	cub->tex[12].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/gameover.xpm", &cub->tex[12].img_w, &cub->tex[12].img_h);
 	cub->tex[13].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/retry.xpm", &cub->tex[13].img_w, &cub->tex[13].img_h);
 	cub->tex[14].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/cross.xpm", &cub->tex[14].img_w, &cub->tex[14].img_h);
@@ -127,7 +127,7 @@ void	add_barrel(t_cub *cub, int i, char *line)
 			cub->spr[tono].transf = 0;
 			tono++;
 		}
-		if (line[j] == 'V' || line[j] == 'H')
+		if (line[j] == 'D' || line[j] == 'H')
 		{
 			cub->spr[tono].type = line[j];
 			cub->spr[tono].x = j + 0.5;
@@ -163,7 +163,7 @@ int	parse(char *argv, t_cub *cub)
 	while (line)
 	{
 		barrel += check_barrel(line, 'C');
-		barrel += check_barrel(line, 'V');
+		barrel += check_barrel(line, 'D');
 		free (line);
 		i++;
 		line = get_next_line(file);
