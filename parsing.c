@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/06 14:06:44 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/06 14:49:59 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void	ft_ceiling(t_cub *cub, char *line)
 
 void	fill_tex(t_cub *cub)
 {
+	int	i;
+
+	i = 0;
 	cub->tex[0].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->north, &cub->tex[0].img_w, &cub->tex[0].img_h);
 	cub->tex[1].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->south, &cub->tex[1].img_w, &cub->tex[1].img_h);
 	cub->tex[2].img = mlx_xpm_file_to_image(cub->mlx_ptr, cub->west, &cub->tex[2].img_w, &cub->tex[2].img_h);
@@ -43,9 +46,14 @@ void	fill_tex(t_cub *cub)
 	cub->tex[12].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/menu.xpm", &cub->tex[12].img_w, &cub->tex[12].img_h);
 	cub->tex[13].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/died.xpm", &cub->tex[13].img_w, &cub->tex[13].img_h);
 	cub->tex[14].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/escaped.xpm", &cub->tex[14].img_w, &cub->tex[14].img_h);
+	while (i < 15)
+	{
+			cub->tex[i].addr = (int *)mlx_get_data_addr(cub->tex[i].img, &cub->tex[i].bpp, &cub->tex[i].line_len, &cub->tex[i].endian);
+			i++;
+	}
 }
 
-void	parse_info_deux(t_cub *cub, char *line)
+int	parse_info_deux(t_cub *cub, char *line)
 {
 	if (!ft_strncmp(line, "WE ", 3))
 	{
@@ -67,6 +75,7 @@ void	parse_info_deux(t_cub *cub, char *line)
 		ft_floor(cub, line + 2);
 	if (!ft_strncmp(line, "C ", 2))
 		ft_ceiling(cub, line + 2);
+	return (1);
 }
 
 int	parse_info(t_cub *cub, char *line)
@@ -89,7 +98,8 @@ int	parse_info(t_cub *cub, char *line)
 		cub->south = ft_strdup(line + 3);
 		cub->south[ft_strlen(cub->south) - 1] = '\0';
 	}
-	parse_info_deux(cub, line);
+	if (!parse_info_deux(cub, line))
+		return (0);
 	return (1);
 }
 
@@ -170,7 +180,7 @@ int	parse(char *argv, t_cub *cub)
 	cub->spr_order = malloc(sizeof(int *) * cub->tono);
 	cub->map = ft_calloc(i + 1, sizeof(char *));
 	cub->tex = malloc(sizeof(t_tex) * 15);
-	cub->spr = malloc(sizeof(t_spr) * barrel);
+	cub->spr = malloc(sizeof(t_spr) * barrel + 1);
 	fill_tex(cub);
 	cub->hgt = i - 1;
 	close(file);
