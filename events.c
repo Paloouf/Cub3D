@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:30:08 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/05 15:47:15 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/06 12:13:25 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_all(t_cub *cub)
 	while (cub->map[++i])
 		free(cub->map[i]);
 	i = 0;
-	while (i < 18)
+	while (i < 15)
 	{
 		mlx_destroy_image(cub->mlx_ptr, cub->tex[i].img);
 		i++;
@@ -84,20 +84,20 @@ int	mouse_keys(int key, int x, int y, t_cub *cub)
 			cub->menu = 0;
 			cub->game = 1;
 		}
-		if (key == 1 && (x > (WIDTH * 4 / 10) && (x < (WIDTH * 5 / 10))) && (y > HEIGHT * 8 / 10))
+		if (key == 1 && (x > (WIDTH * 9 / 20) && (x < (WIDTH * 11 / 20))) && (y > HEIGHT * 8 / 10))
 		{
 			cub->speed = 0.04;
 			cub->menu = 0;
 			cub->game = 1;
 		}
-		if (key == 1 && (x > (WIDTH * 6 / 10) && (x < (WIDTH * 7 / 10))) && (y > HEIGHT * 8 / 10))
+		if (key == 1 && (x > (WIDTH * 14 / 20) && (x < (WIDTH * 16 / 20))) && (y > HEIGHT * 8 / 10))
 		{
 			cub->speed = 0.05;
 			cub->menu = 0;
 			cub->game = 1;
 		}
 	}
-	if (cub->gameover == 1)
+	if (cub->gameover == 1 || cub->gamewin == 1)
 	{
 		if (key == 1 && (x > (WIDTH * 2 / 10) && (x < (WIDTH * 4 / 10))) && (y > HEIGHT * 8 / 10))
 		{
@@ -107,7 +107,7 @@ int	mouse_keys(int key, int x, int y, t_cub *cub)
 			parse_reset(cub);
 			init_game(cub);
 		}
-		if (key == 1 && (x > (WIDTH * 6 / 10) && (x < (WIDTH * 8 / 10))) && (y > HEIGHT * 8 / 10))
+		if (key == 1 && (x > (WIDTH * 7 / 10) && (x < (WIDTH * 9 / 10))) && (y > HEIGHT * 8 / 10))
 			key_events(XK_Escape, cub);
 	}
 }

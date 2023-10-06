@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 13:37:51 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/05 15:19:07 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/06 12:17:52 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 
 void	move(t_cub *cub)
 {
-	if (cub->key.open == 1 && cub->map[(int)(cub->posY + (cub->dirY / 5))][(int)(cub->posX + (cub->dirX / 5))] == 'D')
-		cub->map[(int)(cub->posY + (cub->dirY / 5))][(int)(cub->posX + (cub->dirX / 5))] = 'd';
+	if (cub->key.open == 1 && cub->map[(int)(cub->posY + (cub->dirY * 1.5))][(int)(cub->posX + (cub->dirX * 1.5))] == 'D')
+		cub->map[(int)(cub->posY + (cub->dirY * 1.5))][(int)(cub->posX + (cub->dirX * 1.5))] = 'd';
+	else if (cub->key.open == 1 && cub->map[(int)(cub->posY + (cub->dirY * 1.5))][(int)(cub->posX + (cub->dirX * 1.5))] == 'd')
+		cub->map[(int)(cub->posY + (cub->dirY * 1.5))][(int)(cub->posX + (cub->dirX * 1.5))] = 'D';
 	if (cub->key.forward == 1 && cub->map[(int)(cub->posY + (cub->dirY / 5))][(int)(cub->posX + (cub->dirX / 5))] != '1' && cub->map[(int)(cub->posY + (cub->dirY / 5))][(int)(cub->posX + (cub->dirX / 5))] != 'D' && cub->map[(int)(cub->posY + (cub->dirY / 10))][(int)(cub->posX + (cub->dirX / 10))] != 'B')
 	{
 		cub->posX += cub->dirX / 10;

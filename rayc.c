@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:18:26 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/05 15:20:22 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/06 12:00:38 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,28 @@ void	camera(t_cub *cub, int x)
 		i++;
 	}
 }
+void	game_win(t_cub *cub)
+{
+	int	x;
+	int	y;
+	int	color;
+
+	x = 0;
+	y = 0;
+	cub->valid = 0;
+	cub->tex[14].addr = (int *)mlx_get_data_addr(cub->tex[14].img, &cub->tex[14].bpp, &cub->tex[14].line_len, &cub->tex[14].endian);
+	while (y < (HEIGHT))
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			color = cub->tex[14].addr[((((int)(x * ((double)cub->tex[14].img_w / WIDTH)))) + (((int)(y * ((double)cub->tex[14].img_h / (HEIGHT)))) * cub->tex[14].img_w))];
+			pxl_to_img(cub, x, y, color);
+			x++;
+		}
+		y++;
+	}
+}
 
 void	game_over(t_cub *cub)
 {
@@ -200,45 +222,18 @@ void	game_over(t_cub *cub)
 	x = 0;
 	y = 0;
 	cub->valid = 0;
-	cub->tex[12].addr = (int *)mlx_get_data_addr(cub->tex[12].img, &cub->tex[12].bpp, &cub->tex[12].line_len, &cub->tex[12].endian);
 	cub->tex[13].addr = (int *)mlx_get_data_addr(cub->tex[13].img, &cub->tex[13].bpp, &cub->tex[13].line_len, &cub->tex[13].endian);
-	cub->tex[14].addr = (int *)mlx_get_data_addr(cub->tex[14].img, &cub->tex[14].bpp, &cub->tex[14].line_len, &cub->tex[14].endian);
-	while (y < (HEIGHT * 8 / 10))
+	while (y < (HEIGHT))
 	{
 		x = 0;
 		while (x < WIDTH)
 		{
-			color = cub->tex[12].addr[((((int)(x * ((double)cub->tex[12].img_w / WIDTH)))) + (((int)(y * ((double)cub->tex[12].img_h / (HEIGHT * 8 / 10)))) * cub->tex[12].img_w))];
+			color = cub->tex[13].addr[((((int)(x * ((double)cub->tex[13].img_w / WIDTH)))) + (((int)(y * ((double)cub->tex[13].img_h / (HEIGHT)))) * cub->tex[13].img_w))];
 			pxl_to_img(cub, x, y, color);
 			x++;
 		}
 		y++;
 	}
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			if (x > (WIDTH * 2 / 10) && (x < (WIDTH * 4 / 10)))
-			{
-				color = cub->tex[13].addr[((((int)((x - (WIDTH * 2 / 10)) * ((double)cub->tex[13].img_w / (WIDTH * 2 / 10))))) + (((int)((y - (HEIGHT * 8 / 10)) * ((double)cub->tex[13].img_h / (HEIGHT * 2 / 10)))) * cub->tex[13].img_w))];
-				if ((color & 0x00FFFFFF) == 0)
-					color = rgba_to_int(255, 255, 255, 1);
-			}
-			else if (x > (WIDTH * 6 / 10) && (x < (WIDTH * 8 / 10)))
-			{
-				color = cub->tex[14].addr[((((int)((x - (WIDTH * 2 / 10)) * ((double)cub->tex[14].img_w / (WIDTH * 2 / 10))))) + (((int)((y - (HEIGHT * 8 / 10)) * ((double)cub->tex[14].img_h / (HEIGHT * 2 / 10)))) * cub->tex[14].img_w))];
-				if ((color & 0x00FFFFFF) == 0)
-					color = rgba_to_int(255, 255, 255, 1);
-			}
-			else
-				color = rgba_to_int(255, 255, 255, 1);
-			pxl_to_img(cub, x, y, color);
-			x++;
-		}
-		y++;
-	}
-	y = 0;
 }
 
 void	check_sprite(t_cub *cub)
@@ -267,7 +262,7 @@ void	check_sprite(t_cub *cub)
 		if (cub->spr[i].dist < 0.5 && cub->spr[i].type == 'V')
 		{
 			cub->game = 0;
-			cub->gameover = 1;
+			cub->gamewin = 1;
 		}
 		if (cub->spr[i].transf == 1)
 		{	
@@ -306,51 +301,17 @@ void	menu(t_cub *cub)
 	y = 0;
 	cub->valid = 0;
 	cub->tex[12].addr = (int *)mlx_get_data_addr(cub->tex[12].img, &cub->tex[12].bpp, &cub->tex[12].line_len, &cub->tex[12].endian);
-	cub->tex[15].addr = (int *)mlx_get_data_addr(cub->tex[15].img, &cub->tex[15].bpp, &cub->tex[15].line_len, &cub->tex[15].endian);
-	cub->tex[16].addr = (int *)mlx_get_data_addr(cub->tex[16].img, &cub->tex[16].bpp, &cub->tex[16].line_len, &cub->tex[16].endian);
-	cub->tex[17].addr = (int *)mlx_get_data_addr(cub->tex[17].img, &cub->tex[17].bpp, &cub->tex[17].line_len, &cub->tex[17].endian);
-	while (y < (HEIGHT * 8 / 10))
+	while (y < (HEIGHT))
 	{
 		x = 0;
 		while (x < WIDTH)
 		{
-			color = cub->tex[12].addr[((((int)(x * ((double)cub->tex[12].img_w / WIDTH)))) + (((int)(y * ((double)cub->tex[12].img_h / (HEIGHT * 8 / 10)))) * cub->tex[12].img_w))];
+			color = cub->tex[12].addr[((((int)(x * ((double)cub->tex[12].img_w / WIDTH)))) + (((int)(y * ((double)cub->tex[12].img_h / (HEIGHT)))) * cub->tex[12].img_w))];
 			pxl_to_img(cub, x, y, color);
 			x++;
 		}
 		y++;
 	}
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			if (x > (WIDTH * 2 / 10) && (x < (WIDTH * 3 / 10)))
-			{
-				color = cub->tex[15].addr[((((int)((x - (WIDTH * 2 / 10)) * ((double)cub->tex[15].img_w / (WIDTH * 1 / 10))))) + (((int)((y - (HEIGHT * 8 / 10)) * ((double)cub->tex[15].img_h / (HEIGHT * 2 / 10)))) * cub->tex[15].img_w))];
-				if ((color & 0x00FFFFFF) == 0)
-					color = rgba_to_int(255, 255, 255, 1);
-			}
-			else if (x > (WIDTH * 4 / 10) && (x < (WIDTH * 5 / 10)))
-			{
-				color = cub->tex[16].addr[((((int)((x - (WIDTH * 2 / 10)) * ((double)cub->tex[16].img_w / (WIDTH * 1 / 10))))) + (((int)((y - (HEIGHT * 8 / 10)) * ((double)cub->tex[16].img_h / (HEIGHT * 2 / 10)))) * cub->tex[16].img_w))];
-				if ((color & 0x00FFFFFF) == 0)
-					color = rgba_to_int(255, 255, 255, 1);
-			}
-			else if (x > (WIDTH * 6 / 10) && (x < (WIDTH * 7 / 10)))
-			{
-				color = cub->tex[17].addr[((((int)((x - (WIDTH * 2 / 10)) * ((double)cub->tex[17].img_w / (WIDTH * 1 / 10))))) + (((int)((y - (HEIGHT * 8 / 10)) * ((double)cub->tex[17].img_h / (HEIGHT * 2 / 10)))) * cub->tex[17].img_w))];
-				if ((color & 0x00FFFFFF) == 0)
-					color = rgba_to_int(255, 255, 255, 1);
-			}
-			else
-				color = rgba_to_int(255, 255, 255, 1);
-			pxl_to_img(cub, x, y, color);
-			x++;
-		}
-		y++;
-	}
-	y = 0;
 }
 
 
