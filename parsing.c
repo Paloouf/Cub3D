@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/29 12:25:17 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/06 14:06:44 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,33 @@ void	fill_tex(t_cub *cub)
 	cub->tex[9].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/toro6.xpm", &cub->tex[9].img_w, &cub->tex[9].img_h);
 	cub->tex[10].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/tonneau.xpm", &cub->tex[10].img_w, &cub->tex[10].img_h);
 	cub->tex[11].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/spruce_trapdoor.xpm", &cub->tex[11].img_w, &cub->tex[11].img_h);
-	cub->tex[12].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/gameover.xpm", &cub->tex[12].img_w, &cub->tex[12].img_h);
+	cub->tex[12].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/menu.xpm", &cub->tex[12].img_w, &cub->tex[12].img_h);
+	cub->tex[13].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/died.xpm", &cub->tex[13].img_w, &cub->tex[13].img_h);
+	cub->tex[14].img = mlx_xpm_file_to_image(cub->mlx_ptr, "./textures/escaped.xpm", &cub->tex[14].img_w, &cub->tex[14].img_h);
+}
+
+void	parse_info_deux(t_cub *cub, char *line)
+{
+	if (!ft_strncmp(line, "WE ", 3))
+	{
+		if (cub->west[0])
+			return (0);
+		free(cub->west);
+		cub->west = ft_strdup(line + 3);
+		cub->west[ft_strlen(cub->west) - 1] = '\0';
+	}
+	if (!ft_strncmp(line, "EA ", 3))
+	{
+		if (cub->east[0])
+			return (0);
+		free(cub->east);
+		cub->east = ft_strdup(line + 3);
+		cub->east[ft_strlen(cub->east) - 1] = '\0';
+	}
+	if (!ft_strncmp(line, "F ", 2))
+		ft_floor(cub, line + 2);
+	if (!ft_strncmp(line, "C ", 2))
+		ft_ceiling(cub, line + 2);
 }
 
 int	parse_info(t_cub *cub, char *line)
@@ -63,30 +89,7 @@ int	parse_info(t_cub *cub, char *line)
 		cub->south = ft_strdup(line + 3);
 		cub->south[ft_strlen(cub->south) - 1] = '\0';
 	}
-	if (!ft_strncmp(line, "WE ", 3))
-	{
-		if (cub->west[0])
-			return (0);
-		free(cub->west);
-		cub->west = ft_strdup(line + 3);
-		cub->west[ft_strlen(cub->west) - 1] = '\0';
-	}
-	if (!ft_strncmp(line, "EA ", 3))
-	{
-		if (cub->east[0])
-			return (0);
-		free(cub->east);
-		cub->east = ft_strdup(line + 3);
-		cub->east[ft_strlen(cub->east) - 1] = '\0';
-	}
-	if (!ft_strncmp(line, "F ", 2))
-	{
-		ft_floor(cub, line + 2);
-	}
-	if (!ft_strncmp(line, "C ", 2))
-	{
-		ft_ceiling(cub, line + 2);
-	}
+	parse_info_deux(cub, line);
 	return (1);
 }
 
@@ -108,13 +111,13 @@ int	check_barrel(char *line, char c)
 void	add_barrel(t_cub *cub, int i, char *line)
 {
 	static	int tono = 0;
-	static	int	door = 0;
 	int	j;
 
 	j = 0;
 	while (line[j])
 	{
-		if (line[j] == 'B')
+		cub->spr[tono].type = line[j];
+		if (line[j] == 'C')
 		{
 			cub->spr[tono].x = j + 0.3;
 			cub->spr[tono].y = i + 0.3;
@@ -122,12 +125,12 @@ void	add_barrel(t_cub *cub, int i, char *line)
 			cub->spr[tono].transf = 0;
 			tono++;
 		}
-		if (line[j] == '2')
+		if (line[j] == 'B' || line[j] == 'V')
 		{
-			cub->door[door].x = j + 0.5;
-			cub->door[door].y = i + 0.5;
-			cub->door[door].tex = 11;
-			door++;
+			cub->spr[tono].x = j + 0.5;
+			cub->spr[tono].y = i + 0.5;
+			cub->spr[tono].tex = 10;
+			tono++;
 		}
 		j++;
 	}
@@ -156,19 +159,17 @@ int	parse(char *argv, t_cub *cub)
 	}
 	while (line)
 	{
+		barrel += check_barrel(line, 'C');
 		barrel += check_barrel(line, 'B');
-		door += check_barrel(line, '2');
+		barrel += check_barrel(line, 'V');
 		free (line);
 		i++;
 		line = get_next_line(file);
 	}
 	cub->tono = barrel;
-	cub->door_num = door;
-	cub->door = malloc(sizeof(t_door) * door);
-	cub->door_order = malloc(sizeof(int *) * cub->door_num);
 	cub->spr_order = malloc(sizeof(int *) * cub->tono);
 	cub->map = ft_calloc(i + 1, sizeof(char *));
-	cub->tex = malloc(sizeof(t_tex) * 13);
+	cub->tex = malloc(sizeof(t_tex) * 15);
 	cub->spr = malloc(sizeof(t_spr) * barrel);
 	fill_tex(cub);
 	cub->hgt = i - 1;

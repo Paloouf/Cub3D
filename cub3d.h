@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/29 12:17:59 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/06 13:51:06 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
-# define HEIGHT 720
+# define HEIGHT 1080
 # define WIDTH 1920
 # define SPRITENUM 2
 
@@ -46,6 +46,7 @@ typedef struct s_key
 	int	shoot;
 	int	aim;
 	int	fov;
+	int	open;
 }	t_key;
 
 typedef struct s_floor
@@ -62,31 +63,9 @@ typedef struct s_ceil
 	int	b_c;
 }	t_ceil;
 
-typedef struct s_door
-{
-	double x;
-	double y;
-	double	spriteX;
-	double	spriteY;
-	double	dist;
-	double	invert;
-	double	transX;
-	double	transY;
-	int	spr_screenX;
-	int	spr_hgt;
-	int	spr_wth;
-	int	draw_startY;
-	int	draw_endY;
-	int	draw_startX;
-	int	draw_endX;
-	int	tex_X;
-	int	tex_Y;
-	int	transf;
-	int tex;
-}	t_door;
-
 typedef struct s_spr
 {
+	char	type;
 	double x;
 	double y;
 	double	spriteX;
@@ -123,7 +102,7 @@ typedef struct s_cam
 	int	stepY;
 	double	w_dist;
 	double	w_X;
-	int	w_num;
+	char	w_num;
 	int	tex_num;
 	int	tex_X;
 	int	tex_Y;
@@ -176,15 +155,17 @@ typedef struct s_cub
 	double	posX;
 	double	posY;
 	int	tono;
-	int	door_num;
 	int	*spr_order;
-	int	*door_order;
 	int	valid;
+	int	gameover;
+	int	gamewin;
+	int	game;
+	int	menu;
+	double	speed;
 	t_img	img;
 	t_floor	fl;
 	t_ceil	cl;
 	t_key	key;
-	t_door	*door;
 	t_cam   *cam;
 	t_tex	*tex;
 	t_spr	*spr;
@@ -211,4 +192,9 @@ void	sprite(t_cub *cub);
 void	jump(t_cub *cub);
 void	check_sprite(t_cub *cub);
 void	ft_door(t_cub *cub);
+void	game_over(t_cub *cub);
+void	game_win(t_cub *cub);
+void	menu(t_cub *cub);
+int	mouse_keys(int key, int x, int y, t_cub *cub);
+void	init_all(t_cub *cub);
 #endif

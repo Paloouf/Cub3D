@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:18:26 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/29 12:36:27 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/06 12:00:38 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,89 +65,7 @@ void	ft_sort_sprite(t_cub *cub)
 	}
 }
 
-void	ft_sort_door(t_cub *cub)
-{
-	int	i;
-	int	j;
-	int	count;
 
-	i = 0;
-	count = 0;
-	while (i < cub->door_num)
-	{
-		j = 0;
-		count = 0;
-		while (j < cub->door_num)
-		{
-			if (cub->door[j].dist > cub->door[i].dist)
-				count++;
-			j++;
-		}
-		cub->door_order[count] = i;
-		i++;
-	}
-}
-
-void	ft_door(t_cub *cub)
-{
-	int	i;
-	int	j;
-	int	k;
-	int	color;
-	
-	i = 0;
-	while (i < cub->door_num)
-	{
-		cub->door_order[i] = i;
-		cub->door[i].dist = (((cub->posX - cub->door[i].x) * (cub->posX - cub->door[i].x)) + ((cub->posY - cub->door[i].y) * (cub->posY - cub->door[i].y)));
-		i++;
-	}
-	ft_sort_door(cub);
-	i = 0;
-	while (i < cub->door_num)
-	{
-		cub->door[i].spriteX = cub->door[cub->door_order[i]].x - cub->posX;
-		cub->door[i].spriteY = cub->door[cub->door_order[i]].y - cub->posY;
-		cub->door[i].invert = 1.0 / (cub->planeX * cub->dirY - cub->dirX * cub->planeY);
-		cub->door[i].transX = cub->door[i].invert * (cub->dirY * cub->door[i].spriteX - cub->dirX * cub->door[i].spriteY);
-		cub->door[i].transY = cub->door[i].invert * ((cub->planeY*-1) * cub->door[i].spriteX + cub->planeX * cub->door[i].spriteY);
-		cub->door[i].spr_screenX = (int)((WIDTH / 2) * (1 + cub->door[i].transX / cub->door[i].transY));
-		cub->door[i].spr_hgt = abs((int)(HEIGHT/cub->door[i].transY));
-		cub->door[i].draw_startY = -cub->door[i].spr_hgt / 2 + HEIGHT / 2;
-		if (cub->door[i].draw_startY < 0)
-			cub->door[i].draw_startY = 0;
-		cub->door[i].draw_endY = cub->door[i].spr_hgt / 2 + HEIGHT / 2;
-		if (cub->door[i].draw_endY >= HEIGHT)
-			cub->door[i].draw_endY = HEIGHT - 1;
-		cub->door[i].spr_wth = abs((int)(HEIGHT/cub->door[i].transY) / 0.5);
-		cub->door[i].draw_startX = -cub->door[i].spr_wth / 2 + cub->door[i].spr_screenX;
-		if (cub->door[i].draw_startX < 0)
-			cub->door[i].draw_startX = 0;
-		cub->door[i].draw_endX = cub->door[i].spr_wth / 2 + cub->door[i].spr_screenX;
-		if (cub->door[i].draw_endX >= WIDTH)
-			cub->door[i].draw_endX = WIDTH - 1;
-		j = cub->door[i].draw_startX;
-		while (j < cub->door[i].draw_endX)
-		{
-			cub->door[i].tex_X = (int)(256 * (j - (-cub->door[i].spr_wth / 2 + cub->door[i].spr_screenX)) * cub->tex[11].img_w / cub->door[i].spr_wth) / 256;
-			if (cub->door[i].transY > 0 && j > 0 && j < WIDTH && cub->door[i].transY < cub->cam[j].w_dist)
-			{
-				k = cub->door[i].draw_startY;
-				
-				while (k < cub->door[i].draw_endY)
-				{
-					cub->door[i].tex_Y = ((((k * 256 - HEIGHT * 128) + cub->door[i].spr_hgt * 128) * cub->tex[11].img_h) / cub->door[i].spr_hgt) /256;
-					color = cub->tex[11].addr[((cub->door[i].tex_Y * cub->tex[11].img_h)) + cub->door[i].tex_X];
-					if ((color & 0x00FFFFFF) != 0)
-						pxl_to_img(cub, j, k, color);
-					k++;
-				}
-			}
-			j++;
-		}
-		i++;
-	}
-}
 
 void	camera(t_cub *cub, int x)
 {
@@ -192,24 +110,23 @@ void	camera(t_cub *cub, int x)
 	}
 	while (1)
 	{	
-		if (cub->map[cub->cam[x].mapY][cub->cam[x].mapX] == '1')// || cub->map[cub->cam[x].mapY][cub->cam[x].mapX] == '2')
+		if (cub->map[cub->cam[x].mapY][cub->cam[x].mapX] == '1' || cub->map[cub->cam[x].mapY][cub->cam[x].mapX] == 'D')
 			break;
 		if (cub->cam[x].s_distX < cub->cam[x].s_distY)
 		{
 			cub->cam[x].s_distX += cub->cam[x].d_distX;
 			cub->cam[x].mapX += cub->cam[x].stepX;
-			cub->cam[x].side = 0;
+			cub->cam[x].side = 0;	
 		}
 		else
 		{
 			cub->cam[x].s_distY += cub->cam[x].d_distY;
 			cub->cam[x].mapY += cub->cam[x].stepY;
-			cub->cam[x].side = 1;
+			cub->cam[x].side = 1;	
 		}
-
 	}
 	//wall-dist
-	cub->cam[x].w_num = cub->map[cub->cam[x].mapY][cub->cam[x].mapX] - 48;
+	cub->cam[x].w_num = cub->map[cub->cam[x].mapY][cub->cam[x].mapX];
 	if (cub->cam[x].side == 0)
 		cub->cam[x].w_dist = cub->cam[x].s_distX - cub->cam[x].d_distX;
 	else
@@ -239,15 +156,15 @@ void	camera(t_cub *cub, int x)
 	{
 		cub->cam[x].tex_num = 2 + (cub->cam[x].mapX > cub->posX);
 		cub->cam[x].w_X = cub->posY + cub->cam[x].w_dist * cub->cam[x].raydirY;
-		//if (cub->cam[x].w_num == 2)
-		//	cub->cam[x].tex_num = 11;
+		if (cub->cam[x].w_num == 'D')
+			cub->cam[x].tex_num = 11;	
 	}
 	else
 	{
 		cub->cam[x].tex_num = 0 + (cub->cam[x].mapY > cub->posY);
 		cub->cam[x].w_X = cub->posX + cub->cam[x].w_dist * cub->cam[x].raydirX;
-		//if (cub->cam[x].w_num == 2)
-		//	cub->cam[x].tex_num = 11;
+		if (cub->cam[x].w_num == 'D')
+			cub->cam[x].tex_num = 11;
 	}
 	cub->cam[x].w_X -= floor(cub->cam[x].w_X);
 	cub->cam[x].tex_X = cub->cam[x].w_X * (double)cub->tex[cub->cam[x].tex_num].img_w;
@@ -273,18 +190,50 @@ void	camera(t_cub *cub, int x)
 		i++;
 	}
 }
+void	game_win(t_cub *cub)
+{
+	int	x;
+	int	y;
+	int	color;
+
+	x = 0;
+	y = 0;
+	cub->valid = 0;
+	cub->tex[14].addr = (int *)mlx_get_data_addr(cub->tex[14].img, &cub->tex[14].bpp, &cub->tex[14].line_len, &cub->tex[14].endian);
+	while (y < (HEIGHT))
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			color = cub->tex[14].addr[((((int)(x * ((double)cub->tex[14].img_w / WIDTH)))) + (((int)(y * ((double)cub->tex[14].img_h / (HEIGHT)))) * cub->tex[14].img_w))];
+			pxl_to_img(cub, x, y, color);
+			x++;
+		}
+		y++;
+	}
+}
 
 void	game_over(t_cub *cub)
 {
-	
+	int	x;
+	int	y;
+	int	color;
+
+	x = 0;
+	y = 0;
 	cub->valid = 0;
-	cub->tex[12].addr = (int *)mlx_get_data_addr(cub->tex[12].img, &cub->tex[12].bpp, &cub->tex[12].line_len, &cub->tex[12].endian);
-	while(cub->valid == 0)
+	cub->tex[13].addr = (int *)mlx_get_data_addr(cub->tex[13].img, &cub->tex[13].bpp, &cub->tex[13].line_len, &cub->tex[13].endian);
+	while (y < (HEIGHT))
 	{
-		mlx_key_hook(cub->win_ptr, key_events, cub);
-		mlx_put_image_to_window(cub->mlx_ptr, cub->win_ptr, cub->tex[12].img, WIDTH / 2, HEIGHT /2);
+		x = 0;
+		while (x < WIDTH)
+		{
+			color = cub->tex[13].addr[((((int)(x * ((double)cub->tex[13].img_w / WIDTH)))) + (((int)(y * ((double)cub->tex[13].img_h / (HEIGHT)))) * cub->tex[13].img_w))];
+			pxl_to_img(cub, x, y, color);
+			x++;
+		}
+		y++;
 	}
-	key_events(XK_Escape, cub);
 }
 
 void	check_sprite(t_cub *cub)
@@ -303,23 +252,31 @@ void	check_sprite(t_cub *cub)
 	while (i < cub->tono)
 	{
 		cub->spr[i].dist = (((cub->posX - cub->spr[i].x) * (cub->posX - cub->spr[i].x)) + ((cub->posY - cub->spr[i].y) * (cub->posY - cub->spr[i].y)));
-		if (cub->spr[i].dist < 3)
+		if (cub->spr[i].dist < 3 && cub->spr[i].type == 'C')
 			cub->spr[i].transf = 1;
-		if (cub->spr[i].dist < 0.5)
-			game_over(cub);
+		if (cub->spr[i].dist < 0.5 && cub->spr[i].type == 'C')
+		{
+			cub->game = 0;
+			cub->gameover = 1;
+		}
+		if (cub->spr[i].dist < 0.5 && cub->spr[i].type == 'V')
+		{
+			cub->game = 0;
+			cub->gamewin = 1;
+		}
 		if (cub->spr[i].transf == 1)
 		{	
 			cub->spr[i].tex = 4 + j;
 			move_x = (cub->spr[i].x - cub->posX) / 10;
-			if (move_x < -0.05)
-				move_x = -0.05;
+			if (move_x < cub->speed)
+				move_x = -1 * cub->speed;
 			if (move_x > 0.05)
-				move_x = 0.05;
+				move_x = cub->speed;
 			move_y = (cub->spr[i].y - cub->posY) / 10;
-			if (move_y < -0.05)
-				move_y = -0.05;
-			if (move_y > 0.05)
-				move_y = 0.05;
+			if (move_y < -1 * cub->speed)
+				move_y = -1 * cub->speed;
+			if (move_y > cub->speed)
+				move_y = cub->speed;
 			if (cub->map[(int)(cub->spr[i].y - (move_y * 2))][(int)(cub->spr[i].x - (move_x * 2))] != '1')
 			{
 				cub->spr[i].x -= move_x;
@@ -333,6 +290,30 @@ void	check_sprite(t_cub *cub)
 		i++;
 	}
 }
+
+void	menu(t_cub *cub)
+{
+	int	x;
+	int	y;
+	int	color;
+
+	x = 0;
+	y = 0;
+	cub->valid = 0;
+	cub->tex[12].addr = (int *)mlx_get_data_addr(cub->tex[12].img, &cub->tex[12].bpp, &cub->tex[12].line_len, &cub->tex[12].endian);
+	while (y < (HEIGHT))
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			color = cub->tex[12].addr[((((int)(x * ((double)cub->tex[12].img_w / WIDTH)))) + (((int)(y * ((double)cub->tex[12].img_h / (HEIGHT)))) * cub->tex[12].img_w))];
+			pxl_to_img(cub, x, y, color);
+			x++;
+		}
+		y++;
+	}
+}
+
 
 void	sprite(t_cub *cub)
 {
@@ -353,44 +334,47 @@ void	sprite(t_cub *cub)
 	i = 0;
 	while (i < cub->tono)
 	{
-		cub->spr[i].spriteX = cub->spr[cub->spr_order[i]].x - cub->posX;
-		cub->spr[i].spriteY = cub->spr[cub->spr_order[i]].y - cub->posY;
-		cub->spr[i].invert = 1.0 / (cub->planeX * cub->dirY - cub->dirX * cub->planeY);
-		cub->spr[i].transX = cub->spr[i].invert * (cub->dirY * cub->spr[i].spriteX - cub->dirX * cub->spr[i].spriteY);
-		cub->spr[i].transY = cub->spr[i].invert * ((cub->planeY*-1) * cub->spr[i].spriteX + cub->planeX * cub->spr[i].spriteY);
-		cub->spr[i].spr_screenX = (int)((WIDTH/2) * (1 + cub->spr[i].transX / cub->spr[i].transY));
-		cub->spr[i].spr_hgt = abs((int)(HEIGHT/cub->spr[i].transY));
-		cub->spr[i].draw_startY = -cub->spr[i].spr_hgt / 2 + HEIGHT / 2;
-		if (cub->spr[i].draw_startY < 0)
-			cub->spr[i].draw_startY = 0;
-		cub->spr[i].draw_endY = cub->spr[i].spr_hgt / 2 + HEIGHT / 2;
-		if (cub->spr[i].draw_endY >= HEIGHT)
-			cub->spr[i].draw_endY = HEIGHT - 1;
-		cub->spr[i].spr_wth = abs((int)(HEIGHT/cub->spr[i].transY));
-		cub->spr[i].draw_startX = -cub->spr[i].spr_wth / 2 + cub->spr[i].spr_screenX;
-		if (cub->spr[i].draw_startX < 0)
-			cub->spr[i].draw_startX = 0;
-		cub->spr[i].draw_endX = cub->spr[i].spr_wth / 2 + cub->spr[i].spr_screenX;
-		if (cub->spr[i].draw_endX >= WIDTH)
-			cub->spr[i].draw_endX = WIDTH - 1;
-		j = cub->spr[i].draw_startX;
-		while (j < cub->spr[i].draw_endX)
+		if (cub->spr[cub->spr_order[i]].type == 'C' || cub->spr[cub->spr_order[i]].type == 'B' || cub->spr[cub->spr_order[i]].type == 'V')
 		{
-			cub->spr[i].tex_X = (int)(256 * (j - (-cub->spr[i].spr_wth / 2 + cub->spr[i].spr_screenX)) * cub->tex[cub->spr[i].tex].img_w / cub->spr[i].spr_wth) / 256;
-			if (cub->spr[i].transY > 0 && j > 0 && j < WIDTH && cub->spr[i].transY < cub->cam[j].w_dist)
+			cub->spr[cub->spr_order[i]].spriteX = cub->spr[cub->spr_order[i]].x - cub->posX;
+			cub->spr[cub->spr_order[i]].spriteY = cub->spr[cub->spr_order[i]].y - cub->posY;
+			cub->spr[cub->spr_order[i]].invert = 1.0 / (cub->planeX * cub->dirY - cub->dirX * cub->planeY);
+			cub->spr[cub->spr_order[i]].transX = cub->spr[cub->spr_order[i]].invert * (cub->dirY * cub->spr[cub->spr_order[i]].spriteX - cub->dirX * cub->spr[cub->spr_order[i]].spriteY);
+			cub->spr[cub->spr_order[i]].transY = cub->spr[cub->spr_order[i]].invert * ((cub->planeY*-1) * cub->spr[cub->spr_order[i]].spriteX + cub->planeX * cub->spr[cub->spr_order[i]].spriteY);
+			cub->spr[cub->spr_order[i]].spr_screenX = (int)((WIDTH/2) * (1 + cub->spr[cub->spr_order[i]].transX / cub->spr[cub->spr_order[i]].transY));
+			cub->spr[cub->spr_order[i]].spr_hgt = abs((int)(HEIGHT/cub->spr[cub->spr_order[i]].transY));
+			cub->spr[cub->spr_order[i]].draw_startY = -cub->spr[cub->spr_order[i]].spr_hgt / 2 + HEIGHT / 2;
+			if (cub->spr[cub->spr_order[i]].draw_startY < 0)
+				cub->spr[cub->spr_order[i]].draw_startY = 0;
+			cub->spr[cub->spr_order[i]].draw_endY = cub->spr[cub->spr_order[i]].spr_hgt / 2 + HEIGHT / 2;
+			if (cub->spr[cub->spr_order[i]].draw_endY >= HEIGHT)
+				cub->spr[cub->spr_order[i]].draw_endY = HEIGHT - 1;
+			cub->spr[cub->spr_order[i]].spr_wth = abs((int)(HEIGHT/cub->spr[cub->spr_order[i]].transY));
+			cub->spr[cub->spr_order[i]].draw_startX = -cub->spr[cub->spr_order[i]].spr_wth / 2 + cub->spr[cub->spr_order[i]].spr_screenX;
+			if (cub->spr[cub->spr_order[i]].draw_startX < 0)
+				cub->spr[cub->spr_order[i]].draw_startX = 0;
+			cub->spr[cub->spr_order[i]].draw_endX = cub->spr[cub->spr_order[i]].spr_wth / 2 + cub->spr[cub->spr_order[i]].spr_screenX;
+			if (cub->spr[cub->spr_order[i]].draw_endX >= WIDTH)
+				cub->spr[cub->spr_order[i]].draw_endX = WIDTH - 1;
+			j = cub->spr[cub->spr_order[i]].draw_startX;
+			while (j < cub->spr[cub->spr_order[i]].draw_endX)
 			{
-				k = cub->spr[i].draw_startY;
-				
-				while (k < cub->spr[i].draw_endY)
+				cub->spr[cub->spr_order[i]].tex_X = (int)(256 * (j - (-cub->spr[cub->spr_order[i]].spr_wth / 2 + cub->spr[cub->spr_order[i]].spr_screenX)) * cub->tex[cub->spr[cub->spr_order[i]].tex].img_w / cub->spr[cub->spr_order[i]].spr_wth) / 256;
+				if (cub->spr[cub->spr_order[i]].transY > 0 && j > 0 && j < WIDTH && cub->spr[cub->spr_order[i]].transY < cub->cam[j].w_dist)
 				{
-					cub->spr[i].tex_Y = ((((k * 256 - HEIGHT * 128) + cub->spr[i].spr_hgt * 128) * cub->tex[cub->spr[i].tex].img_h) / cub->spr[i].spr_hgt) /256;
-					color = cub->tex[cub->spr[i].tex].addr[((cub->spr[i].tex_Y * cub->tex[cub->spr[i].tex].img_h)) + cub->spr[i].tex_X];
-					if ((color & 0x00FFFFFF) != 0)
-						pxl_to_img(cub, j, k, color);
-					k++;
+					k = cub->spr[cub->spr_order[i]].draw_startY;
+					
+					while (k < cub->spr[cub->spr_order[i]].draw_endY)
+					{
+						cub->spr[cub->spr_order[i]].tex_Y = ((((k * 256 - HEIGHT * 128) + cub->spr[cub->spr_order[i]].spr_hgt * 128) * cub->tex[cub->spr[cub->spr_order[i]].tex].img_h) / cub->spr[cub->spr_order[i]].spr_hgt) /256;
+						color = cub->tex[cub->spr[cub->spr_order[i]].tex].addr[((cub->spr[cub->spr_order[i]].tex_Y * cub->tex[cub->spr[cub->spr_order[i]].tex].img_h)) + cub->spr[cub->spr_order[i]].tex_X];
+						if ((color & 0x00FFFFFF) != 0)
+							pxl_to_img(cub, j, k, color);
+						k++;
+					}
 				}
+				j++;
 			}
-			j++;
 		}
 		i++;
 	}
