@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/06 12:23:37 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:11:37 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 # define HEIGHT 1080
 # define WIDTH 1920
-# define SPRITENUM 2
 
 typedef struct s_mnmp
 {
@@ -41,11 +40,6 @@ typedef struct s_key
 	int	r_right;
 	int	s_left;
 	int	s_right;
-	int	crouch;
-	int	jump;	
-	int	shoot;
-	int	aim;
-	int	fov;
 	int	open;
 }	t_key;
 
@@ -197,4 +191,6 @@ void	game_win(t_cub *cub);
 void	menu(t_cub *cub);
 int	mouse_keys(int key, int x, int y, t_cub *cub);
 void	init_all(t_cub *cub);
+int	ft_error(char *str, t_cub *cub);
+void	free_all(t_cub *cub);
 #endif

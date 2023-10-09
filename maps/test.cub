@@ -3,7 +3,7 @@ SO ./textures/barrel_side.xpm
 WE ./textures/barrel_side.xpm
 EA ./textures/barrel_side.xpm
 
-C 120,120,220
+C 90,120,220
 F 120,120,120
 
 11111111111111111111111111111111111111111111111111111111111111111111

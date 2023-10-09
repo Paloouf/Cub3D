@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:32:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/07 11:36:04 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/09 11:24:59 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@ int	ft_atoi_du_pauvre(char *str, int i)
 {
 	while (i > 1)
 	{
-		str++;
 		if (*str == ',')
 		{
 			i--;
 			str++;
 		}
+		else
+			str++;
 	}
 	return (ft_atoi(str));
 }

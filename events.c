@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:30:08 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/06 12:13:25 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:12:24 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,27 @@ void	free_all(t_cub *cub)
 	i = -1;
 	if (cub->img.image)
 		mlx_destroy_image(cub->mlx_ptr, cub->img.image);
-	while (cub->map[++i])
-		free(cub->map[i]);
+	if (cub->map)
+	{
+		while (cub->map[++i])
+			free(cub->map[i]);
+		free(cub->map);
+	}
 	i = 0;
 	while (i < 15)
 	{
-		mlx_destroy_image(cub->mlx_ptr, cub->tex[i].img);
+		if (cub->tex[i].img)
+			mlx_destroy_image(cub->mlx_ptr, cub->tex[i].img);
 		i++;
 	}
-	free(cub->tex);
-	free(cub->spr_order);
-	free(cub->spr);
-	free(cub->map);
-	free(cub->cam);
+	if (cub->tex)
+		free(cub->tex);
+	if (cub->spr_order)
+		free(cub->spr_order);
+	if (cub->spr)
+		free(cub->spr);
+	if (cub->cam)
+		free(cub->cam);
 	if (cub->mlx_ptr)
 	{
 		mlx_destroy_window(cub->mlx_ptr, cub->win_ptr);
@@ -180,8 +188,6 @@ int	key_events(int key, t_cub *cub)
 	if (key == XK_d)
 		cub->key.s_right = 1;
 	if (key == XK_f)
-		cub->key.fov = 1;
-	if (key == XK_f)
 		cub->key.open = 1;	
 	return (0);
 }
@@ -204,8 +210,6 @@ int	key_release(int key, t_cub *cub)
 		cub->key.s_left = 0;
 	if (key == XK_d)
 		cub->key.s_right = 0;
-	if (key == XK_f)
-		cub->key.fov = 0;
 	if (key == XK_f)
 		cub->key.open = 0;
 	return (0);
