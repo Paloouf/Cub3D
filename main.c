@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/09 13:18:13 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:18:52 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	main(int ac, char **av)
 		cub.win_ptr = mlx_new_window(cub.mlx_ptr, WIDTH, HEIGHT, "CubEZ v0.0");
 		cub.cam = malloc(sizeof(t_cam) * WIDTH);
 		init_all(&cub);
-		if(parse(av[1], &cub) == 1)
+		if(parse(av[1], &cub, 0) == 1)
 			return 0;
 		init_game(&cub);
 		mlx_hook(cub.win_ptr, 2, 1L << 0, key_events, &cub);
