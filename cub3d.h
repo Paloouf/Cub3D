@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/09/28 11:43:39 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:00:07 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 # define HEIGHT 1080
 # define WIDTH 1920
-# define SPRITENUM 2
 
 typedef struct s_mnmp
 {
@@ -41,11 +40,7 @@ typedef struct s_key
 	int	r_right;
 	int	s_left;
 	int	s_right;
-	int	crouch;
-	int	jump;	
-	int	shoot;
-	int	aim;
-	int	fov;
+	int	open;
 }	t_key;
 
 typedef struct s_floor
@@ -64,6 +59,7 @@ typedef struct s_ceil
 
 typedef struct s_spr
 {
+	char	type;
 	double x;
 	double y;
 	double	spriteX;
@@ -100,7 +96,7 @@ typedef struct s_cam
 	int	stepY;
 	double	w_dist;
 	double	w_X;
-	int	w_num;
+	char	w_num;
 	int	tex_num;
 	int	tex_X;
 	int	tex_Y;
@@ -143,6 +139,7 @@ typedef struct s_cub
 	char	*west;
 	char	*east;
 	char	**map;
+	char	**mapcpy;
 	int	hgt;
 	int	phangle;
 	int	pvangle;
@@ -154,6 +151,13 @@ typedef struct s_cub
 	double	posY;
 	int	tono;
 	int	*spr_order;
+	int	valid;
+	int	gameover;
+	int	gamewin;
+	int	game;
+	int	menu;
+	int	mapy;
+	double	speed;
 	t_img	img;
 	t_floor	fl;
 	t_ceil	cl;
@@ -183,5 +187,13 @@ void	move (t_cub *cub);
 void	sprite(t_cub *cub);
 void	jump(t_cub *cub);
 void	check_sprite(t_cub *cub);
-
+void	ft_door(t_cub *cub);
+void	game_over(t_cub *cub);
+void	game_win(t_cub *cub);
+void	menu(t_cub *cub);
+int	mouse_keys(int key, int x, int y, t_cub *cub);
+void	init_all(t_cub *cub);
+int	ft_error(char *str, t_cub *cub);
+void	free_all(t_cub *cub);
+int	check(t_cub *cub);
 #endif

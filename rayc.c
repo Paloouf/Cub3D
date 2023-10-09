@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:18:26 by jcasades          #+#    #+#             */
-/*   Updated: 2023/09/28 14:57:05 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:23:33 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	init_game(t_cub *data)
 	data->dirY = (double)(0 + ((data->map[y][x] == 'N') * -1) + ((data->map[y][x] == 'S')));
 	data->planeX = (double)(0 + ((data->map[y][x] == 'S') * -1) + ((data->map[y][x] == 'N')));
 	data->planeY = (double)(0 + ((data->map[y][x] == 'E') * -1) + ((data->map[y][x] == 'W')));
+	check(data);
 }
 
 void	ft_sort_sprite(t_cub *cub)
@@ -64,6 +65,9 @@ void	ft_sort_sprite(t_cub *cub)
 		i++;
 	}
 }
+
+
+
 void	camera(t_cub *cub, int x)
 {
 	int	i;
@@ -105,33 +109,25 @@ void	camera(t_cub *cub, int x)
 		cub->cam[x].stepY = 1;
 		cub->cam[x].s_distY = ((double)cub->cam[x].mapY + 1.0 - cub->posY) * cub->cam[x].d_distY;
 	}
-	//if (x < 10 || x > 1910)
-	//	printf("s-dirx : %f s_dirY: %f cameraX : %f\n", cub->cam[x].s_distX, cub->cam[x].s_distY, cub->cam[x].cameraX);
 	while (1)
 	{	
-		if (cub->map[cub->cam[x].mapY][cub->cam[x].mapX] == '1')
-		{
-			//ft_printf("side %d\n", cub->cam[x].side);
+		if (cub->map[cub->cam[x].mapY][cub->cam[x].mapX] == '1' || cub->map[cub->cam[x].mapY][cub->cam[x].mapX] == 'D')
 			break;
-		}
 		if (cub->cam[x].s_distX < cub->cam[x].s_distY)
 		{
-			//ft_printf("ici\n");
 			cub->cam[x].s_distX += cub->cam[x].d_distX;
 			cub->cam[x].mapX += cub->cam[x].stepX;
-			cub->cam[x].side = 0;
+			cub->cam[x].side = 0;	
 		}
 		else
 		{
 			cub->cam[x].s_distY += cub->cam[x].d_distY;
 			cub->cam[x].mapY += cub->cam[x].stepY;
-			cub->cam[x].side = 1;
+			cub->cam[x].side = 1;	
 		}
-
 	}
 	//wall-dist
-	//if (cub->cam[x].side == 0)
-	//	ft_printf("side %d\n", cub->cam[x].side);
+	cub->cam[x].w_num = cub->map[cub->cam[x].mapY][cub->cam[x].mapX];
 	if (cub->cam[x].side == 0)
 		cub->cam[x].w_dist = cub->cam[x].s_distX - cub->cam[x].d_distX;
 	else
@@ -156,16 +152,20 @@ void	camera(t_cub *cub, int x)
 	cub->tex[8].addr = (int *)mlx_get_data_addr(cub->tex[8].img, &cub->tex[8].bpp, &cub->tex[8].line_len, &cub->tex[8].endian);
 	cub->tex[9].addr = (int *)mlx_get_data_addr(cub->tex[9].img, &cub->tex[9].bpp, &cub->tex[9].line_len, &cub->tex[9].endian);
 	cub->tex[10].addr = (int *)mlx_get_data_addr(cub->tex[10].img, &cub->tex[10].bpp, &cub->tex[10].line_len, &cub->tex[10].endian);
-	//cub->cam[x].w_num = cub->map[cub->cam[x].mapY][cub->cam[x].mapX] - 48;
+	cub->tex[11].addr = (int *)mlx_get_data_addr(cub->tex[11].img, &cub->tex[11].bpp, &cub->tex[11].line_len, &cub->tex[11].endian);
 	if (cub->cam[x].side == 0)
 	{
 		cub->cam[x].tex_num = 2 + (cub->cam[x].mapX > cub->posX);
 		cub->cam[x].w_X = cub->posY + cub->cam[x].w_dist * cub->cam[x].raydirY;
+		if (cub->cam[x].w_num == 'D')
+			cub->cam[x].tex_num = 11;	
 	}
 	else
 	{
 		cub->cam[x].tex_num = 0 + (cub->cam[x].mapY > cub->posY);
 		cub->cam[x].w_X = cub->posX + cub->cam[x].w_dist * cub->cam[x].raydirX;
+		if (cub->cam[x].w_num == 'D')
+			cub->cam[x].tex_num = 11;
 	}
 	cub->cam[x].w_X -= floor(cub->cam[x].w_X);
 	cub->cam[x].tex_X = cub->cam[x].w_X * (double)cub->tex[cub->cam[x].tex_num].img_w;
@@ -191,6 +191,51 @@ void	camera(t_cub *cub, int x)
 		i++;
 	}
 }
+void	game_win(t_cub *cub)
+{
+	int	x;
+	int	y;
+	int	color;
+
+	x = 0;
+	y = 0;
+	cub->valid = 0;
+	cub->tex[14].addr = (int *)mlx_get_data_addr(cub->tex[14].img, &cub->tex[14].bpp, &cub->tex[14].line_len, &cub->tex[14].endian);
+	while (y < (HEIGHT))
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			color = cub->tex[14].addr[((((int)(x * ((double)cub->tex[14].img_w / WIDTH)))) + (((int)(y * ((double)cub->tex[14].img_h / (HEIGHT)))) * cub->tex[14].img_w))];
+			pxl_to_img(cub, x, y, color);
+			x++;
+		}
+		y++;
+	}
+}
+
+void	game_over(t_cub *cub)
+{
+	int	x;
+	int	y;
+	int	color;
+
+	x = 0;
+	y = 0;
+	cub->valid = 0;
+	cub->tex[13].addr = (int *)mlx_get_data_addr(cub->tex[13].img, &cub->tex[13].bpp, &cub->tex[13].line_len, &cub->tex[13].endian);
+	while (y < (HEIGHT))
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			color = cub->tex[13].addr[((((int)(x * ((double)cub->tex[13].img_w / WIDTH)))) + (((int)(y * ((double)cub->tex[13].img_h / (HEIGHT)))) * cub->tex[13].img_w))];
+			pxl_to_img(cub, x, y, color);
+			x++;
+		}
+		y++;
+	}
+}
 
 void	check_sprite(t_cub *cub)
 {
@@ -198,7 +243,7 @@ void	check_sprite(t_cub *cub)
 	static	int j = 0;
 	double	move_x;
 	double	move_y;
-
+	
 	i = 0;
 	j++;
 	move_x = 0;
@@ -208,34 +253,68 @@ void	check_sprite(t_cub *cub)
 	while (i < cub->tono)
 	{
 		cub->spr[i].dist = (((cub->posX - cub->spr[i].x) * (cub->posX - cub->spr[i].x)) + ((cub->posY - cub->spr[i].y) * (cub->posY - cub->spr[i].y)));
-		if (cub->spr[i].dist < 3)
+		if (cub->spr[i].dist < 3 && cub->spr[i].type == 'C')
 			cub->spr[i].transf = 1;
-//		if (cub->spr[i].dist < 1)
-//			game_over(cub);
-		if (cub->spr[i].transf == 1)
+		if (cub->spr[i].dist < 0.5 && cub->spr[i].type == 'C')
+		{
+			cub->game = 0;
+			cub->gameover = 1;
+		}
+		if (cub->spr[i].dist < 0.5 && cub->spr[i].type == 'V')
+		{
+			cub->game = 0;
+			cub->gamewin = 1;
+		}
+		if (cub->spr[i].type == 'C' && cub->spr[i].transf == 1)
 		{	
 			cub->spr[i].tex = 4 + j;
 			move_x = (cub->spr[i].x - cub->posX) / 10;
-			if (move_x < -0.05)
-				move_x = -0.05;
+			if (move_x < cub->speed)
+				move_x = -1 * cub->speed;
 			if (move_x > 0.05)
-				move_x = 0.05;
+				move_x = cub->speed;
 			move_y = (cub->spr[i].y - cub->posY) / 10;
-			if (move_y < -0.05)
-				move_y = -0.05;
-			if (move_y > 0.05)
-				move_y = 0.05;
-			printf("%f, %f\n", move_y, move_x);
-			if (cub->map[(int)(cub->spr[i].y + (move_y * 2))][(int)(cub->spr[i].x + (move_x * 2))] != '1')
+			if (move_y < -1 * cub->speed)
+				move_y = -1 * cub->speed;
+			if (move_y > cub->speed)
+				move_y = cub->speed;
+			if (cub->map[(int)(cub->spr[i].y - (move_y * 2))][(int)(cub->spr[i].x - (move_x * 2))] != '1')
 			{
-				printf("%d\n", cub->spr[i].tex);	
 				cub->spr[i].x -= move_x;
 				cub->spr[i].y -= move_y;
 			}
-		}
+			else if (cub->map[(int)(cub->spr[i].y - (move_y * 2))][(int)(cub->spr[i].x )] != '1')
+				cub->spr[i].y -= move_y;
+			else if (cub->map[(int)(cub->spr[i].y)][(int)(cub->spr[i].x - (move_x * 2))] != '1')
+				cub->spr[i].x -= move_x;
+		}	
 		i++;
 	}
 }
+
+void	menu(t_cub *cub)
+{
+	int	x;
+	int	y;
+	int	color;
+
+	x = 0;
+	y = 0;
+	cub->valid = 0;
+	cub->tex[12].addr = (int *)mlx_get_data_addr(cub->tex[12].img, &cub->tex[12].bpp, &cub->tex[12].line_len, &cub->tex[12].endian);
+	while (y < (HEIGHT))
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			color = cub->tex[12].addr[((((int)(x * ((double)cub->tex[12].img_w / WIDTH)))) + (((int)(y * ((double)cub->tex[12].img_h / (HEIGHT)))) * cub->tex[12].img_w))];
+			pxl_to_img(cub, x, y, color);
+			x++;
+		}
+		y++;
+	}
+}
+
 
 void	sprite(t_cub *cub)
 {
@@ -256,44 +335,47 @@ void	sprite(t_cub *cub)
 	i = 0;
 	while (i < cub->tono)
 	{
-		cub->spr[i].spriteX = cub->spr[cub->spr_order[i]].x - cub->posX;
-		cub->spr[i].spriteY = cub->spr[cub->spr_order[i]].y - cub->posY;
-		cub->spr[i].invert = 1.0 / (cub->planeX * cub->dirY - cub->dirX * cub->planeY);
-		cub->spr[i].transX = cub->spr[i].invert * (cub->dirY * cub->spr[i].spriteX - cub->dirX * cub->spr[i].spriteY);
-		cub->spr[i].transY = cub->spr[i].invert * ((cub->planeY*-1) * cub->spr[i].spriteX + cub->planeX * cub->spr[i].spriteY);
-		cub->spr[i].spr_screenX = (int)((WIDTH/2) * (1 + cub->spr[i].transX / cub->spr[i].transY));
-		cub->spr[i].spr_hgt = abs((int)(HEIGHT/cub->spr[i].transY));
-		cub->spr[i].draw_startY = -cub->spr[i].spr_hgt / 2 + HEIGHT / 2;
-		if (cub->spr[i].draw_startY < 0)
-			cub->spr[i].draw_startY = 0;
-		cub->spr[i].draw_endY = cub->spr[i].spr_hgt / 2 + HEIGHT / 2;
-		if (cub->spr[i].draw_endY >= HEIGHT)
-			cub->spr[i].draw_endY = HEIGHT - 1;
-		cub->spr[i].spr_wth = abs((int)(HEIGHT/cub->spr[i].transY));
-		cub->spr[i].draw_startX = -cub->spr[i].spr_wth / 2 + cub->spr[i].spr_screenX;
-		if (cub->spr[i].draw_startX < 0)
-			cub->spr[i].draw_startX = 0;
-		cub->spr[i].draw_endX = cub->spr[i].spr_wth / 2 + cub->spr[i].spr_screenX;
-		if (cub->spr[i].draw_endX >= WIDTH)
-			cub->spr[i].draw_endX = WIDTH - 1;
-		j = cub->spr[i].draw_startX;
-		while (j < cub->spr[i].draw_endX)
+		if (cub->spr[cub->spr_order[i]].type == 'C' || cub->spr[cub->spr_order[i]].type == 'B' || cub->spr[cub->spr_order[i]].type == 'V')
 		{
-			cub->spr[i].tex_X = (int)(256 * (j - (-cub->spr[i].spr_wth / 2 + cub->spr[i].spr_screenX)) * cub->tex[cub->spr[i].tex].img_w / cub->spr[i].spr_wth) / 256;
-			if (cub->spr[i].transY > 0 && j > 0 && j < WIDTH && cub->spr[i].transY < cub->cam[j].w_dist)
+			cub->spr[cub->spr_order[i]].spriteX = cub->spr[cub->spr_order[i]].x - cub->posX;
+			cub->spr[cub->spr_order[i]].spriteY = cub->spr[cub->spr_order[i]].y - cub->posY;
+			cub->spr[cub->spr_order[i]].invert = 1.0 / (cub->planeX * cub->dirY - cub->dirX * cub->planeY);
+			cub->spr[cub->spr_order[i]].transX = cub->spr[cub->spr_order[i]].invert * (cub->dirY * cub->spr[cub->spr_order[i]].spriteX - cub->dirX * cub->spr[cub->spr_order[i]].spriteY);
+			cub->spr[cub->spr_order[i]].transY = cub->spr[cub->spr_order[i]].invert * ((cub->planeY*-1) * cub->spr[cub->spr_order[i]].spriteX + cub->planeX * cub->spr[cub->spr_order[i]].spriteY);
+			cub->spr[cub->spr_order[i]].spr_screenX = (int)((WIDTH/2) * (1 + cub->spr[cub->spr_order[i]].transX / cub->spr[cub->spr_order[i]].transY));
+			cub->spr[cub->spr_order[i]].spr_hgt = abs((int)(HEIGHT/cub->spr[cub->spr_order[i]].transY));
+			cub->spr[cub->spr_order[i]].draw_startY = -cub->spr[cub->spr_order[i]].spr_hgt / 2 + HEIGHT / 2;
+			if (cub->spr[cub->spr_order[i]].draw_startY < 0)
+				cub->spr[cub->spr_order[i]].draw_startY = 0;
+			cub->spr[cub->spr_order[i]].draw_endY = cub->spr[cub->spr_order[i]].spr_hgt / 2 + HEIGHT / 2;
+			if (cub->spr[cub->spr_order[i]].draw_endY >= HEIGHT)
+				cub->spr[cub->spr_order[i]].draw_endY = HEIGHT - 1;
+			cub->spr[cub->spr_order[i]].spr_wth = abs((int)(HEIGHT/cub->spr[cub->spr_order[i]].transY));
+			cub->spr[cub->spr_order[i]].draw_startX = -cub->spr[cub->spr_order[i]].spr_wth / 2 + cub->spr[cub->spr_order[i]].spr_screenX;
+			if (cub->spr[cub->spr_order[i]].draw_startX < 0)
+				cub->spr[cub->spr_order[i]].draw_startX = 0;
+			cub->spr[cub->spr_order[i]].draw_endX = cub->spr[cub->spr_order[i]].spr_wth / 2 + cub->spr[cub->spr_order[i]].spr_screenX;
+			if (cub->spr[cub->spr_order[i]].draw_endX >= WIDTH)
+				cub->spr[cub->spr_order[i]].draw_endX = WIDTH - 1;
+			j = cub->spr[cub->spr_order[i]].draw_startX;
+			while (j < cub->spr[cub->spr_order[i]].draw_endX)
 			{
-				k = cub->spr[i].draw_startY;
-				
-				while (k < cub->spr[i].draw_endY)
+				cub->spr[cub->spr_order[i]].tex_X = (int)(256 * (j - (-cub->spr[cub->spr_order[i]].spr_wth / 2 + cub->spr[cub->spr_order[i]].spr_screenX)) * cub->tex[cub->spr[cub->spr_order[i]].tex].img_w / cub->spr[cub->spr_order[i]].spr_wth) / 256;
+				if (cub->spr[cub->spr_order[i]].transY > 0 && j > 0 && j < WIDTH && cub->spr[cub->spr_order[i]].transY < cub->cam[j].w_dist)
 				{
-					cub->spr[i].tex_Y = ((((k * 256 - HEIGHT * 128) + cub->spr[i].spr_hgt * 128) * cub->tex[cub->spr[i].tex].img_h) / cub->spr[i].spr_hgt) /256;
-					color = cub->tex[cub->spr[i].tex].addr[((cub->spr[i].tex_Y * cub->tex[cub->spr[i].tex].img_h)) + cub->spr[i].tex_X];
-					if ((color & 0x00FFFFFF) != 0)
-						pxl_to_img(cub, j, k, color);
-					k++;
+					k = cub->spr[cub->spr_order[i]].draw_startY;
+					
+					while (k < cub->spr[cub->spr_order[i]].draw_endY)
+					{
+						cub->spr[cub->spr_order[i]].tex_Y = ((((k * 256 - HEIGHT * 128) + cub->spr[cub->spr_order[i]].spr_hgt * 128) * cub->tex[cub->spr[cub->spr_order[i]].tex].img_h) / cub->spr[cub->spr_order[i]].spr_hgt) /256;
+						color = cub->tex[cub->spr[cub->spr_order[i]].tex].addr[((cub->spr[cub->spr_order[i]].tex_Y * cub->tex[cub->spr[cub->spr_order[i]].tex].img_h)) + cub->spr[cub->spr_order[i]].tex_X];
+						if ((color & 0x00FFFFFF) != 0)
+							pxl_to_img(cub, j, k, color);
+						k++;
+					}
 				}
+				j++;
 			}
-			j++;
 		}
 		i++;
 	}
