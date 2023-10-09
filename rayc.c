@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:18:26 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/09 10:30:58 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:16:24 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,7 @@ void	check_sprite(t_cub *cub)
 			cub->game = 0;
 			cub->gamewin = 1;
 		}
-		if (cub->spr[i].transf == 1)
+		if (cub->spr[i].type == 'C' && cub->spr[i].transf == 1)
 		{	
 			cub->spr[i].tex = 4 + j;
 			move_x = (cub->spr[i].x - cub->posX) / 10;

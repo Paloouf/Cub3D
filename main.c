@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/09 13:11:20 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:18:13 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	the_game(t_cub *cub)
 	int	x;
 
 	x = 0;
-	
 	move(cub);
 	if (cub->img.image)
 		mlx_destroy_image(cub->mlx_ptr, cub->img.image);

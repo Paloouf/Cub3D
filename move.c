@@ -6,34 +6,14 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 13:37:51 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/06 12:17:52 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/06 14:23:09 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-void	move(t_cub *cub)
+void	move_deux(t_cub *cub)
 {
-	if (cub->key.open == 1 && cub->map[(int)(cub->posY + (cub->dirY * 1.5))][(int)(cub->posX + (cub->dirX * 1.5))] == 'D')
-		cub->map[(int)(cub->posY + (cub->dirY * 1.5))][(int)(cub->posX + (cub->dirX * 1.5))] = 'd';
-	else if (cub->key.open == 1 && cub->map[(int)(cub->posY + (cub->dirY * 1.5))][(int)(cub->posX + (cub->dirX * 1.5))] == 'd')
-		cub->map[(int)(cub->posY + (cub->dirY * 1.5))][(int)(cub->posX + (cub->dirX * 1.5))] = 'D';
-	if (cub->key.forward == 1 && cub->map[(int)(cub->posY + (cub->dirY / 5))][(int)(cub->posX + (cub->dirX / 5))] != '1' && cub->map[(int)(cub->posY + (cub->dirY / 5))][(int)(cub->posX + (cub->dirX / 5))] != 'D' && cub->map[(int)(cub->posY + (cub->dirY / 10))][(int)(cub->posX + (cub->dirX / 10))] != 'B')
-	{
-		cub->posX += cub->dirX / 10;
-		cub->posY += cub->dirY / 10;
-	}
-	if (cub->key.back == 1 && cub->map[(int)(cub->posY - (cub->dirY / 5))][(int)(cub->posX - (cub->dirX / 5))] != '1' && cub->map[(int)(cub->posY - (cub->dirY / 5))][(int)(cub->posX - (cub->dirX / 5))] != 'D' && cub->map[(int)(cub->posY - (cub->dirY / 10))][(int)(cub->posX - (cub->dirX / 10))] != 'B')
-	{
-		cub->posX -= cub->dirX / 10;
-		cub->posY -= cub->dirY / 10;
-	}
-	if (cub->key.s_right == 1 && cub->map[(int)(cub->posY + (cub->dirX / 5))][(int)(cub->posX - (cub->dirY / 5))] != '1' && cub->map[(int)(cub->posY + (cub->dirX / 5))][(int)(cub->posX - (cub->dirY / 5))] != 'D' && cub->map[(int)(cub->posY + (cub->dirX / 10))][(int)(cub->posX - (cub->dirY / 10))] != 'B')
-	{
-		cub->posX -= cub->dirY / 10;
-		cub->posY += cub->dirX / 10;
-	}
 	if (cub->key.s_left == 1 && cub->map[(int)(cub->posY - (cub->dirX / 5))][(int)(cub->posX + (cub->dirY / 5))] != '1' && cub->map[(int)(cub->posY - (cub->dirX / 5))][(int)(cub->posX + (cub->dirY / 5))] != 'D' && cub->map[(int)(cub->posY - (cub->dirX / 10))][(int)(cub->posX + (cub->dirY / 10))] != 'B')
 	{
 		cub->posX += cub->dirY / 10;
@@ -59,4 +39,28 @@ void	move(t_cub *cub)
 		cub->planeX = 1 * (cos(((double)cub->phangle * M_PI) / (double)180));
 		cub->planeY = 1 * (sin(((double)cub->phangle * M_PI) / (double)180));
 	}
+}
+
+void	move(t_cub *cub)
+{
+	if (cub->key.open == 1 && cub->map[(int)(cub->posY + (cub->dirY * 1.5))][(int)(cub->posX + (cub->dirX * 1.5))] == 'D')
+		cub->map[(int)(cub->posY + (cub->dirY * 1.5))][(int)(cub->posX + (cub->dirX * 1.5))] = 'd';
+	else if (cub->key.open == 1 && cub->map[(int)(cub->posY + (cub->dirY * 1.5))][(int)(cub->posX + (cub->dirX * 1.5))] == 'd')
+		cub->map[(int)(cub->posY + (cub->dirY * 1.5))][(int)(cub->posX + (cub->dirX * 1.5))] = 'D';
+	if (cub->key.forward == 1 && cub->map[(int)(cub->posY + (cub->dirY / 5))][(int)(cub->posX + (cub->dirX / 5))] != '1' && cub->map[(int)(cub->posY + (cub->dirY / 5))][(int)(cub->posX + (cub->dirX / 5))] != 'D' && cub->map[(int)(cub->posY + (cub->dirY / 10))][(int)(cub->posX + (cub->dirX / 10))] != 'B')
+	{
+		cub->posX += cub->dirX / 10;
+		cub->posY += cub->dirY / 10;
+	}
+	if (cub->key.back == 1 && cub->map[(int)(cub->posY - (cub->dirY / 5))][(int)(cub->posX - (cub->dirX / 5))] != '1' && cub->map[(int)(cub->posY - (cub->dirY / 5))][(int)(cub->posX - (cub->dirX / 5))] != 'D' && cub->map[(int)(cub->posY - (cub->dirY / 10))][(int)(cub->posX - (cub->dirX / 10))] != 'B')
+	{
+		cub->posX -= cub->dirX / 10;
+		cub->posY -= cub->dirY / 10;
+	}
+	if (cub->key.s_right == 1 && cub->map[(int)(cub->posY + (cub->dirX / 5))][(int)(cub->posX - (cub->dirY / 5))] != '1' && cub->map[(int)(cub->posY + (cub->dirX / 5))][(int)(cub->posX - (cub->dirY / 5))] != 'D' && cub->map[(int)(cub->posY + (cub->dirX / 10))][(int)(cub->posX - (cub->dirY / 10))] != 'B')
+	{
+		cub->posX -= cub->dirY / 10;
+		cub->posY += cub->dirX / 10;
+	}
+	move_deux(cub);
 }

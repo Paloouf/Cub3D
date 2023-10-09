@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/09 13:13:20 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:20:09 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,47 @@ int	fill_tex(t_cub *cub)
 	{
 		if (!cub->tex[i].img)
 			return (ft_error("Error: Invalid Textures\n", cub));
+		cub->tex[i].addr = (int *)mlx_get_data_addr(cub->tex[i].img, &cub->tex[i].bpp, &cub->tex[i].line_len, &cub->tex[i].endian);
 		i++;
 	}
 }
 
-int	parse_info(t_cub *cub, char *line)
+int	parse_info_deux(t_cub *cub, char *line)
 {
 	int	i;
-	
+
+	i = 0;
+	if (!ft_strncmp(line, "WE ", 3))
+	{
+		if (cub->west[0])
+			return (0);
+		free(cub->west);
+		while (line[3 + i] == ' ')
+			i++;
+		cub->west = ft_strdup(line + 3 + i);
+		cub->west[ft_strlen(cub->west) - 1] = '\0';
+	}
+	if (!ft_strncmp(line, "EA ", 3))
+	{
+		if (cub->east[0])
+			return (0);
+		free(cub->east);
+		while (line[3 + i] == ' ')
+			i++;
+		cub->east = ft_strdup(line + 3 + i);
+		cub->east[ft_strlen(cub->east) - 1] = '\0';
+	}
+	if (!ft_strncmp(line, "F ", 2))
+		ft_floor(cub, line + 2);
+	if (!ft_strncmp(line, "C ", 2))
+		ft_ceiling(cub, line + 2);
+	return (1);
+}
+
+int	parse_info(t_cub *cub, char *line)
+{
+	int 	i;
+
 	i = 0;
 	if (line[0] == '\n')
 		return (1);
@@ -111,34 +144,8 @@ int	parse_info(t_cub *cub, char *line)
 		cub->south = ft_strdup(line + 3 + i);
 		cub->south[ft_strlen(cub->south) - 1] = '\0';
 	}
-	if (!ft_strncmp(line, "WE ", 3))
-	{
-		if (cub->west[0])
-			return (0);
-		free(cub->west);
-		while (line[3 + i] == ' ')
-			i++;
-		cub->west = ft_strdup(line + 3 + i);
-		cub->west[ft_strlen(cub->west) - 1] = '\0';
-	}
-	if (!ft_strncmp(line, "EA ", 3))
-	{
-		if (cub->east[0])
-			return (0);
-		free(cub->east);
-		while (line[3 + i] == ' ')
-			i++;
-		cub->east = ft_strdup(line + 3 + i);
-		cub->east[ft_strlen(cub->east) - 1] = '\0';
-	}
-	if (!ft_strncmp(line, "F ", 2))
-	{
-		ft_floor(cub, line + 2);
-	}
-	if (!ft_strncmp(line, "C ", 2))
-	{
-		ft_ceiling(cub, line + 2);
-	}
+	if (!parse_info_deux(cub, line))
+		return (0);
 	return (1);
 }
 
@@ -165,9 +172,9 @@ void	add_barrel(t_cub *cub, int i, char *line)
 	j = 0;
 	while (line[j])
 	{
+		cub->spr[tono].type = line[j];
 		if (line[j] == 'C')
 		{
-			cub->spr[tono].type = 'C';
 			cub->spr[tono].x = j + 0.3;
 			cub->spr[tono].y = i + 0.3;
 			cub->spr[tono].tex = 10;
@@ -176,7 +183,6 @@ void	add_barrel(t_cub *cub, int i, char *line)
 		}
 		if (line[j] == 'B' || line[j] == 'V')
 		{
-			cub->spr[tono].type = line[j];
 			cub->spr[tono].x = j + 0.5;
 			cub->spr[tono].y = i + 0.5;
 			cub->spr[tono].tex = 10;
@@ -249,7 +255,7 @@ int	parse(char *argv, t_cub *cub)
 	cub->spr_order = malloc(sizeof(int *) * cub->tono);
 	cub->map = ft_calloc(i + 1, sizeof(char *));
 	cub->tex = malloc(sizeof(t_tex) * 15);
-	cub->spr = malloc(sizeof(t_spr) * barrel);
+	cub->spr = malloc(sizeof(t_spr) * barrel + 1);
 	if (fill_tex(cub) == 1)
 		return (1);
 	cub->hgt = i - 1;
