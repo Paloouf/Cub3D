@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:18:26 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/09 16:33:59 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:40:49 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,14 +279,14 @@ void	check_sprite(t_cub *cub)
 				move_y = -1 * cub->speed;
 			if (move_y > cub->speed)
 				move_y = cub->speed;
-			if (cub->map[(int)(cub->spr[i].y - (move_y * 2))][(int)(cub->spr[i].x - (move_x * 2))] != '1')
+			if (cub->map[(int)(cub->spr[i].y - (move_y * 2))][(int)(cub->spr[i].x - (move_x * 2))] != '1' && cub->map[(int)(cub->spr[i].y - (move_y * 2))][(int)(cub->spr[i].x - (move_x * 2))] != 'D')
 			{
 				cub->spr[i].x -= move_x;
 				cub->spr[i].y -= move_y;
 			}
-			else if (cub->map[(int)(cub->spr[i].y - (move_y * 2))][(int)(cub->spr[i].x )] != '1')
+			else if (cub->map[(int)(cub->spr[i].y - (move_y * 2))][(int)(cub->spr[i].x )] != '1' && cub->map[(int)(cub->spr[i].y - (move_y * 2))][(int)(cub->spr[i].x )] != 'D')
 				cub->spr[i].y -= move_y;
-			else if (cub->map[(int)(cub->spr[i].y)][(int)(cub->spr[i].x - (move_x * 2))] != '1')
+			else if (cub->map[(int)(cub->spr[i].y)][(int)(cub->spr[i].x - (move_x * 2))] != '1' && cub->map[(int)(cub->spr[i].y)][(int)(cub->spr[i].x - (move_x * 2))] != 'D')
 				cub->spr[i].x -= move_x;
 		}	
 		i++;
