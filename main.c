@@ -6,14 +6,14 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/10 12:33:08 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:24:03 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 void	init_all(t_cub *cub)
-{	
+{
 	if(!cub->gamewin && !cub->gameover)
 	{
 		cub->east = ft_calloc(1, 1);
@@ -66,6 +66,7 @@ int	the_game(t_cub *cub)
 		game_win(cub);
 	mlx_put_image_to_window(cub->mlx_ptr, cub->win_ptr,
 	cub->img.image, 0, 0);
+	return (0);
 }
 int	main(int ac, char **av)
 {

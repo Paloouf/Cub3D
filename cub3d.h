@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/09 16:59:33 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:26:47 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,4 +197,5 @@ int	ft_error(char *str);
 void	free_all(t_cub *cub);
 int	check(t_cub *cub);
 int	check_door(t_cub *cub, int i, int j);
+void	parse_reset(t_cub *cub);
 #endif

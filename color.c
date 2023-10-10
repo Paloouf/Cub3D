@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:19:13 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/10 14:37:21 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:58:35 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_color_c(t_cub *cub, int i, int x)
 	int	red;
 	int	green;
 	int	blue;
-	
+
 	if (x > (WIDTH / 2))
 		x = WIDTH - x;
 	i += sqrt(10 * x);

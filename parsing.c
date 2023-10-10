@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/10 13:09:05 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:57:52 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ void	flood_fill(t_cub *cub, int x, int y)
 	cub->mapcpy[y][x] = 'F';
 	if(cub->map[y][x] == ' ')
 		cub->map[y][x] = '0';
-	
+
 	flood_fill(cub, x + 1, y);
 	flood_fill(cub, x - 1, y);
 	flood_fill(cub, x, y + 1);
@@ -258,14 +258,14 @@ int	check(t_cub *cub)
 				if (check_door(cub, i ,j) == 1)
 					return (1);
 			}
-			
+
 		}
 		i++;
 	}
 	if (!cub->east[0] || !cub->south[0] || !cub->west[0] || !cub->north[0])
 		return(ft_error("Missing information\n"));
 	return (0);
-}	
+}
 int	check_door(t_cub *cub, int i, int j)
 {
 	if (!((cub->map[i - 1][j] && cub->map[i + 1][j]
@@ -284,7 +284,7 @@ int	check_door(t_cub *cub, int i, int j)
 // 	i = 0;
 // 	j = 0;
 // 	while (cub->map[j][i])
-// 	{	
+// 	{
 // 		check_door(cub, i, j);
 // 	}
 // }
@@ -292,16 +292,16 @@ int	ft_error(char *str)
 {
 	while (*str)
 		write(2, str++, 1);
-	return (1);	
+	return (1);
 }
 int	parse(char *argv, t_cub *cub, int i)
-{	
+{
 	int	error;
 	int	file;
 	char	*line;
 	int	barrel;
 	int	door;
-	
+
 	error = 0;
 	barrel = 0;
 	door = 0;
