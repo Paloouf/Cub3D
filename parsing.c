@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/09 17:11:09 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/10 13:09:05 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,13 +203,14 @@ void	add_barrel(t_cub *cub, int i, char *line)
 }
 void	flood_fill(t_cub *cub, int x, int y)
 {
-	if(!cub->mapcpy[y] || !cub->mapcpy[y][x])
-		return;
+	if(y == -1 || !cub->mapcpy[y] || !cub->mapcpy[y][x])
+		return ;
 	if(cub->mapcpy[y][x] == '1' || cub->mapcpy[y][x] == 'F')
 		return;
 	cub->mapcpy[y][x] = 'F';
 	if(cub->map[y][x] == ' ')
 		cub->map[y][x] = '0';
+	
 	flood_fill(cub, x + 1, y);
 	flood_fill(cub, x - 1, y);
 	flood_fill(cub, x, y + 1);
@@ -245,20 +246,25 @@ int	check(t_cub *cub)
 		{
 			if ((i == 0 || i == cub->hgt) && (cub->map[i][j] != '1' && cub->map[i][j] != ' ' && cub->map[i][j] != '\t' && cub->map[i][j] != '\n'))
 				return(ft_error("Error: Invalid Map\n"));
+			if ((j == 0 || j == ft_strlen(cub->map[i])) && (cub->map[i][j] != '1' && cub->map[i][j] != ' ' && cub->map[i][j] != '\t' && cub->map[i][j] != '\n'))
+				return(ft_error("Error: Invalid Map\n"));
 			else if (((i > 0 && j > 0) && (cub->map[i][j] == '0'
 				|| cub->map[i][j] == cub->map[(int)cub->posY][(int)cub->posX] || cub->map[i][j] == 'B' || cub->map[i][j] == 'V'
 				|| cub->map[i][j] == 'C')))
 				if (check_map(cub, i, j) == 1)
 					return (1);
-			else if ((i > 0 && j > 0) && cub->map[i][j] == 'D')
+			if ((i > 0 && j > 0) && cub->map[i][j] == 'D')
+			{
 				if (check_door(cub, i ,j) == 1)
 					return (1);
+			}
 			
 		}
 		i++;
 	}
 	if (!cub->east[0] || !cub->south[0] || !cub->west[0] || !cub->north[0])
 		return(ft_error("Missing information\n"));
+	return (0);
 }	
 int	check_door(t_cub *cub, int i, int j)
 {
