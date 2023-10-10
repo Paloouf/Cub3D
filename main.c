@@ -6,18 +6,21 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/09 13:18:13 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/10 12:33:08 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 void	init_all(t_cub *cub)
-{
-	cub->east = ft_calloc(1, 1);
-	cub->north = ft_calloc(1, 1);
-	cub->west = ft_calloc(1, 1);
-	cub->south = ft_calloc(1, 1);
+{	
+	if(!cub->gamewin && !cub->gameover)
+	{
+		cub->east = ft_calloc(1, 1);
+		cub->north = ft_calloc(1, 1);
+		cub->west = ft_calloc(1, 1);
+		cub->south = ft_calloc(1, 1);
+	}
 	cub->img.image = mlx_new_image(cub->mlx_ptr, WIDTH, HEIGHT);
 	cub->img.data_addr = mlx_get_data_addr(cub->img.image,
 		&cub->img.bpp, &cub->img.line_len, &cub->img.endian);
@@ -68,13 +71,13 @@ int	main(int ac, char **av)
 {
 	t_cub	cub;
 
-	if (ac == 2)
+	if (ac == 2 && WIDTH > 500 && HEIGHT > 500)
 	{
 		cub.mlx_ptr = mlx_init();
 		cub.win_ptr = mlx_new_window(cub.mlx_ptr, WIDTH, HEIGHT, "CubEZ v0.0");
 		cub.cam = malloc(sizeof(t_cam) * WIDTH);
 		init_all(&cub);
-		if(parse(av[1], &cub) == 1)
+		if(parse(av[1], &cub, 0) == 1)
 			return 0;
 		init_game(&cub);
 		mlx_hook(cub.win_ptr, 2, 1L << 0, key_events, &cub);

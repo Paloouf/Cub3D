@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:30:08 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/09 14:59:31 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:16:02 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ void	free_all(t_cub *cub)
 	if (cub->map)
 	{
 		while (cub->map[++i])
+		{
+			free(cub->mapcpy[i]);
 			free(cub->map[i]);
+		}
+		free(cub->mapcpy);
 		free(cub->map);
 	}
 	i = 0;

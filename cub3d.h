@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/09 16:00:07 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:59:33 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,8 +156,8 @@ typedef struct s_cub
 	int	gamewin;
 	int	game;
 	int	menu;
-	int	mapy;
 	double	speed;
+	int	error_code;
 	t_img	img;
 	t_floor	fl;
 	t_ceil	cl;
@@ -174,7 +174,7 @@ void	render_walls(t_cub *cub, int color, float i, float j);
 void	render_background(t_cub *cub, int color);
 int	rgba_to_int(int r, int g, int b, float a);
 void	pxl_to_img(t_cub *cub, int x, int y, unsigned int color);
-int	parse(char *argv, t_cub *cub);
+int	parse(char *argv, t_cub *cub, int i);
 int	parse_info(t_cub *cub, char *line);
 int	init_game(t_cub *data);
 void	camera(t_cub *cub, int x);
@@ -193,7 +193,8 @@ void	game_win(t_cub *cub);
 void	menu(t_cub *cub);
 int	mouse_keys(int key, int x, int y, t_cub *cub);
 void	init_all(t_cub *cub);
-int	ft_error(char *str, t_cub *cub);
+int	ft_error(char *str);
 void	free_all(t_cub *cub);
 int	check(t_cub *cub);
+int	check_door(t_cub *cub, int i, int j);
 #endif
