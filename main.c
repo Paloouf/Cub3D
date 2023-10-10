@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/10 12:33:08 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:08:44 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_all(t_cub *cub)
 {	
-	if(!cub->gamewin && !cub->gameover)
+	if (!cub->gamewin && !cub->gameover)
 	{
 		cub->east = ft_calloc(1, 1);
 		cub->north = ft_calloc(1, 1);
@@ -23,7 +23,7 @@ void	init_all(t_cub *cub)
 	}
 	cub->img.image = mlx_new_image(cub->mlx_ptr, WIDTH, HEIGHT);
 	cub->img.data_addr = mlx_get_data_addr(cub->img.image,
-		&cub->img.bpp, &cub->img.line_len, &cub->img.endian);
+			&cub->img.bpp, &cub->img.line_len, &cub->img.endian);
 	cub->dirX = 0;
 	cub->dirY = 0;
 	cub->planeX = 0;
@@ -65,8 +65,9 @@ int	the_game(t_cub *cub)
 	if (cub->gamewin == 1)
 		game_win(cub);
 	mlx_put_image_to_window(cub->mlx_ptr, cub->win_ptr,
-	cub->img.image, 0, 0);
+		cub->img.image, 0, 0);
 }
+
 int	main(int ac, char **av)
 {
 	t_cub	cub;
@@ -77,13 +78,14 @@ int	main(int ac, char **av)
 		cub.win_ptr = mlx_new_window(cub.mlx_ptr, WIDTH, HEIGHT, "CubEZ v0.0");
 		cub.cam = malloc(sizeof(t_cam) * WIDTH);
 		init_all(&cub);
-		if(parse(av[1], &cub, 0) == 1)
-			return 0;
+		if (parse(av[1], &cub, 0) == 1)
+			return (0);
 		init_game(&cub);
 		mlx_hook(cub.win_ptr, 2, 1L << 0, key_events, &cub);
 		mlx_hook(cub.win_ptr, 3, 1L << 1, key_release, &cub);
 		mlx_mouse_hook(cub.win_ptr, mouse_keys, &cub);
-		mlx_hook(cub.win_ptr, MotionNotify, PointerMotionMask, mouse_events, &cub);
+		mlx_hook(cub.win_ptr, MotionNotify,
+			PointerMotionMask, mouse_events, &cub);
 		mlx_loop_hook(cub.mlx_ptr, the_game, &cub);
 		mlx_hook(cub.win_ptr, 17, 0L, close_cross, &cub);
 		mlx_loop(cub.mlx_ptr);
