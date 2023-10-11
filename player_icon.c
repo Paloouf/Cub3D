@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   player_icon.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcasades <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:31:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/10 15:40:08 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/11 10:18:20 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "cub3d.h"
 
 void	draw_north(t_cub *cub, int i, int j)
 {

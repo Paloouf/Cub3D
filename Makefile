@@ -8,7 +8,12 @@ SRC = main.c \
 	parsing.c \
 	rayc.c \
 	color.c \
-	move.c
+	move.c \
+	free_cub.c \
+	keyboard.c \
+	player_icon.c \
+	error_check.c \
+	tex_utils.c
 
 OBJ = $(SRC:.c=.o)
 CC = gcc
@@ -71,7 +76,7 @@ clean:
 	$(CLEANED)
 	rm -f $(NAME) $(OBJ) *~ core *.core
 
-fclean: 
+fclean:
 	rm -f $(NAME) $(OBJ) *~ core *.core
 	$(FCLEANED)
 

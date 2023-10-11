@@ -6,15 +6,15 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/10 15:08:44 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/11 11:28:10 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	init_all(t_cub *cub)
-{	
-	if (!cub->gamewin && !cub->gameover)
+void	init_all(t_cub *cub, int flag)
+{
+	if (flag == 1)
 	{
 		cub->east = ft_calloc(1, 1);
 		cub->north = ft_calloc(1, 1);
@@ -77,8 +77,8 @@ int	main(int ac, char **av)
 		cub.mlx_ptr = mlx_init();
 		cub.win_ptr = mlx_new_window(cub.mlx_ptr, WIDTH, HEIGHT, "CubEZ v0.0");
 		cub.cam = malloc(sizeof(t_cam) * WIDTH);
-		init_all(&cub);
-		if (parse(av[1], &cub, 0) == 1)
+		init_all(&cub, 1);
+		if (parse(av[1], &cub, 0, 0) == 1)
 			return (0);
 		init_game(&cub);
 		mlx_hook(cub.win_ptr, 2, 1L << 0, key_events, &cub);

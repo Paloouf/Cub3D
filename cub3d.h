@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/09 16:59:33 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 11:37:28 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,8 @@ void	render_walls(t_cub *cub, int color, float i, float j);
 void	render_background(t_cub *cub, int color);
 int	rgba_to_int(int r, int g, int b, float a);
 void	pxl_to_img(t_cub *cub, int x, int y, unsigned int color);
-int	parse(char *argv, t_cub *cub, int i);
-int	parse_info(t_cub *cub, char *line);
+int	parse(char *argv, t_cub *cub, int i, int error);
+int	parse_info(t_cub *cub, char *line, int i);
 int	init_game(t_cub *data);
 void	camera(t_cub *cub, int x);
 int	ft_atoi_du_pauvre(char *str, int i);
@@ -192,9 +192,19 @@ void	game_over(t_cub *cub);
 void	game_win(t_cub *cub);
 void	menu(t_cub *cub);
 int	mouse_keys(int key, int x, int y, t_cub *cub);
-void	init_all(t_cub *cub);
+void	init_all(t_cub *cub, int flag);
 int	ft_error(char *str);
 void	free_all(t_cub *cub);
 int	check(t_cub *cub);
 int	check_door(t_cub *cub, int i, int j);
+void	parse_reset(t_cub *cub);
+void	draw_north(t_cub *cub, int i, int j);
+void	draw_west(t_cub *cub, int i, int j);
+void	draw_south(t_cub *cub, int i, int j);
+void	draw_east(t_cub *cub, int i, int j);
+int	ft_floor(t_cub *cub, char *line);
+int	ft_ceiling(t_cub *cub, char *line);
+void	flood_fill(t_cub *cub, int x, int y);
+int	fill_tex(t_cub *cub);
+
 #endif
