@@ -13,7 +13,9 @@ SRC = main.c \
 	keyboard.c \
 	player_icon.c \
 	error_check.c \
-	tex_utils.c
+	tex_utils.c \
+	sprites.c \
+	menu.c
 
 OBJ = $(SRC:.c=.o)
 CC = gcc
