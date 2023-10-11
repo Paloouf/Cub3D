@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:31:14 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/11 11:34:53 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:09:00 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@ void	draw_square(t_cub *cub)
 
 int	draw_player(t_cub *cub)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
 	if (cub->phangle > 315 || cub->phangle < 45)
 	{
 		draw_north(cub, 0, 0);
@@ -62,10 +57,11 @@ void	draw_map(t_cub *cub, int i, int j, int y)
 {
 	int	x;
 
-	if ((int)(cub->posY + j) - 1 < cub->hgt && j + cub->posY >= 1 &&
-			(int)cub->posX + i < ft_strlen(cub->map[(int)(cub->posY + j) - 1]))
+	if ((cub->posy + j) - 1 >= 0 && cub->posy + j - 1 <= cub->hgt
+		&& cub->posx + i - 1 > 0
+		&& cub->posx + i - 1 < ft_strlen(cub->map[(int)(cub->posy + j - 1)]))
 	{
-		if (cub->map[(int)(cub->posY + j) - 1][(int)(cub->posX + i) - 1] == '1')
+		if (cub->map[(int)(cub->posy + j) - 1][(int)(cub->posx + i) - 1] == '1')
 		{
 			while ((HEIGHT * (3 + j)) / 30 + y != (HEIGHT * (4 + j)) / 30)
 			{

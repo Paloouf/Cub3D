@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 11:36:53 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/11 11:38:24 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 13:03:53 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,14 @@ void	fill_tex_utils(t_cub *cub)
 			"./textures/tonneau.xpm", &cub->tex[10].img_w, &cub->tex[10].img_h);
 }
 
-int	fill_tex(t_cub *cub)
+int	fill_tex(t_cub *cub, int barrel, int i)
 {
-	int	i;
-
-	i = 0;
+	cub->tono = barrel;
+	cub->spr_order = malloc(sizeof(int *) * cub->tono);
+	cub->map = ft_calloc(i + 1, sizeof(char *));
+	cub->mapcpy = ft_calloc(i + 1, sizeof(char *));
+	cub->tex = malloc(sizeof(t_tex) * 15);
+	cub->spr = malloc(sizeof(t_spr) * barrel + 1);
 	fill_tex_utils(cub);
 	cub->tex[11].img = mlx_xpm_file_to_image(cub->mlx_ptr,
 			"./textures/door.xpm", &cub->tex[11].img_w, &cub->tex[11].img_h);
@@ -52,6 +55,7 @@ int	fill_tex(t_cub *cub)
 			"./textures/died.xpm", &cub->tex[13].img_w, &cub->tex[13].img_h);
 	cub->tex[14].img = mlx_xpm_file_to_image(cub->mlx_ptr,
 			"./textures/escaped.xpm", &cub->tex[14].img_w, &cub->tex[14].img_h);
+	i = 0;
 	while (i < 15)
 	{
 		if (!cub->tex[i].img)

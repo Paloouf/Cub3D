@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:24:46 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/11 13:25:42 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:05:33 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ void	mino_ai_deux(t_cub *cub, int i, double move_x, double move_y)
 
 void	mino_ai(t_cub *cub, int i, double move_x, double move_y)
 {
-	move_x = (cub->spr[i].x - cub->posX) / 10;
+	move_x = (cub->spr[i].x - cub->posx) / 10;
 	if (move_x < cub->speed)
 		move_x = -1 * cub->speed;
 	if (move_x > 0.05)
 		move_x = cub->speed;
-	move_y = (cub->spr[i].y - cub->posY) / 10;
+	move_y = (cub->spr[i].y - cub->posy) / 10;
 	if (move_y < -1 * cub->speed)
 		move_y = -1 * cub->speed;
 	if (move_y > cub->speed)
@@ -49,9 +49,9 @@ void	mino_ai(t_cub *cub, int i, double move_x, double move_y)
 
 void	check_mino(t_cub *cub, int i)
 {
-	cub->spr[i].dist = (((cub->posX - cub->spr[i].x) * (cub->posX
-					- cub->spr[i].x)) + ((cub->posY - cub->spr[i].y)
-				* (cub->posY - cub->spr[i].y)));
+	cub->spr[i].dist = (((cub->posx - cub->spr[i].x) * (cub->posx
+					- cub->spr[i].x)) + ((cub->posy - cub->spr[i].y)
+				* (cub->posy - cub->spr[i].y)));
 	if (cub->spr[i].dist < 3 && cub->spr[i].type == 'C')
 		cub->spr[i].transf = 1;
 	if (cub->spr[i].dist < 0.5 && cub->spr[i].type == 'C')

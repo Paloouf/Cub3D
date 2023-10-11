@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:30:08 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/11 11:28:24 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:09:38 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	mouse_keys(int key, int x, int y, t_cub *cub)
 			&& (y > HEIGHT * 8 / 10))
 			key_events(XK_Escape, cub);
 	}
+	return (0);
 }
 
 int	mouse_suite(int x, int y, int value, t_cub *cub)
@@ -71,10 +72,10 @@ int	mouse_suite(int x, int y, int value, t_cub *cub)
 			cub->phangle += 360;
 		if (cub->phangle > 360)
 			cub->phangle -= 360;
-		cub->dirX = -1 * -sin(((double)cub->phangle * M_PI) / 180);
-		cub->dirY = -1 * cos(((double)cub->phangle * M_PI) / 180);
-		cub->planeX = 1 * cos(((double)cub->phangle * M_PI) / 180);
-		cub->planeY = 1 * sin(((double)cub->phangle * M_PI) / 180);
+		cub->dirx = -1 * -sin(((double)cub->phangle * M_PI) / 180);
+		cub->diry = -1 * cos(((double)cub->phangle * M_PI) / 180);
+		cub->planex = 1 * cos(((double)cub->phangle * M_PI) / 180);
+		cub->planey = 1 * sin(((double)cub->phangle * M_PI) / 180);
 		value = x;
 	}
 	return (value);
@@ -103,4 +104,5 @@ int	mouse_events(int x, int y, t_cub *cub)
 	}
 	else
 		mlx_mouse_show(cub->mlx_ptr, cub->win_ptr);
+	return (0);
 }

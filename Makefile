@@ -16,13 +16,14 @@ SRC = main.c \
 	tex_utils.c \
 	sprites.c \
 	menu.c \
-	mino.c
+	mino.c \
+	rayc_utilis.c
 
 OBJ = $(SRC:.c=.o)
 CC = gcc
 
 LFLAGS = -lX11 -lXext -lm
-FLAGS = #-Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra
 
 # ------------------------------ Colors ------------------------------
 

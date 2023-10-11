@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:19:13 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/11 10:49:30 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:13:11 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	ft_color_f(t_cub *cub, int i, int x)
 	int	green;
 	int	blue;
 
+	(void)i;
+	(void)x;
 	red = cub->fl.r_f;
 	blue = cub->fl.b_f;
 	green = cub->fl.g_f;
