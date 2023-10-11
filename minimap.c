@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:31:14 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/11 10:09:08 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 11:34:53 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,10 @@ void	draw_map(t_cub *cub, int i, int j, int y)
 {
 	int	x;
 
-	if (cub->map[(int)(cub->posY + j) - 1] && j + cub->posY >= 1 &&
+	if ((int)(cub->posY + j) - 1 < cub->hgt && j + cub->posY >= 1 &&
 			(int)cub->posX + i < ft_strlen(cub->map[(int)(cub->posY + j) - 1]))
 	{
-		if (cub->map[(int)(cub->posY + j) - 1] &&
-				cub->map[(int)(cub->posY + j) - 1]
-				[(int)(cub->posX + i) - 1] == '1')
+		if (cub->map[(int)(cub->posY + j) - 1][(int)(cub->posX + i) - 1] == '1')
 		{
 			while ((HEIGHT * (3 + j)) / 30 + y != (HEIGHT * (4 + j)) / 30)
 			{

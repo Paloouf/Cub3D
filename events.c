@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:30:08 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/10 15:31:54 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 11:28:24 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	mouse_keys(int key, int x, int y, t_cub *cub)
 		if (key == 1 && (x > (WIDTH * 2 / 10) && (x < (WIDTH * 4 / 10)))
 			&& (y > HEIGHT * 8 / 10))
 		{
-			init_all(cub);
+			init_all(cub, 0);
 			parse_reset(cub);
 			init_game(cub);
 		}

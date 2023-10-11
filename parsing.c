@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/11 10:53:14 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 11:24:51 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,17 @@ int	fill_tex(t_cub *cub)
 	return (0);
 }
 
-int	parse_info_deux(t_cub *cub, char *line)
+int	parse_info_deux(t_cub *cub, char *line, int i)
 {
-	int	i;
-
-	i = 0;
+	while (line[3 + i] == ' ')
+			i++;
 	if (!ft_strncmp(line, "WE ", 3))
 	{
 		if (cub->west[0])
 			return (ft_error("Error: Texture Duplicate\n"));
 		free(cub->west);
-		while (line[3 + i] == ' ')
-			i++;
+		// while (line[3 + i] == ' ')
+		// 	i++;
 		cub->west = ft_strdup(line + 3 + i);
 		cub->west[ft_strlen(cub->west) - 1] = '\0';
 	}
@@ -83,8 +82,7 @@ int	parse_info_deux(t_cub *cub, char *line)
 		if (cub->east[0])
 			return (ft_error("Error: Texture Duplicate\n"));
 		free(cub->east);
-		while (line[3 + i] == ' ')
-			i++;
+
 		cub->east = ft_strdup(line + 3 + i);
 		cub->east[ft_strlen(cub->east) - 1] = '\0';
 	}
@@ -97,11 +95,8 @@ int	parse_info_deux(t_cub *cub, char *line)
 	return (0);
 }
 
-int	parse_info(t_cub *cub, char *line)
+int	parse_info(t_cub *cub, char *line, int i)
 {
-	int	i;
-
-	i = 0;
 	if (line[0] == '\n')
 		return (0);
 	if (!ft_strncmp(line, "NO ", 3))
@@ -124,12 +119,12 @@ int	parse_info(t_cub *cub, char *line)
 		cub->south = ft_strdup(line + 3 + i);
 		cub->south[ft_strlen(cub->south) - 1] = '\0';
 	}
-	if (parse_info_deux(cub, line) == 1)
+	if (parse_info_deux(cub, line, 0) == 1)
 		return (1);
 	return (0);
 }
 
-int	check_barrel(char *line, char c)
+int	check_barrel(char *line)
 {
 	int	i;
 	int	barrel;
@@ -138,7 +133,7 @@ int	check_barrel(char *line, char c)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == c)
+		if (line[i] == 'C' ||line[i] == 'B' || line[i] == 'V')
 			barrel++;
 		i++;
 	}
@@ -189,32 +184,26 @@ void	flood_fill(t_cub *cub, int x, int y)
 	flood_fill(cub, x, y - 1);
 }
 
-int	parse(char *argv, t_cub *cub, int i)
+int	parse(char *argv, t_cub *cub, int i, int error)
 {
-	int		error;
 	int		file;
 	char	*line;
 	int		barrel;
-	int		door;
 
-	error = 0;
 	barrel = 0;
-	door = 0;
 	file = open(argv, O_RDONLY);
 	if (file < 0)
 		error = ft_error("Error: Cannot Open Map file\n");
 	line = get_next_line(file);
 	while (line && line[0] != '1' && line[0] != '0' && line[0] != ' ')
 	{
-		error = parse_info(cub, line);
+		error = parse_info(cub, line, 0);
 		free(line);
 		line = get_next_line(file);
 	}
 	while (line)
 	{
-		barrel += check_barrel(line, 'C');
-		barrel += check_barrel(line, 'B');
-		barrel += check_barrel(line, 'V');
+		barrel += check_barrel(line);
 		free (line);
 		i++;
 		line = get_next_line(file);
