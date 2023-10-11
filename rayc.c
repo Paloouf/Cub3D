@@ -6,11 +6,29 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:18:26 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/11 12:29:44 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 13:29:24 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	init_data(t_cub *data, int x, int y)
+{
+	data->posX = x + 0.5;
+	data->posY = y + 0.5;
+	data->phangle = 0 + ((90 * (data->map[y][x] == 'E'))
+			+ (180 * (data->map[y][x] == 'S'))
+			+ (270 * (data->map[y][x] == 'W')));
+	data->pvangle = 0;
+	data->dirX = (double)(0 + ((data->map[y][x] == 'W') * -1)
+			+ ((data->map[y][x] == 'E')));
+	data->dirY = (double)(0 + ((data->map[y][x] == 'N') * -1)
+			+ ((data->map[y][x] == 'S')));
+	data->planeX = (double)(0 + ((data->map[y][x] == 'S') * -1)
+			+ ((data->map[y][x] == 'N')));
+	data->planeY = (double)(0 + ((data->map[y][x] == 'E') * -1)
+			+ ((data->map[y][x] == 'W')));
+}
 
 int	init_game(t_cub *data)
 {
@@ -33,22 +51,37 @@ int	init_game(t_cub *data)
 	}
 	if (!data->map[y][x])
 		return (0);
-	data->posX = x + 0.5;
-	data->posY = y + 0.5;
-	data->phangle = 0 + ((90 * (data->map[y][x] == 'E'))
-			+ (180 * (data->map[y][x] == 'S'))
-			+ (270 * (data->map[y][x] == 'W')));
-	data->pvangle = 0;
-	data->dirX = (double)(0 + ((data->map[y][x] == 'W') * -1)
-			+ ((data->map[y][x] == 'E')));
-	data->dirY = (double)(0 + ((data->map[y][x] == 'N') * -1)
-			+ ((data->map[y][x] == 'S')));
-	data->planeX = (double)(0 + ((data->map[y][x] == 'S') * -1)
-			+ ((data->map[y][x] == 'N')));
-	data->planeY = (double)(0 + ((data->map[y][x] == 'E') * -1)
-			+ ((data->map[y][x] == 'W')));
+	init_data(data, x, y);
 	if (check(data) == 1)
 		free_all(data);
+}
+
+void	get_img_addr(t_cub *cub)
+{
+	cub->tex[0].addr = (int *)mlx_get_data_addr(cub->tex[0].img,
+			&cub->tex[0].bpp, &cub->tex[0].line_len, &cub->tex[0].endian);
+	cub->tex[1].addr = (int *)mlx_get_data_addr(cub->tex[1].img,
+			&cub->tex[1].bpp, &cub->tex[1].line_len, &cub->tex[1].endian);
+	cub->tex[2].addr = (int *)mlx_get_data_addr(cub->tex[2].img,
+			&cub->tex[2].bpp, &cub->tex[2].line_len, &cub->tex[2].endian);
+	cub->tex[3].addr = (int *)mlx_get_data_addr(cub->tex[3].img,
+			&cub->tex[3].bpp, &cub->tex[3].line_len, &cub->tex[3].endian);
+	cub->tex[4].addr = (int *)mlx_get_data_addr(cub->tex[4].img,
+			&cub->tex[4].bpp, &cub->tex[4].line_len, &cub->tex[4].endian);
+	cub->tex[5].addr = (int *)mlx_get_data_addr(cub->tex[5].img,
+			&cub->tex[5].bpp, &cub->tex[5].line_len, &cub->tex[5].endian);
+	cub->tex[6].addr = (int *)mlx_get_data_addr(cub->tex[6].img,
+			&cub->tex[6].bpp, &cub->tex[6].line_len, &cub->tex[6].endian);
+	cub->tex[7].addr = (int *)mlx_get_data_addr(cub->tex[7].img,
+			&cub->tex[7].bpp, &cub->tex[7].line_len, &cub->tex[7].endian);
+	cub->tex[8].addr = (int *)mlx_get_data_addr(cub->tex[8].img,
+			&cub->tex[8].bpp, &cub->tex[8].line_len, &cub->tex[8].endian);
+	cub->tex[9].addr = (int *)mlx_get_data_addr(cub->tex[9].img,
+			&cub->tex[9].bpp, &cub->tex[9].line_len, &cub->tex[9].endian);
+	cub->tex[10].addr = (int *)mlx_get_data_addr(cub->tex[10].img,
+			&cub->tex[10].bpp, &cub->tex[10].line_len, &cub->tex[10].endian);
+	cub->tex[11].addr = (int *)mlx_get_data_addr(cub->tex[11].img,
+			&cub->tex[11].bpp, &cub->tex[11].line_len, &cub->tex[11].endian);
 }
 
 void	camera(t_cub *cub, int x)
@@ -115,6 +148,7 @@ void	camera(t_cub *cub, int x)
 			cub->cam[x].side = 1;
 		}
 	}
+	get_img_addr(cub);
 	cub->cam[x].w_num = cub->map[cub->cam[x].mapY][cub->cam[x].mapX];
 	if (cub->cam[x].side == 0)
 		cub->cam[x].w_dist = cub->cam[x].s_distX - cub->cam[x].d_distX;
@@ -127,30 +161,7 @@ void	camera(t_cub *cub, int x)
 	cub->cam[x].draw_end = (cub->cam[x].line_hgt / 2) + (HEIGHT / 2);
 	if (cub->cam[x].draw_end >= HEIGHT)
 		cub->cam[x].draw_end = HEIGHT - 1;
-	cub->tex[0].addr = (int *)mlx_get_data_addr(cub->tex[0].img,
-			&cub->tex[0].bpp, &cub->tex[0].line_len, &cub->tex[0].endian);
-	cub->tex[1].addr = (int *)mlx_get_data_addr(cub->tex[1].img,
-			&cub->tex[1].bpp, &cub->tex[1].line_len, &cub->tex[1].endian);
-	cub->tex[2].addr = (int *)mlx_get_data_addr(cub->tex[2].img,
-			&cub->tex[2].bpp, &cub->tex[2].line_len, &cub->tex[2].endian);
-	cub->tex[3].addr = (int *)mlx_get_data_addr(cub->tex[3].img,
-			&cub->tex[3].bpp, &cub->tex[3].line_len, &cub->tex[3].endian);
-	cub->tex[4].addr = (int *)mlx_get_data_addr(cub->tex[4].img,
-			&cub->tex[4].bpp, &cub->tex[4].line_len, &cub->tex[4].endian);
-	cub->tex[5].addr = (int *)mlx_get_data_addr(cub->tex[5].img,
-			&cub->tex[5].bpp, &cub->tex[5].line_len, &cub->tex[5].endian);
-	cub->tex[6].addr = (int *)mlx_get_data_addr(cub->tex[6].img,
-			&cub->tex[6].bpp, &cub->tex[6].line_len, &cub->tex[6].endian);
-	cub->tex[7].addr = (int *)mlx_get_data_addr(cub->tex[7].img,
-			&cub->tex[7].bpp, &cub->tex[7].line_len, &cub->tex[7].endian);
-	cub->tex[8].addr = (int *)mlx_get_data_addr(cub->tex[8].img,
-			&cub->tex[8].bpp, &cub->tex[8].line_len, &cub->tex[8].endian);
-	cub->tex[9].addr = (int *)mlx_get_data_addr(cub->tex[9].img,
-			&cub->tex[9].bpp, &cub->tex[9].line_len, &cub->tex[9].endian);
-	cub->tex[10].addr = (int *)mlx_get_data_addr(cub->tex[10].img,
-			&cub->tex[10].bpp, &cub->tex[10].line_len, &cub->tex[10].endian);
-	cub->tex[11].addr = (int *)mlx_get_data_addr(cub->tex[11].img,
-			&cub->tex[11].bpp, &cub->tex[11].line_len, &cub->tex[11].endian);
+
 	if (cub->cam[x].side == 0)
 	{
 		cub->cam[x].tex_num = 2 + (cub->cam[x].mapX > cub->posX);

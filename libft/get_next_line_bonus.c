@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 09:16:29 by ltressen          #+#    #+#             */
-/*   Updated: 2023/03/16 09:59:19 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:59:48 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*store_rest(char *buff)
 	if (buff[i])
 		i++;
 	if (!buff[i])
-	{	
+	{
 		free(buff);
 		return (NULL);
 	}

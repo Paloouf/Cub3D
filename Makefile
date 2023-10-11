@@ -15,7 +15,8 @@ SRC = main.c \
 	error_check.c \
 	tex_utils.c \
 	sprites.c \
-	menu.c
+	menu.c \
+	mino.c
 
 OBJ = $(SRC:.c=.o)
 CC = gcc

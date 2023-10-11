@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/11 11:50:27 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 13:25:55 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,5 +206,6 @@ int	ft_floor(t_cub *cub, char *line);
 int	ft_ceiling(t_cub *cub, char *line);
 void	flood_fill(t_cub *cub, int x, int y);
 int	fill_tex(t_cub *cub);
+void	ft_sort_sprite(t_cub *cub);
 
 #endif
