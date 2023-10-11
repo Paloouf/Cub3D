@@ -10,7 +10,9 @@ SRC = main.c \
 	color.c \
 	move.c \
 	free_cub.c \
-	keyboard.c
+	keyboard.c \
+	player_icon.c \
+	error_check.c
 
 OBJ = $(SRC:.c=.o)
 CC = gcc

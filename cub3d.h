@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/10 15:26:47 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 10:54:01 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,4 +198,11 @@ void	free_all(t_cub *cub);
 int	check(t_cub *cub);
 int	check_door(t_cub *cub, int i, int j);
 void	parse_reset(t_cub *cub);
+void	draw_north(t_cub *cub, int i, int j);
+void	draw_west(t_cub *cub, int i, int j);
+void	draw_south(t_cub *cub, int i, int j);
+void	draw_east(t_cub *cub, int i, int j);
+int	ft_floor(t_cub *cub, char *line);
+int	ft_ceiling(t_cub *cub, char *line);
+void	flood_fill(t_cub *cub, int x, int y);
 #endif
