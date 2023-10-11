@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/11 11:38:53 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:04:36 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,16 +115,14 @@ void	add_barrel(t_cub *cub, int i, char *line)
 	return ;
 }
 
-int	parse(char *argv, t_cub *cub, int i, int error)
+int	parse(char *argv, t_cub *cub, int file, int error)
 {
-	int		file;
+	int	i;
 	char	*line;
 	int		barrel;
 
+	i = 0;
 	barrel = 0;
-	file = open(argv, O_RDONLY);
-	if (file < 0)
-		error = ft_error("Error: Cannot Open Map file\n");
 	line = get_next_line(file);
 	while (line && line[0] != '1' && line[0] != '0' && line[0] != ' ')
 	{

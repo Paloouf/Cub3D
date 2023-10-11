@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/11 11:28:10 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:05:15 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	the_game(t_cub *cub)
 int	main(int ac, char **av)
 {
 	t_cub	cub;
+	int		fd;
 
 	if (ac == 2 && WIDTH > 500 && HEIGHT > 500)
 	{
@@ -78,7 +79,10 @@ int	main(int ac, char **av)
 		cub.win_ptr = mlx_new_window(cub.mlx_ptr, WIDTH, HEIGHT, "CubEZ v0.0");
 		cub.cam = malloc(sizeof(t_cam) * WIDTH);
 		init_all(&cub, 1);
-		if (parse(av[1], &cub, 0, 0) == 1)
+		fd = open(av[1], O_RDONLY);
+		if (fd < 0)
+			return (ft_error("Error: Cannot Open Map file\n"));
+		if (parse(av[1], &cub, fd, 0) == 1)
 			return (0);
 		init_game(&cub);
 		mlx_hook(cub.win_ptr, 2, 1L << 0, key_events, &cub);

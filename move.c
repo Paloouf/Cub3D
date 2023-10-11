@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 13:37:51 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/11 11:05:12 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:53:10 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,17 @@ void	door_move(t_cub *cub)
 {
 	static int	i = 0;
 
-	if (cub->key.open == 1 && cub->map[(int)(cub->posY + (cub->dirY * 1.5))]
-		[(int)(cub->posX + (cub->dirX * 1.5))] == 'D' && i == 0)
-		door_respawn(cub, 1.5, 'd', i++);
+	if (cub->key.open == 1 && cub->map[(int)(cub->posY + (cub->dirY * 1))]
+		[(int)(cub->posX + (cub->dirX * 1))] == 'D' && i == 0)
+		door_respawn(cub, 1, 'd', i++);
 	else if (cub->key.open == 1 && cub->map[(int)(cub->posY
 			+ (cub->dirY / 5))][(int)(cub->posX + (cub->dirX / 5))] == 'D'
 			&& i == 0)
 		door_respawn(cub, 0.2, 'd', i++);
 	else if (cub->key.open == 1 && cub->map[(int)(cub->posY
-			+ (cub->dirY * 1.5))][(int)(cub->posX + (cub->dirX * 1.5))]
+			+ (cub->dirY * 1))][(int)(cub->posX + (cub->dirX * 1))]
 			== 'd' && i == 0)
-		door_respawn(cub, 1.5, 'D', i++);
+		door_respawn(cub, 1, 'D', i++);
 	else if (cub->key.open == 1 && cub->map[(int)(cub->posY
 			+ (cub->dirY / 5))][(int)(cub->posX + (cub->dirX / 5))] == 'd'
 			&& i == 0)
