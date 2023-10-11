@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/11 12:04:36 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/11 13:17:02 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,9 @@ void	add_barrel(t_cub *cub, int i, char *line)
 	return ;
 }
 
-int	parse(char *argv, t_cub *cub, int file, int error)
+void	parse(char *argv, t_cub *cub, int file, int error)
 {
-	int	i;
+	int		i;
 	char	*line;
 	int		barrel;
 
@@ -137,33 +137,9 @@ int	parse(char *argv, t_cub *cub, int file, int error)
 		i++;
 		line = get_next_line(file);
 	}
-	cub->tono = barrel;
-	cub->spr_order = malloc(sizeof(int *) * cub->tono);
-	cub->map = ft_calloc(i + 1, sizeof(char *));
-	cub->mapcpy = ft_calloc(i + 1, sizeof(char *));
-	cub->tex = malloc(sizeof(t_tex) * 15);
-	cub->spr = malloc(sizeof(t_spr) * barrel + 1);
-	if (fill_tex(cub) == 1)
+	if (fill_tex(cub, barrel, i) == 1)
 		error = 1;
 	cub->hgt = i;
 	close(file);
-	file = open(argv, O_RDONLY);
-	line = get_next_line(file);
-	while (line && line[0] != '1' && line[0] != '0' && line[0] != ' ')
-	{
-		free(line);
-		line = get_next_line(file);
-	}
-	i = 0;
-	while (line)
-	{
-		add_barrel(cub, i, line);
-		cub->map[i] = ft_strdup(line);
-		cub->mapcpy[i] = ft_strdup(line);
-		free(line);
-		line = get_next_line(file);
-		i++;
-	}
-	if (error == 1)
-		free_all(cub);
+	parse_suite(argv, cub, file, error);
 }

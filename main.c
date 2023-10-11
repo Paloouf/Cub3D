@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/11 12:05:15 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/11 13:10:44 by jcasades         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,33 @@ int	the_game(t_cub *cub)
 		cub->img.image, 0, 0);
 }
 
+void	parse_suite(char *argv, t_cub *cub, int file, int error)
+{
+	char	*line;
+	int		i;
+
+	i = 0;
+	file = open(argv, O_RDONLY);
+	line = get_next_line(file);
+	while (line && line[0] != '1' && line[0] != '0' && line[0] != ' ')
+	{
+		free(line);
+		line = get_next_line(file);
+	}
+	i = 0;
+	while (line)
+	{
+		add_barrel(cub, i, line);
+		cub->map[i] = ft_strdup(line);
+		cub->mapcpy[i] = ft_strdup(line);
+		free(line);
+		line = get_next_line(file);
+		i++;
+	}
+	if (error == 1)
+		free_all(cub);
+}
+
 int	main(int ac, char **av)
 {
 	t_cub	cub;
@@ -82,8 +109,7 @@ int	main(int ac, char **av)
 		fd = open(av[1], O_RDONLY);
 		if (fd < 0)
 			return (ft_error("Error: Cannot Open Map file\n"));
-		if (parse(av[1], &cub, fd, 0) == 1)
-			return (0);
+		parse(av[1], &cub, fd, 0);
 		init_game(&cub);
 		mlx_hook(cub.win_ptr, 2, 1L << 0, key_events, &cub);
 		mlx_hook(cub.win_ptr, 3, 1L << 1, key_release, &cub);
