@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:52:12 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/11 14:12:23 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/12 13:47:56 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	check_map_deux(t_cub *cub, int i, int j)
 		if (check_map(cub, i, j) == 1)
 			return (1);
 	if ((i > 0 && j > 0) && cub->map[i][j] == 'D')
-		if (check_door(cub, i, j) == 1)
+		if (check_door(cub, i, j) == 1 || check_player(cub) == 1)
 			return (1);
 	return (0);
 }

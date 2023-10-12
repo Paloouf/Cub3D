@@ -6,11 +6,37 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:31:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/11 10:18:20 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/12 13:50:45 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	check_player(t_cub *cub)
+{
+	int	i;
+	int	j;
+	int	flag;
+
+	flag = 0;
+	i = -1;
+	while (cub->map[++i])
+	{
+		j = -1;
+		while (cub->map[i][++j])
+		{
+			if (cub->map[i][j] == 'N' || cub->map[i][j] == 'W'
+				|| cub->map[i][j] == 'E' || cub->map[i][j] == 'S')
+			{
+				if (flag == 0)
+					flag = 1;
+				else
+					return (ft_error("Error : Too many players\n"));
+			}
+		}
+	}
+	return (0);
+}
 
 void	draw_north(t_cub *cub, int i, int j)
 {

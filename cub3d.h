@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/11 14:07:43 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/12 13:51:19 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,5 +215,6 @@ void	math_draw(t_cub *cub, int x);
 void	dda(t_cub *cub, int x);
 void	math_two(t_cub *cub, int x);
 void	math_one(t_cub *cub, int x);
+int		check_player(t_cub *cub);
 
 #endif
