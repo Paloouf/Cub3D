@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:49 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/12 13:51:19 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:47:01 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,8 @@ typedef struct s_cub
 	int		menu;
 	double	speed;
 	int		error_code;
+	int		flag_fl;
+	int		flag_cl;
 	t_img	img;
 	t_floor	fl;
 	t_ceil	cl;

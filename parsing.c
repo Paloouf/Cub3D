@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:40:08 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/11 13:17:02 by jcasades         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:55:57 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	parse_info_deux(t_cub *cub, char *line, int i)
 {
-	while (line[3 + i] == ' ')
+	while (ft_strlen(line) > 2 && line[3 + i] && line[3 + i] == ' ')
 		i++;
 	if (!ft_strncmp(line, "WE ", 3))
 	{
@@ -115,18 +115,18 @@ void	add_barrel(t_cub *cub, int i, char *line)
 	return ;
 }
 
-void	parse(char *argv, t_cub *cub, int file, int error)
+void	parse(char *argv, t_cub *cub, int file, int i)
 {
-	int		i;
-	char	*line;
-	int		barrel;
+	static int		error = 0;
+	char			*line;
+	static int		barrel = 0;
 
-	i = 0;
-	barrel = 0;
 	line = get_next_line(file);
+	cub->flag_cl = 0;
+	cub->flag_fl = 0;
 	while (line && line[0] != '1' && line[0] != '0' && line[0] != ' ')
 	{
-		error = parse_info(cub, line, 0);
+		error += parse_info(cub, line, 0);
 		free(line);
 		line = get_next_line(file);
 	}
@@ -138,7 +138,7 @@ void	parse(char *argv, t_cub *cub, int file, int error)
 		line = get_next_line(file);
 	}
 	if (fill_tex(cub, barrel, i) == 1)
-		error = 1;
+		error += 1;
 	cub->hgt = i;
 	close(file);
 	parse_suite(argv, cub, file, error);

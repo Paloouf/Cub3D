@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 13:11:02 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/11 14:08:41 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:59:42 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	parse_suite(char *argv, t_cub *cub, int file, int error)
 		line = get_next_line(file);
 		i++;
 	}
-	if (error == 1)
+	if (error > 0)
 		free_all(cub);
 }
 

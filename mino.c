@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:24:46 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/11 14:05:33 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/12 13:53:57 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	mino_ai_deux(t_cub *cub, int i, double move_x, double move_y)
 void	mino_ai(t_cub *cub, int i, double move_x, double move_y)
 {
 	move_x = (cub->spr[i].x - cub->posx) / 10;
-	if (move_x < cub->speed)
+	if (move_x < cub->speed * -1)
 		move_x = -1 * cub->speed;
-	if (move_x > 0.05)
+	if (move_x > cub->speed)
 		move_x = cub->speed;
 	move_y = (cub->spr[i].y - cub->posy) / 10;
 	if (move_y < -1 * cub->speed)

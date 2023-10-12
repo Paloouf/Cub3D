@@ -20,7 +20,7 @@ SRC = main.c \
 	rayc_utilis.c
 
 OBJ = $(SRC:.c=.o)
-CC = gcc
+CC = cc
 
 LFLAGS = -lX11 -lXext -lm
 FLAGS = -Wall -Werror -Wextra
@@ -58,6 +58,7 @@ MAKEFLAGS += --silent
 
 $(NAME): comp_start $(OBJ)
 	make -C libft/
+	make -C minilibx-linux/
 	rm -f libft/*.o
 	@$(CC) $(FLAGS) $(OBJ) $(INC) $(LFLAGS) -o $(NAME)
 	echo "\n"
@@ -77,14 +78,19 @@ comp_start:
 	@$(COMP_START)
 
 clean:
+	make clean -C libft/
+	make clean -C minilibx-linux/
 	$(CLEANED)
 	rm -f $(NAME) $(OBJ) *~ core *.core
 
-fclean:
+fclean: clean
+	make fclean -C libft/
 	rm -f $(NAME) $(OBJ) *~ core *.core
 	$(FCLEANED)
 
 re: clean all
+
+bonus: re
 
 %.o: %.c
 	@printf "🚧 $(BOLD_YELLOW)Make: $(NO_COLOR)Compilation des fichiers : %-33.33s\r$(NO_COLOR)" $@

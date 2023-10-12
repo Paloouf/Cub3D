@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:52:12 by ltressen          #+#    #+#             */
-/*   Updated: 2023/10/12 13:47:56 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:50:23 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	check_map(t_cub *cub, int i, int j)
 {
-	if (!((cub->map[i - 1][j] && cub->map[i + 1][j]
+	if (!(cub->map[i] && cub->map[i + 1]
+			&& (cub->map[i - 1][j] && cub->map[i + 1][j]
 		&& cub->map[i][j - 1] && cub->map[i][j + 1])
 			&& ((cub->map[i][j + 1] == '1' || cub->map[i][j + 1] == '0'
 			|| cub->map[i][j + 1] == 'D' || cub->map[i][j + 1] == 'C' ||
@@ -54,8 +55,10 @@ int	check_map_deux(t_cub *cub, int i, int j)
 		if (check_map(cub, i, j) == 1)
 			return (1);
 	if ((i > 0 && j > 0) && cub->map[i][j] == 'D')
-		if (check_door(cub, i, j) == 1 || check_player(cub) == 1)
+		if (check_door(cub, i, j) == 1)
 			return (1);
+	if (check_player(cub) == 1)
+		return (1);
 	return (0);
 }
 
@@ -76,7 +79,8 @@ int	check(t_cub *cub)
 		}
 		i++;
 	}
-	if (!cub->east[0] || !cub->south[0] || !cub->west[0] || !cub->north[0])
+	if (!cub->east[0] || !cub->south[0] || !cub->west[0] || !cub->north[0]
+		|| !cub->flag_cl || !cub->flag_fl)
 		return (ft_error("Missing information\n"));
 	return (0);
 }

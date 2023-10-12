@@ -6,7 +6,7 @@
 /*   By: ltressen <ltressen@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:19:13 by jcasades          #+#    #+#             */
-/*   Updated: 2023/10/11 14:13:11 by ltressen         ###   ########.fr       */
+/*   Updated: 2023/10/12 15:05:11 by ltressen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	ft_floor(t_cub *cub, char *line)
 
 	i = 0;
 	j = 0;
+	while (line[i] == ' ')
+		i++;
 	while (line[i] != '\n')
 	{
 		if (!ft_isdigit(line[i]) && line[i] != ',')
@@ -34,6 +36,7 @@ int	ft_floor(t_cub *cub, char *line)
 	cub->fl.b_f = ft_atoi_du_pauvre(line, 3);
 	if (cub->fl.r_f > 255 || cub->fl.g_f > 255 || cub->fl.b_f > 255)
 		return (ft_error("Error: Invalid Color Values\n"));
+	cub->flag_fl = 1;
 	return (0);
 }
 
@@ -44,6 +47,8 @@ int	ft_ceiling(t_cub *cub, char *line)
 
 	i = 0;
 	j = 0;
+	while (line[i] == ' ')
+		i++;
 	while (line[i] != '\n')
 	{
 		if (!ft_isdigit(line[i]) && line[i] != ',')
@@ -59,6 +64,7 @@ int	ft_ceiling(t_cub *cub, char *line)
 	cub->cl.b_c = ft_atoi_du_pauvre(line, 3);
 	if (cub->cl.r_c > 255 || cub->cl.g_c > 255 || cub->cl.b_c > 255)
 		return (ft_error("Error: Invalid Color Values\n"));
+	cub->flag_cl = 1;
 	return (0);
 }
 
