@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../include/cub3d.h"
 
 void	mino_ai_deux(t_cub *cub, int i, double move_x, double move_y)
 {

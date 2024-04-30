@@ -1,24 +1,7 @@
 INC= minilibx-linux/libmlx.a libft/libft.a
 
 NAME = cub3D
-SRC = main.c \
-	minimap.c \
-	events.c \
-	img_utils.c \
-	parsing.c \
-	rayc.c \
-	color.c \
-	move.c \
-	free_cub.c \
-	keyboard.c \
-	player_icon.c \
-	error_check.c \
-	tex_utils.c \
-	sprites.c \
-	menu.c \
-	mino.c \
-	rayc_utilis.c
-
+SRC = ${wildcard src/*.c}
 OBJ = $(SRC:.c=.o)
 CC = cc
 
